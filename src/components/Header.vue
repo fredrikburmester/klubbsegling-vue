@@ -35,7 +35,8 @@
 			</div>
 		</div>
 		<div
-			class="navbar fixed sm:hidden bg-white text-neutral-content justify-center bottom-0 z-10 w-screen"
+			id="bottom-nav"
+			class="navbar fixed sm:hidden bg-white text-neutral-content shadow-xltop justify-center bottom-0 z-10 w-screen"
 		>
 			<div class="sm:hidden px-2 mx-2 w-screen justify-center">
 				<div class="flex items-stretch justify-around w-screen">
@@ -103,3 +104,12 @@ export default {
 	},
 }
 </script>
+
+<style>
+#bottom-nav {
+	z-index: 100;
+	--tw-shadow: 0 -10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
+		var(--tw-shadow);
+}
+</style>

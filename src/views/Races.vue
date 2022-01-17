@@ -15,6 +15,7 @@
 import axios from 'axios'
 import RaceCard from '../components/RaceCard.vue'
 import { API_URL } from '../store/actions/auth'
+import { getRaces } from '../api/races'
 
 export default {
 	name: 'Races',
@@ -29,17 +30,8 @@ export default {
 		}
 	},
 	async mounted() {
-		try {
-			const response = await axios.get(`${API_URL}/races`, {
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-				},
-			})
-			this.races = response.data
-			this.loaded = true
-		} catch (error) {
-			this.error = error
-		}
+		this.races = await getRaces()
+		this.loaded = true
 	},
 }
 </script>

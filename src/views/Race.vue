@@ -53,7 +53,7 @@
 				<label
 					for="register-modal"
 					class="btn btn-primary text-white modal-button"
-					@click="getBoats()"
+					@click="loadRegisterOptions()"
 				>
 					Registrera
 				</label>
@@ -61,24 +61,37 @@
 				<div class="modal m-0">
 					<div class="modal-box m-0">
 						<p>Vilken båt vill du registrera med?</p>
-						<div v-if="boatsLoaded">
+						<div v-if="optionsLoaded">
 							<select class="select select-bordered select w-full max-w-xs mt-4">
-								<option v-for="boat in boats" :key="boat.id">boat.name</option>
+								<option v-for="boat in boats" :key="boat.id">
+									{{ boat.name }}
+								</option>
 							</select>
+							<select class="select select-bordered select w-full max-w-xs mt-4">
+								<option v-for="value in type" :key="value">
+									{{ value }}
+								</option>
+							</select>
+							<Multiselect
+								v-model="crew"
+								mode="tags"
+								:searchable="true"
+								:close-on-select="false"
+								:create-option="true"
+								:options="users"
+							/>
 						</div>
 						<div
 							v-else
-							class="boarder border-slate-500 shadow rounded-md h-14 animate-pulse"
+							class="boarder border-slate-500 shadow rounded-md h-16 animate-pulse"
 						></div>
 						<div class="modal-action flex justify-start">
-							<label for="register-modal" class="btn btn-primary">Accept</label>
-							<label for="register-modal" class="btn">Close</label>
+							<label for="register-modal" class="btn btn-primary">Registrera</label>
+							<label for="register-modal" class="btn">Avbryt</label>
 						</div>
 					</div>
 				</div>
-				<button class="btn btn-warning" @click="unregister(user, race)">
-					Avregistrera
-				</button>
+				<button class="btn" @click="unregister(user, race)">Avregistrera</button>
 			</div>
 		</div>
 	</div>
@@ -91,10 +104,13 @@ import { register_for_race } from '../api/register_for_race'
 import { un_register_for_race } from '../api/un_register_from_race'
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'
+import { getBoats } from '../api/boats'
+import { getUsers } from '../api/users'
+import Multiselect from '@vueform/multiselect'
 
 export default {
 	name: 'Race',
-	components: {},
+	components: { Multiselect },
 	data() {
 		return {
 			race: null,
@@ -106,10 +122,18 @@ export default {
 			img: '',
 			user: null,
 			id: null,
-			boatsLoaded: false,
 			boats: [],
+			crew: null,
+			users: null,
+			type: ['Hcp', 'Hcp_FC_DWS', 'Hcp_FC_NoDWS', 'Hcp_SH_DWS', 'Hcp_SH_NoDWS'],
+			selectedBoat: null,
+			optionsLoaded: false,
 		}
 	},
+	// async created() {
+	// 	this.users = await getUsers()
+	// 	console.log(this.users)
+	// },
 	async mounted() {
 		try {
 			const response = await axios.get(`${API_URL}/races/${this.$route.params.id}`, {
@@ -124,9 +148,11 @@ export default {
 			this.description = !!race.description ? race.description : 'Saknar beskrivning'
 			this.img = race.images.length != 0 ? API_URL + race.images[0].url : ''
 			this.id = race.id
+			this.user = JSON.parse(localStorage.getItem('user'))
+
+			this.users = await getUsers()
 
 			this.loading = false
-			this.user = JSON.parse(localStorage.getItem('user'))
 		} catch (error) {
 			this.error = error
 		}
@@ -157,13 +183,17 @@ export default {
 				transition: transition,
 			})
 		},
-		getBoats() {
-			this.boats = ['one', 'two', 'three']
-			this.boatsLoaded = true
+		async loadRegisterOptions() {
+			this.boats = await getBoats()
+			this.users = await getUsers()
+			console.log(this.users)
+			this.optionsLoaded = true
 		},
 	},
 }
 </script>
+
+<style src="@vueform/multiselect/themes/default.css"></style>
 
 <style>
 .modal {
