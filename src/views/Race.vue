@@ -49,10 +49,33 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="w-screen flex space-x-4 h-20 place-content-center">
-				<button class="btn btn-primary text-white" @click="register(user, race)">
+			<div class="w-screen flex space-x-4 h-20 place-content-center m-0">
+				<label
+					for="register-modal"
+					class="btn btn-primary text-white modal-button"
+					@click="getBoats()"
+				>
 					Registrera
-				</button>
+				</label>
+				<input id="register-modal" type="checkbox" class="modal-toggle" />
+				<div class="modal m-0">
+					<div class="modal-box m-0">
+						<p>Vilken båt vill du registrera med?</p>
+						<div v-if="boatsLoaded">
+							<select class="select select-bordered select w-full max-w-xs mt-4">
+								<option v-for="boat in boats" :key="boat.id">boat.name</option>
+							</select>
+						</div>
+						<div
+							v-else
+							class="boarder border-slate-500 shadow rounded-md h-14 animate-pulse"
+						></div>
+						<div class="modal-action flex justify-start">
+							<label for="register-modal" class="btn btn-primary">Accept</label>
+							<label for="register-modal" class="btn">Close</label>
+						</div>
+					</div>
+				</div>
 				<button class="btn btn-warning" @click="unregister(user, race)">
 					Avregistrera
 				</button>
@@ -83,6 +106,8 @@ export default {
 			img: '',
 			user: null,
 			id: null,
+			boatsLoaded: false,
+			boats: [],
 		}
 	},
 	async mounted() {
@@ -132,6 +157,16 @@ export default {
 				transition: transition,
 			})
 		},
+		getBoats() {
+			this.boats = ['one', 'two', 'three']
+			this.boatsLoaded = true
+		},
 	},
 }
 </script>
+
+<style>
+.modal {
+	margin: 0 !important;
+}
+</style>

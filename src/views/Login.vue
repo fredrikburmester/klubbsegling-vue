@@ -1,7 +1,7 @@
 <template>
-	<div>
-		<div class="form-control m-6" @submit.prevent="login">
-			<h1 class="font-bold text-xl">Logga in</h1>
+	<div class="container sm:mx-auto mt-48 px-10">
+		<h1 class="text-5xl font-bold mb-5 text-center">Klubbsegling</h1>
+		<form class="form-control" @submit.prevent="login">
 			<label class="label">Användarnamn</label>
 			<input
 				v-model="username"
@@ -19,24 +19,26 @@
 				placeholder="lösenord"
 			/>
 			<hr />
-			<button class="btn btn-primary my-4" type="submit">Login</button>
-		</div>
+
+			<button v-if="loading" class="btn btn-primary my-4 loading" type="submit"></button>
+			<button v-else class="btn btn-primary my-4" type="submit">Login</button>
+		</form>
 	</div>
 </template>
 <script>
 import { AUTH_REQUEST } from '../store/actions/auth'
-import { createToast } from 'mosha-vue-toastify'
-import 'mosha-vue-toastify/dist/style.css'
 
 export default {
 	data() {
 		return {
 			email: '',
 			password: '',
+			loading: false,
 		}
 	},
 	methods: {
 		login: function () {
+			this.loading = true
 			const { username, password } = this
 			const user = {
 				identifier: username,
@@ -48,15 +50,7 @@ export default {
 					this.$router.push(this.$route.params.nextUrl)
 				} else {
 					this.$router.push('/')
-					this.toast('Välkommen!', 'default')
 				}
-			})
-		},
-		toast: function (msg, type = 'success', timeout = 3000, position = 'top-right') {
-			createToast(msg, {
-				type: type,
-				timeout: timeout,
-				position: position,
 			})
 		},
 	},

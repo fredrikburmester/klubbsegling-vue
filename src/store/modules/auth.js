@@ -1,6 +1,8 @@
 import { AUTH_REQUEST, AUTH_ERROR, AUTH_SUCCESS, AUTH_LOGOUT } from '../actions/auth'
 import { USER_REQUEST, USER_SUCCESS, USER_ERROR } from '../actions/user'
 import { API_URL } from '../actions/auth'
+import { createToast } from 'mosha-vue-toastify'
+import 'mosha-vue-toastify/dist/style.css'
 
 import axios from 'axios'
 
@@ -35,11 +37,21 @@ const actions = {
 					commit(AUTH_SUCCESS, resp.data)
 					commit(USER_SUCCESS, resp.data.user)
 
+					createToast('Välkommen!', {
+						type: 'success',
+						timeout: 2000,
+						position: 'top-right',
+					})
 					resolve(resp)
 				})
 				.catch((err) => {
 					commit(AUTH_ERROR, err)
-					localStorage.removeItem('user-token')
+					localStorage.removeItem('jwt')
+					createToast('Någonting gick snett...', {
+						type: 'danger',
+						timeout: 2000,
+						position: 'top-right',
+					})
 					reject(err)
 				})
 		})
@@ -47,7 +59,12 @@ const actions = {
 	[AUTH_LOGOUT]: ({ commit }) => {
 		return new Promise((resolve) => {
 			commit(AUTH_LOGOUT)
-			localStorage.removeItem('user-token')
+			localStorage.removeItem('jwt')
+			createToast('Du är nu utloggad.', {
+				type: 'danger',
+				timeout: 2000,
+				position: 'top-right',
+			})
 			resolve()
 		})
 	},

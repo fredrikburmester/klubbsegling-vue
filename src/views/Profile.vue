@@ -37,8 +37,6 @@
 import { AUTH_LOGOUT } from '../store/actions/auth'
 import axios from 'axios'
 const qs = require('qs')
-import { createToast } from 'mosha-vue-toastify'
-import 'mosha-vue-toastify/dist/style.css'
 import { API_URL } from '../store/actions/auth'
 
 export default {
@@ -82,16 +80,8 @@ export default {
 				if (this.$route.params.nextUrl != null) {
 					this.$router.push(this.$route.params.nextUrl)
 				} else {
-					this.$router.push('/login')
+					this.$router.push('/')
 				}
-			})
-			this.toast('Hejdå!', 'default')
-		},
-		toast: function (msg, type = 'success', timeout = 3000, position = 'top-right') {
-			createToast(msg, {
-				type: type,
-				timeout: timeout,
-				position: position,
 			})
 		},
 	},

@@ -11,9 +11,7 @@ export default {
 			races: null,
 		}
 	},
-	async mounted() {
-		this.races = await getRaces()
-	},
+	async mounted() {},
 	methods: {},
 }
 </script>

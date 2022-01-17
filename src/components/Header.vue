@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 // export component with name Navbar2
 export default {
 	name: 'Header2',
@@ -79,9 +81,9 @@ export default {
 		}
 	},
 	computed: {
-		loggedIn() {
-			return this.$store.getters.isAuthenticated
-		},
+		// ...mapGetters({
+		// 	loggedIn: 'isAuthenticated',
+		// }),
 	},
 	methods: {
 		activeButton(id) {

@@ -6,6 +6,8 @@ import Race from '../views/Race.vue'
 import Admin from '../views/Admin.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import { createToast } from 'mosha-vue-toastify'
+import 'mosha-vue-toastify/dist/style.css'
 
 const routes = [
 	{
@@ -20,11 +22,17 @@ const routes = [
 		path: '/races',
 		name: 'Seglingar',
 		component: Races,
+		meta: {
+			requiresAuth: true,
+		},
 	},
 	{
 		path: '/race/:id',
 		name: 'Segling',
 		component: Race,
+		meta: {
+			requiresAuth: true,
+		},
 	},
 	{
 		path: '/profile',
@@ -38,11 +46,13 @@ const routes = [
 		path: '/login',
 		name: 'Login',
 		component: Login,
+		meta: { hideNavigation: true },
 	},
 	{
 		path: '/register',
 		name: 'Registrera',
 		component: Register,
+		meta: { hideNavigation: true },
 	},
 	{
 		path: '/admin',
