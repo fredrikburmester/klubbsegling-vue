@@ -1,0 +1,99 @@
+<template>
+	<div v-if="!loading">
+		<div class="p-6">
+			<div class="text-left">
+				<div class="mt-4">
+					<h2 class="card-title">{{ me.username }}</h2>
+					<p>
+						{{ me.about || null }}
+					</p>
+					<h1 class="my-2 font-bold">Mina Båtar</h1>
+					<div class="overflow-x-auto">
+						<table class="table w-full">
+							<thead>
+								<tr>
+									<th>Name</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="boat in boats" :key="boat.id">
+									<th>
+										<router-link :to="`/boats/${boat.id}`">{{
+											boat.name
+										}}</router-link>
+									</th>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<button class="btn btn-error my-4" @click="logout">Logga ut</button>
+		</div>
+	</div>
+</template>
+
+<script>
+import { AUTH_LOGOUT } from '../store/actions/auth'
+import axios from 'axios'
+const qs = require('qs')
+import { createToast } from 'mosha-vue-toastify'
+import 'mosha-vue-toastify/dist/style.css'
+import { API_URL } from '../store/actions/auth'
+
+export default {
+	data() {
+		return {
+			me: null,
+			error: null,
+			loading: true,
+			boats: [],
+		}
+	},
+	async mounted() {
+		try {
+			var response = await axios.get(`${API_URL}/users/me`, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+				},
+			})
+			this.me = response.data
+			console.log(this.me)
+
+			var response = await axios.get(
+				`${API_URL}/boats?sailors.username=${this.me.username}`,
+				{
+					headers: {
+						Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+					},
+				}
+			)
+			this.boats = response.data
+			console.log(this.boats)
+			this.loading = false
+		} catch (error) {
+			this.error = error
+			console.log(this.error)
+		}
+	},
+	methods: {
+		logout: function () {
+			this.$store.dispatch(AUTH_LOGOUT).then(() => {
+				if (this.$route.params.nextUrl != null) {
+					this.$router.push(this.$route.params.nextUrl)
+				} else {
+					this.$router.push('/login')
+				}
+			})
+			this.toast('Hejdå!', 'default')
+		},
+		toast: function (msg, type = 'success', timeout = 3000, position = 'top-right') {
+			createToast(msg, {
+				type: type,
+				timeout: timeout,
+				position: position,
+			})
+		},
+	},
+}
+</script>
