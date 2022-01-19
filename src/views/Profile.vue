@@ -12,8 +12,21 @@
 					<div v-for="b in boats" :key="b.id" class="w-full shadow stats mt-4 h-32">
 						<router-link :to="`/boat/${b.id}`">
 							<div class="card card-side card-bordered overflow-x-auto">
-								<figure v-if="getBoatImage(b)" class="z-0">
-									<img class="h-36 z-0" :src="getBoatImage(b)" />
+								<div
+									v-if="imageLoading"
+									class="w-24 h-32 flex justify-center content-center"
+								>
+									<button
+										class="btn btn-lg bg-white text-black border-0 btn-circle loading h-auto"
+									></button>
+								</div>
+								<figure v-if="getBoatImage(b)">
+									<img
+										v-show="!imageLoading"
+										class="h-32"
+										:src="getBoatImage(b)"
+										@load="imageLoaded"
+									/>
 								</figure>
 								<div class="card-body">
 									<div class="stat-title">{{ getOwnerName(b) }}</div>
@@ -67,6 +80,7 @@ export default {
 			me: this.$store.getters.getProfile,
 			loading: true,
 			boats: [],
+			imageLoading: true,
 		}
 	},
 	async mounted() {
@@ -117,6 +131,9 @@ export default {
 			} else {
 				return null
 			}
+		},
+		imageLoaded() {
+			this.imageLoading = false
 		},
 	},
 }

@@ -1,8 +1,10 @@
 <template>
 	<div>
-		<div v-if="open" @close-nav="open = !open">
-			<MobileNav />
-		</div>
+		<transition name="fade">
+			<div v-if="open">
+				<MobileNav @close-nav="open = false" />
+			</div>
+		</transition>
 		<div class="navbar shadow-lg bg-white text-neutral-content">
 			<img
 				id="navbar-logo"
@@ -73,7 +75,6 @@ export default {
 	},
 	data() {
 		return {
-			active: true,
 			open: false,
 		}
 	},
@@ -96,6 +97,10 @@ export default {
 			} else {
 				return 'text-black btn-ghost'
 			}
+		},
+		closeNav() {
+			console.log('close')
+			this.open = false
 		},
 	},
 }
