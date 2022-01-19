@@ -5,17 +5,14 @@
 				<div class="card shadow-2xl lg:card-side bg-white text-primary-content">
 					<div class="card-body">
 						<div class="flex flex-col">
-							<div
-								v-for="item in menuItems"
-								:key="item"
-								class="py-4 hover:bg-gray-300 rounded-lg"
-								@click="$emit('close-nav')"
-							>
+							<div v-for="item in menuItems" :key="item" @click="$emit('close-nav')">
 								<router-link :to="item.route" class="">
-									<span class="px-4 text-black">
-										<font-awesome-icon :icon="item.icon" class="mr-4" />
-										{{ item.text }}
-									</span>
+									<div class="py-4 hover:bg-gray-300 rounded-lg">
+										<span class="px-4 text-black">
+											<font-awesome-icon :icon="item.icon" class="mr-4" />
+											{{ item.text }}
+										</span>
+									</div>
 								</router-link>
 							</div>
 						</div>
