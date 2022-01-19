@@ -10,6 +10,10 @@ module.exports = {
 			dropShadow: {
 				xltop: '0 -2px 4px rgba(0, 0, 0, 0.2)',
 			},
+			zIndex: {
+				100: '100 !important',
+				99: '99 !important',
+			},
 		},
 	},
 	variants: {

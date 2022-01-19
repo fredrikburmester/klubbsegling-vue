@@ -1,17 +1,18 @@
 <template>
-	<div class="w-screen flex space-x-4 h-20 place-content-center m-0">
+	<div class="flex space-x-4 h-20 m-0">
 		<label for="register-modal" class="btn btn-primary text-white modal-button">
 			Lägg till båt
 		</label>
 		<input id="register-modal" type="checkbox" class="modal-toggle" />
 		<div class="modal m-0">
 			<div class="modal-box m-0">
-				<p>Vilken båt vill du registrera med?</p>
+				<p>Välj båt att lägga till:</p>
 				<div v-if="!$apollo.loading">
 					<select
 						v-model="selectedBoat"
 						class="select select-bordered select w-full max-w-xs mt-4"
 					>
+						<option disabled value="Välj båt">Välj båt</option>
 						<option v-for="b in allBoats" :key="b.id" :value="b">
 							{{ b.name }}
 						</option>
@@ -51,7 +52,7 @@ export default {
 	data() {
 		return {
 			allBoats: [],
-			selectedBoat: null,
+			selectedBoat: '',
 			me: this.$store.getters.getProfile,
 		}
 	},
@@ -63,8 +64,9 @@ export default {
 				},
 			})
 			this.allBoats = response.data
-		} catch {
-			console.log('error')
+			this.selectedBoat = this.allBoats[0]
+		} catch (error) {
+			console.log(error)
 		}
 	},
 	methods: {

@@ -1,5 +1,8 @@
 <template>
 	<div>
+		<div v-if="open" @close-nav="open = !open">
+			<MobileNav />
+		</div>
 		<div class="navbar shadow-lg bg-white text-neutral-content">
 			<img
 				id="navbar-logo"
@@ -33,37 +36,25 @@
 					>
 				</div>
 			</div>
-		</div>
-		<div
-			id="bottom-nav"
-			class="navbar fixed sm:hidden bg-white text-neutral-content shadow-xltop justify-center bottom-0 z-10 w-screen"
-		>
-			<div class="sm:hidden px-2 mx-2 w-screen justify-center">
-				<div class="flex items-stretch justify-around w-screen">
-					<router-link
-						id="home"
-						to="/"
-						class="btn btn-sm rounded-btn"
-						:class="activeButton('Hem')"
+
+			<div class="md:hidden ml-auto">
+				<div
+					class="btn bg-white border-0 focus:bg-white text-black hover:bg-white"
+					@click="open = !open"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						class="inline-block w-6 h-6 stroke-current"
 					>
-						<font-awesome-icon icon="home" class="mx-2" />
-					</router-link>
-					<router-link
-						id="races"
-						to="/races"
-						class="btn btn-sm rounded-btn"
-						:class="activeButton('Seglingar')"
-					>
-						<font-awesome-icon icon="flag" class="mx-2" />
-					</router-link>
-					<router-link
-						id="profile"
-						to="/profile"
-						class="btn btn-sm rounded-btn"
-						:class="activeButton('Profil')"
-					>
-						<font-awesome-icon icon="user" class="mx-2" />
-					</router-link>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M4 6h16M4 12h16M4 18h16"
+						></path>
+					</svg>
 				</div>
 			</div>
 		</div>
@@ -72,13 +63,18 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import MobileNav from './MobileNav.vue'
 
 // export component with name Navbar2
 export default {
 	name: 'Header',
+	components: {
+		MobileNav,
+	},
 	data() {
 		return {
 			active: true,
+			open: false,
 		}
 	},
 	computed: {
@@ -111,5 +107,12 @@ export default {
 	--tw-shadow: 0 -10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
 		var(--tw-shadow);
+}
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+	opacity: 0;
 }
 </style>
