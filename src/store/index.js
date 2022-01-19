@@ -1,10 +1,10 @@
-import { createStore } from 'vuex'
+import { createStore, createLogger } from 'vuex'
 
-// import user from "./modules/user";
 import auth from './modules/auth'
 
 export default createStore({
 	modules: {
 		auth,
 	},
+	plugins: [createLogger()],
 })

@@ -2,17 +2,15 @@ import axios from 'axios'
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'
 import { API_URL } from '../store/actions/auth'
-import user from '../store/modules/user'
 import qs from 'qs'
 
-const query = qs.stringify({
-	_where: {
-		username: user.getters.getProfile.username,
-	},
-})
-
 // api function to get all boats
-export const getBoats = async () => {
+export const getBoats = async (user) => {
+	const query = qs.stringify({
+		_where: {
+			username: user.username,
+		},
+	})
 	try {
 		const response = await axios.get(`${API_URL}/boats?`, {
 			headers: {
@@ -21,7 +19,7 @@ export const getBoats = async () => {
 		})
 		return response.data
 	} catch (error) {
-		createToast('Någonting gick snett...', {
+		createToast('Kunde inte hämta dina båtar...', {
 			type: 'danger',
 			timeout: 2000,
 			position: 'top-right',

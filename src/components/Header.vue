@@ -75,7 +75,7 @@ import { mapGetters } from 'vuex'
 
 // export component with name Navbar2
 export default {
-	name: 'Header2',
+	name: 'Header',
 	data() {
 		return {
 			active: true,

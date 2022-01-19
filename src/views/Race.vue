@@ -104,7 +104,6 @@ import { register_for_race } from '../api/register_for_race'
 import { un_register_for_race } from '../api/un_register_from_race'
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'
-import { getBoats } from '../api/boats'
 import { getUsers } from '../api/users'
 import Multiselect from '@vueform/multiselect'
 
@@ -184,7 +183,6 @@ export default {
 			})
 		},
 		async loadRegisterOptions() {
-			this.boats = await getBoats()
 			this.users = await getUsers()
 			console.log(this.users)
 			this.optionsLoaded = true

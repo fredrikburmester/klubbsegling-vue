@@ -1,15 +1,22 @@
-import { AUTH_REQUEST, AUTH_ERROR, AUTH_SUCCESS, AUTH_LOGOUT } from '../actions/auth'
-import { USER_REQUEST, USER_SUCCESS, USER_ERROR } from '../actions/user'
+import {
+	AUTH_REQUEST,
+	AUTH_ERROR,
+	AUTH_SUCCESS,
+	AUTH_LOGOUT,
+	USER_REQUEST,
+	USER_ERROR,
+	USER_SUCCESS,
+} from '../actions/auth'
+
+import axios from 'axios'
 import { API_URL } from '../actions/auth'
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'
 
-import axios from 'axios'
-
 const state = {
 	token: localStorage.getItem('jwt') || '',
 	status: '',
-	profile: {},
+	profile: JSON.parse(localStorage.getItem('user')) || {},
 	hasLoadedOnce: false,
 }
 
@@ -45,6 +52,9 @@ const actions = {
 					resolve(resp)
 				})
 				.catch((err) => {
+					if (process.env.NODE_ENV === 'development') {
+						console.log(err)
+					}
 					commit(AUTH_ERROR, err)
 					localStorage.removeItem('jwt')
 					createToast('Någonting gick snett...', {

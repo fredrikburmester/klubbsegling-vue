@@ -85,8 +85,10 @@ export default {
 							}
 						}
 					})
-					.catch((error) => {
-						console.error(error)
+					.catch((err) => {
+						if (process.env.NODE_ENV === 'development') {
+							console.log(err)
+						}
 					})
 			} else {
 				this.password = ''
