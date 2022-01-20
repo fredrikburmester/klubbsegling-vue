@@ -1,13 +1,13 @@
 <template>
-	<div>
-		<div class="fixed top-0 w-screen left-0 navbar shadow-lg bg-white text-neutral-content">
+	<div id="header">
+		<div class="fixed top-0 w-screen left-0 navbar shadow-lg bg-base-100 text-base-content">
 			<img
 				id="navbar-logo"
 				class="rounded-full w-10 h-10 ml-2"
-				src="@/assets/klubbsegling/logo.png"
+				src="/img/klubbsegling/logo.png"
 				alt="logo"
 			/>
-			<span class="ml-4 text-lg font-bold text-black">klubbsegling</span>
+			<span class="ml-4 text-lg font-bold text-base-content">klubbsegling</span>
 			<div class="flex-none hidden px-2 mx-2 sm:flex">
 				<div class="flex items-stretch">
 					<router-link
@@ -36,7 +36,7 @@
 
 			<div class="md:hidden ml-auto">
 				<div
-					class="btn bg-white border-0 focus:bg-white text-black hover:bg-white"
+					class="btn border-0 bg-transparent text-base-content hover:bg-primary"
 					@click="open = !open"
 				>
 					<svg
@@ -81,16 +81,16 @@ export default {
 	methods: {
 		activeButton(id) {
 			if (this.$route.name == id) {
-				return 'btn-primary text-white'
+				return 'btn-primary text-base-content'
 			} else {
-				return 'text-black btn-ghost'
+				return 'btn-ghost'
 			}
 		},
 		activeButtonDropdown(id) {
 			if (this.$route.name == id) {
-				return 'btn-primary text-white'
+				return 'btn-primary text-base-content'
 			} else {
-				return 'text-black btn-ghost'
+				return 'btn-ghost'
 			}
 		},
 		closeNav() {

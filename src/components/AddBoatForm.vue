@@ -1,6 +1,6 @@
 <template>
-	<div class="flex space-x-4 h-20 m-0">
-		<label for="register-modal" class="btn btn-primary text-white modal-button">
+	<div class="flex space-x-4 mb-4 m-0">
+		<label for="register-modal" class="btn btn-primary text-base-content modal-button">
 			Lägg till båt
 		</label>
 		<input id="register-modal" type="checkbox" class="modal-toggle" />

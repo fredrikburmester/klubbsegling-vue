@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="bg-white shadow-lg transition-all">
+		<div class="shadow-lg transition-all">
 			<nav class="px-6 py-4 mx-auto md:flex md:justify-between md:items-center">
 				<div class="flex items-center justify-between">
 					<router-link

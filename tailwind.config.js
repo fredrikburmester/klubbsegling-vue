@@ -20,4 +20,12 @@ module.exports = {
 		extend: {},
 	},
 	plugins: [require('daisyui')],
+	daisyui: {
+		themes: ['bumblebee', 'cupcake', 'retro', 'synthwave', 'emerald', 'forest'],
+		styled: true,
+		base: true,
+		utils: true,
+		logs: true,
+		rtl: false,
+	},
 }

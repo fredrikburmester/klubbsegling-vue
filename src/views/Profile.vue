@@ -1,44 +1,48 @@
 <template>
 	<div class="wrapper">
-		<div v-if="!loading">
-			<div class="p-6 z-0">
-				<div class="text-left z-0">
-					<h2 class="card-title text-2xl z-0">{{ me.name }}</h2>
-					<p>
-						{{ me.about || null }}
-					</p>
-					<h1 class="mt-4 font-bold z-0">Mina Båtar</h1>
-
-					<div v-for="b in userBoats" :key="b.id" class="w-full shadow stats mt-4 h-32">
-						<router-link :to="`/boat/${b.id}`">
-							<div class="card card-side card-bordered overflow-x-auto">
-								<div
-									v-if="imageLoading"
-									class="w-24 h-32 flex justify-center content-center"
-								>
-									<button
-										class="btn btn-lg bg-white text-black border-0 btn-circle loading h-auto"
-									></button>
-								</div>
-								<figure v-if="getBoatImage(b)">
-									<img
-										v-show="!imageLoading"
-										class="h-32"
-										:src="getBoatImage(b)"
-										@load="imageLoaded"
-									/>
-								</figure>
-								<div class="card-body">
-									<div class="stat-title">{{ getOwnerName(b) }}</div>
-									<div class="stat-value text-lg">{{ b.name }}</div>
-								</div>
+		<div v-if="!loading" class="p-6 h-full text-left relative min-height-inherit pb-20">
+			<h2 class="card-title text-2xl">{{ me.name }}</h2>
+			<p>
+				{{ me.about || null }}
+			</p>
+			<h1 class="mt-4 font-bold z-0">Mina Båtar</h1>
+			<div class="flex flex-col lg:flex-row lg:flex-wrap">
+				<div
+					v-for="b in userBoats"
+					:key="b.id"
+					class="w-full shadow stats mt-4 h-32 lg:mr-4"
+				>
+					<router-link :to="`/boat/${b.id}`">
+						<div class="card card-side card-bordered overflow-x-auto">
+							<div
+								v-if="imageLoading"
+								class="w-24 h-32 flex justify-center content-center"
+							>
+								<button
+									class="btn btn-lg border-0 btn-circle loading h-auto"
+								></button>
 							</div>
-						</router-link>
-					</div>
-					<AddBoatForm class="mt-4" :userboats="userBoats" @newBoat="onNewBoat" />
+							<figure v-if="getBoatImage(b)">
+								<img
+									v-show="!imageLoading"
+									class="h-32"
+									:src="getBoatImage(b)"
+									@load="imageLoaded"
+								/>
+							</figure>
+							<div class="card-body">
+								<div class="stat-title">{{ getOwnerName(b) }}</div>
+								<div class="stat-value text-lg">{{ b.name }}</div>
+							</div>
+						</div>
+					</router-link>
 				</div>
-				<button class="btn btn-error my-4 w-full" @click="logout">Logga ut</button>
 			</div>
+
+			<AddBoatForm class="mt-4" :userboats="userBoats" @newBoat="onNewBoat" />
+			<button id="logout" class="btn btn-error absolute bottom-6 px-6" @click="logout">
+				Logga ut
+			</button>
 		</div>
 	</div>
 </template>
@@ -110,5 +114,17 @@ export default {
 .wrapper {
 	width: 100%;
 	min-height: 100vh;
+}
+.min-height-inherit {
+	min-height: inherit;
+}
+@media (max-width: 640px) {
+	#logout {
+		width: 90vw;
+		margin-left: 5vw;
+		left: 0;
+	}
+}
+#logout {
 }
 </style>

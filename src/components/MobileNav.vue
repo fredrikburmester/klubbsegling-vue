@@ -1,18 +1,15 @@
 <template>
 	<transition name="slide">
-		<div v-show="open" class="fixed top-0 left-0 w-screen">
-			<div
-				class="fixed top-0 left-0 h-screen w-screen bg-transparent"
-				@click="$emit('close-nav')"
-			></div>
+		<div v-show="open" class="fixed top-0 left-0 w-screen bg-base-100">
+			<div class="fixed top-0 left-0 h-screen w-screen" @click="$emit('close-nav')"></div>
 			<div class="">
-				<div class="card rounded-none shadow-lg lg:card-side bg-white text-primary-content">
+				<div class="card rounded-none shadow-lg lg:card-side text-primary-content">
 					<div class="card-body">
 						<div class="flex flex-col">
 							<div v-for="item in menuItems" :key="item" @click="$emit('close-nav')">
 								<router-link :to="item.route" class="">
-									<div class="py-4 hover:bg-gray-300 rounded-lg">
-										<span class="px-4 text-black">
+									<div class="py-4 hover:bg-primary rounded-lg">
+										<span class="px-4 text-base-content">
 											<font-awesome-icon :icon="item.icon" class="mr-4" />
 											{{ item.text }}
 										</span>
@@ -21,10 +18,10 @@
 							</div>
 						</div>
 					</div>
-					<hr class="mx-8" />
+					<hr class="mx-8 border-base-content" />
 					<div class="py-8 flex flex-row justify-around">
-						<p class="text-black">Om oss</p>
-						<p class="text-black">Mer</p>
+						<p class="text-base-content">Om oss</p>
+						<p class="text-base-content">Mer</p>
 					</div>
 				</div>
 			</div>

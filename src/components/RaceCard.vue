@@ -1,10 +1,13 @@
 <template>
-	<div class="card shadow-2xl lg:card-side bg-white text-black my-4">
+	<div class="card shadow-2xl lg:card-side my-4">
 		<div class="card-body">
 			<h1 class="text-left text-xl font-bold">{{ race.name }}</h1>
 			<p class="text-left">{{ formatDate(race.start) }} - {{ formatDate(race.end) }}</p>
 			<div class="justify-start card-actions">
-				<router-link class="btn bg-primary border-0 text-white" :to="`/race/${race.id}`">
+				<router-link
+					class="btn bg-primary border-0 hover:bg-primary-focus text-base-content"
+					:to="`/race/${race.id}`"
+				>
 					Visa mer
 					<svg
 						xmlns="http://www.w3.org/2000/svg"

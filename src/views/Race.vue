@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="wrapper">
 		<div v-if="error || loading">
 			{{ error }}
 		</div>
@@ -52,7 +52,7 @@
 			<div class="w-screen flex space-x-4 h-20 place-content-center m-0">
 				<label
 					for="register-modal"
-					class="btn btn-primary text-white modal-button"
+					class="btn btn-primary text-base-content modal-button"
 					@click="loadRegisterOptions()"
 				>
 					Registrera
@@ -206,5 +206,9 @@ export default {
 <style>
 .modal {
 	margin: 0 !important;
+}
+.wrapper {
+	width: 100%;
+	min-height: 100vh;
 }
 </style>
