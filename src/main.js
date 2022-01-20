@@ -14,8 +14,6 @@ import './registerServiceWorker'
 import './index.css'
 import './assets/tailwind.css'
 
-require('dotenv').config()
-
 const cache = new InMemoryCache()
 
 const apolloClient = new ApolloClient({
