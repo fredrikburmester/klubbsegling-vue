@@ -1,10 +1,10 @@
 <template>
-	<div>
+	<div class="">
 		<div class="mt-20">
 			<router-view> </router-view>
 		</div>
 		<Header v-if="!$route.meta.hideNavigation" />
-		<Footer />
+		<Footer class="" />
 	</div>
 </template>
 

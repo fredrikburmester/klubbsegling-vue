@@ -62,25 +62,28 @@
 					<div class="modal-box m-0">
 						<p>Vilken båt vill du registrera med?</p>
 						<div v-if="optionsLoaded">
-							<select class="select select-bordered select w-full max-w-xs mt-4">
+							<select class="select select-bordered select w-full max-w-xs mb-4">
 								<option v-for="b in userBoats" :key="b.id">
 									{{ b.name }}
 								</option>
 							</select>
-							<select class="select select-bordered select w-full max-w-xs mt-4">
+							<p>Välj handikappsystem</p>
+							<select class="select select-bordered select w-full max-w-xs mb-4">
 								<option v-for="value in type" :key="value">
 									{{ value }}
 								</option>
 							</select>
-							<Multiselect
+							<p>Välj gastar</p>
+							<VueMultiselect
 								v-model="crew"
-								mode="tags"
-								class="mt-4 rounded-lg h-12"
-								:searchable="true"
-								:close-on-select="false"
-								:create-option="true"
 								:options="userOptions"
-							/>
+								:multiple="true"
+								track-by="value"
+								:close-on-select="false"
+								label="label"
+								class="mb-4"
+							>
+							</VueMultiselect>
 						</div>
 						<div
 							v-else
@@ -109,10 +112,12 @@ import { getUsers } from '../api/users'
 import Multiselect from '@vueform/multiselect'
 import { getBoatsOfUser } from '../api/getBoatsOfUser.js'
 import { getAllUsers } from '../api/getAllUsers.js'
+import VueMultiselect from 'vue-multiselect'
+import 'vue-multiselect/dist/vue-multiselect.css'
 
 export default {
 	name: 'Race',
-	components: { Multiselect },
+	components: { Multiselect, VueMultiselect },
 	// async created() {
 	// 	this.users = await getUsers()
 	// 	console.log(this.users)
@@ -210,5 +215,8 @@ export default {
 .wrapper {
 	width: 100%;
 	min-height: 100vh;
+}
+.multiselect__tags {
+	width: 100% !important;
 }
 </style>

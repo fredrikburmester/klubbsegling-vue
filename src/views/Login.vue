@@ -1,27 +1,36 @@
 <template>
-	<div class="container sm:mx-auto mt-48 px-10">
-		<h1 class="text-5xl font-bold mb-5 text-center">Klubbsegling</h1>
-		<form class="form-control" @submit.prevent="login">
-			<label class="label">Användarnamn</label>
-			<input
-				v-model="username"
-				class="input input-bordered"
-				required
-				type="text"
-				placeholder="användarnamn"
-			/>
-			<label class="label">Lösenord</label>
-			<input
-				v-model="password"
-				class="input input-bordered"
-				required
-				type="password"
-				placeholder="lösenord"
-			/>
-			<hr />
+	<div class="lg:flex lg:justify-around lg:flex-row container sm:mx-auto mt-48 px-14 pb-56">
+		<div class="lg:mx-12 self-center">
+			<h1 class="mb-5 text-5xl font-bold text-left">Klubbsegling</h1>
+			<p class="mb-5">Välkommen till Sveriges bästa hemsida för <br />seglingsentusiaster!</p>
+		</div>
+		<form
+			class="lg:card lg:shadow-2xl lg:rounded-3xl lg:w-2/5 form-control"
+			@submit.prevent="login"
+		>
+			.
+			<div class="card-body">
+				<label class="label">Användarnamn</label>
+				<input
+					v-model="username"
+					class="input input-bordered"
+					required
+					type="text"
+					placeholder="användarnamn"
+				/>
+				<label class="label">Lösenord</label>
+				<input
+					v-model="password"
+					class="input input-bordered"
+					required
+					type="password"
+					placeholder="lösenord"
+				/>
+				<hr />
 
-			<button v-if="loading" class="btn btn-primary my-4 loading" type="submit"></button>
-			<button v-else class="btn btn-primary my-4" type="submit">Login</button>
+				<button v-if="loading" class="btn btn-primary my-4 loading" type="submit"></button>
+				<button v-else class="btn btn-primary my-4" type="submit">Login</button>
+			</div>
 		</form>
 	</div>
 </template>
