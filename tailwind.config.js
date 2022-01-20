@@ -8,7 +8,7 @@ module.exports = {
 				// primary: '#00428C',
 			},
 			dropShadow: {
-				xltop: '0 -2px 4px rgba(0, 0, 0, 0.2)',
+				'3xl': '0 0px 23px 12px rgba(0,0,0,0.25)',
 			},
 			zIndex: {
 				100: '100 !important',
