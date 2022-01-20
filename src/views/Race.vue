@@ -63,8 +63,8 @@
 						<p>Vilken båt vill du registrera med?</p>
 						<div v-if="optionsLoaded">
 							<select class="select select-bordered select w-full max-w-xs mt-4">
-								<option v-for="boat in boats" :key="boat.id">
-									{{ boat.name }}
+								<option v-for="b in userBoats" :key="b.id">
+									{{ b.name }}
 								</option>
 							</select>
 							<select class="select select-bordered select w-full max-w-xs mt-4">
@@ -75,10 +75,11 @@
 							<Multiselect
 								v-model="crew"
 								mode="tags"
+								class="mt-4 rounded-lg h-12"
 								:searchable="true"
 								:close-on-select="false"
 								:create-option="true"
-								:options="users"
+								:options="userOptions"
 							/>
 						</div>
 						<div
@@ -106,10 +107,16 @@ import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'
 import { getUsers } from '../api/users'
 import Multiselect from '@vueform/multiselect'
+import { getBoatsOfUser } from '../api/getBoatsOfUser.js'
+import { getAllUsers } from '../api/getAllUsers.js'
 
 export default {
 	name: 'Race',
 	components: { Multiselect },
+	// async created() {
+	// 	this.users = await getUsers()
+	// 	console.log(this.users)
+	// },
 	data() {
 		return {
 			race: null,
@@ -119,20 +126,29 @@ export default {
 			loading: true,
 			API_URL: API_URL,
 			img: '',
-			user: null,
+			userBoats: [],
 			id: null,
 			boats: [],
 			crew: null,
-			users: null,
+			userOptions: [],
 			type: ['Hcp', 'Hcp_FC_DWS', 'Hcp_FC_NoDWS', 'Hcp_SH_DWS', 'Hcp_SH_NoDWS'],
 			selectedBoat: null,
 			optionsLoaded: false,
+			me: this.$store.getters.getProfile,
 		}
 	},
-	// async created() {
-	// 	this.users = await getUsers()
-	// 	console.log(this.users)
-	// },
+	async beforeMount() {
+		this.userBoats = await getBoatsOfUser(this.me)
+		getAllUsers().then((us) => {
+			for (var i in us) {
+				this.userOptions.push({
+					value: us[i].id,
+					label: us[i].name,
+				})
+			}
+		})
+		console.log(this.userOptions)
+	},
 	async mounted() {
 		try {
 			const response = await axios.get(`${API_URL}/races/${this.$route.params.id}`, {
@@ -146,9 +162,6 @@ export default {
 			this.description = !!race.description ? race.description : 'Saknar beskrivning'
 			this.img = race.images.length != 0 ? API_URL + race.images[0].url : ''
 			this.id = race.id
-			this.user = JSON.parse(localStorage.getItem('user'))
-
-			this.users = await getUsers()
 
 			this.loading = false
 		} catch (error) {

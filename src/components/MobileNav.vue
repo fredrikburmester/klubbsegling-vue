@@ -1,6 +1,10 @@
 <template>
-	<div v-show="open">
-		<div class="fixed top-16 left-0 w-screen z-100">
+	<transition name="slide">
+		<div v-show="open" class="fixed top-0 left-0 w-screen">
+			<div
+				class="fixed top-0 left-0 h-screen w-screen bg-transparent"
+				@click="$emit('close-nav')"
+			></div>
 			<div class="">
 				<div class="card rounded-none shadow-lg lg:card-side bg-white text-primary-content">
 					<div class="card-body">
@@ -25,11 +29,7 @@
 				</div>
 			</div>
 		</div>
-		<div
-			class="fixed top-0 left-0 h-screen w-screen bg-transparent opacity-80 z-99"
-			@click="$emit('close-nav')"
-		></div>
-	</div>
+	</transition>
 </template>
 <script>
 export default {
@@ -73,3 +73,15 @@ export default {
 	},
 }
 </script>
+
+<style>
+.slide-enter-active,
+.slide-leave-active {
+	transition: all 0.2s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+	transform: translateY(-400px);
+}
+</style>

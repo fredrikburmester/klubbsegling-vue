@@ -1,11 +1,9 @@
 <template>
 	<div>
+		<div class="mt-16">
+			<router-view> </router-view>
+		</div>
 		<Header v-if="!$route.meta.hideNavigation" />
-		<router-view v-slot="{ Component }">
-			<transition name="fade" mode="out-in">
-				<component :is="Component" />
-			</transition>
-		</router-view>
 		<Footer />
 	</div>
 </template>

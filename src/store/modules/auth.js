@@ -6,6 +6,7 @@ import {
 	USER_REQUEST,
 	USER_ERROR,
 	USER_SUCCESS,
+	USER_BOATS,
 } from '../actions/auth'
 
 import axios from 'axios'
@@ -18,12 +19,14 @@ const state = {
 	status: '',
 	profile: JSON.parse(localStorage.getItem('user')) || {},
 	hasLoadedOnce: false,
+	userBoats: [],
 }
 
 const getters = {
 	isAuthenticated: (state) => !!state.token,
 	authStatus: (state) => state.status,
 	getProfile: (state) => state.profile,
+	getUserBoats: (state) => state.userBoats,
 }
 
 const actions = {
@@ -109,6 +112,9 @@ const mutations = {
 	},
 	[AUTH_LOGOUT]: (state) => {
 		state.profile = {}
+	},
+	[USER_BOATS]: (state, boats) => {
+		state.userBoats = boats
 	},
 }
 

@@ -1,7 +1,6 @@
 <template>
 	<div>
-		<MobileNav :open="open" @close-nav="open = false" />
-		<div class="navbar shadow-lg bg-white text-neutral-content">
+		<div class="fixed top-0 w-screen left-0 navbar shadow-lg bg-white text-neutral-content">
 			<img
 				id="navbar-logo"
 				class="rounded-full w-10 h-10 ml-2"
@@ -56,6 +55,7 @@
 				</div>
 			</div>
 		</div>
+		<MobileNav :open="open" @close-nav="open = false" />
 	</div>
 </template>
 
@@ -106,16 +106,5 @@ export default {
 	--tw-shadow: 0 -10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
 		var(--tw-shadow);
-}
-.slide-fade-enter-active {
-	transition: all 0.2s ease;
-}
-.slide-fade-leave-active {
-	transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
-}
-.slide-fade-enter, .slide-fade-leave-to
-/* .slide-fade-leave-active below version 2.1.8 */ {
-	transform: translateX(10px);
-	opacity: 0;
 }
 </style>
