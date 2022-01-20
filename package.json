@@ -36,7 +36,7 @@
     "jsonwebtoken": "^8.5.1",
     "mosha-vue-toastify": "^1.0.23",
     "popper.js": "^1.16.1",
-    "postcss": "^7.0.39",
+    "postcss": "^8.2.13",
     "register-service-worker": "^1.7.1",
     "roboto-fontface": "*",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
