@@ -107,21 +107,16 @@ import { API_URL } from '../store/actions/auth'
 import { register_for_race } from '../api/register_for_race'
 import { un_register_for_race } from '../api/un_register_from_race'
 import { createToast } from 'mosha-vue-toastify'
-import 'mosha-vue-toastify/dist/style.css'
 import { getUsers } from '../api/users'
-import Multiselect from '@vueform/multiselect'
 import { getBoatsOfUser } from '../api/getBoatsOfUser.js'
 import { getAllUsers } from '../api/getAllUsers.js'
 import VueMultiselect from 'vue-multiselect'
+import 'mosha-vue-toastify/dist/style.css'
 import 'vue-multiselect/dist/vue-multiselect.css'
 
 export default {
 	name: 'Race',
-	components: { Multiselect, VueMultiselect },
-	// async created() {
-	// 	this.users = await getUsers()
-	// 	console.log(this.users)
-	// },
+	components: { VueMultiselect },
 	data() {
 		return {
 			race: null,
