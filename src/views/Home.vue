@@ -1,5 +1,7 @@
 <template>
-	<div class="home p-5 bg-white"></div>
+	<div class="wrapper">
+		<div class="">hej</div>
+	</div>
 </template>
 
 <script>
@@ -15,3 +17,10 @@ export default {
 	methods: {},
 }
 </script>
+
+<style>
+.wrapper {
+	width: 100%;
+	min-height: 100vh;
+}
+</style>

@@ -140,7 +140,6 @@ export default {
 					Authorization: `Bearer ${localStorage.getItem('jwt')}`,
 				},
 			})
-			console.log('Getting race data:', response.data)
 			const race = response.data
 			this.race = race
 			this.name = !!race.name ? race.name : 'Saknar namn'
@@ -159,7 +158,6 @@ export default {
 	methods: {
 		async register(user, race) {
 			var res = await register_for_race(user, race)
-			console.log(res.length, this.race.participants.length)
 			if (res.length == this.race.participants.length + 1) {
 				this.race.participants = res
 				this.toast('Du är registrerad!')
@@ -184,7 +182,6 @@ export default {
 		},
 		async loadRegisterOptions() {
 			this.users = await getUsers()
-			console.log(this.users)
 			this.optionsLoaded = true
 		},
 	},

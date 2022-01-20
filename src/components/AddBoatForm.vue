@@ -7,7 +7,7 @@
 		<div class="modal m-0">
 			<div class="modal-box m-0">
 				<p>Välj båt att lägga till:</p>
-				<div v-if="!$apollo.loading">
+				<div>
 					<select
 						v-model="selectedBoat"
 						class="select select-bordered select w-full max-w-xs mt-4"
@@ -18,10 +18,7 @@
 						</option>
 					</select>
 				</div>
-				<div
-					v-else
-					class="boarder border-slate-500 shadow rounded-md h-16 animate-pulse"
-				></div>
+
 				<div class="modal-action flex justify-start">
 					<label for="register-modal" class="btn btn-primary" @click="addBoat"
 						>Lägg till</label
@@ -43,7 +40,7 @@ import 'mosha-vue-toastify/dist/style.css'
 export default {
 	name: 'AddBoatForm',
 	props: {
-		boats: {
+		userboats: {
 			type: Array,
 			required: true,
 		},
@@ -51,6 +48,7 @@ export default {
 	emits: ['boats'],
 	data() {
 		return {
+			userBoats: this.userboats,
 			allBoats: [],
 			selectedBoat: '',
 			me: this.$store.getters.getProfile,
@@ -58,25 +56,31 @@ export default {
 	},
 	async mounted() {
 		try {
-			const response = await axios.get(`${API_URL}/boats?`, {
+			const response = await axios.get(`${API_URL}/boats`, {
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('jwt')}`,
 				},
 			})
 			this.allBoats = response.data
 			this.selectedBoat = this.allBoats[0]
-		} catch (error) {
-			console.log(error)
+		} catch (err) {
+			if (process.env.NODE_ENV === 'development') {
+				console.log(err)
+			}
 		}
 	},
 	methods: {
 		addBoat() {
 			// Add boats to user via api request
 			// Send the new boats to parent compoennt to show the new boat in the table
-			addBoatToUser(this.boats, this.selectedBoat, this.me)
-				.then((res) => {
-					console.log(res)
-					this.$emit('boats', res)
+			addBoatToUser(this.userBoats, this.selectedBoat, this.me)
+				.then((boat) => {
+					createToast(`${boat.name} tillagd!`, {
+						type: 'success',
+						timeout: 3000,
+						position: 'top-right',
+					})
+					this.$emit('newBoat', boat)
 				})
 				.catch((err) => {
 					if (process.env.NODE_ENV === 'development') {
@@ -84,7 +88,7 @@ export default {
 					}
 					createToast(err, {
 						type: 'danger',
-						timeout: 5000,
+						timeout: 3000,
 						position: 'top-right',
 					})
 				})

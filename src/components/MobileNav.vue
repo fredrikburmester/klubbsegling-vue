@@ -1,8 +1,8 @@
 <template>
-	<div>
-		<div class="fixed top-0 left-0 w-screen z-100">
-			<div class="p-2">
-				<div class="card shadow-2xl lg:card-side bg-white text-primary-content">
+	<div v-show="open">
+		<div class="fixed top-16 left-0 w-screen z-100">
+			<div class="">
+				<div class="card rounded-none shadow-lg lg:card-side bg-white text-primary-content">
 					<div class="card-body">
 						<div class="flex flex-col">
 							<div v-for="item in menuItems" :key="item" @click="$emit('close-nav')">
@@ -26,7 +26,7 @@
 			</div>
 		</div>
 		<div
-			class="fixed top-0 left-0 h-screen w-screen bg-gray-400 opacity-80 z-99"
+			class="fixed top-0 left-0 h-screen w-screen bg-transparent opacity-80 z-99"
 			@click="$emit('close-nav')"
 		></div>
 	</div>
@@ -38,6 +38,10 @@ export default {
 		active: {
 			type: String,
 			default: 'Home',
+		},
+		open: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	emits: ['close-nav'],
@@ -69,4 +73,3 @@ export default {
 	},
 }
 </script>
-<style></style>

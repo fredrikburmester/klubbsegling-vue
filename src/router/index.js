@@ -1,13 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import Profile from '../views/Profile.vue'
+// import Profile from '../views/Profile.vue'
+const Profile = () => import('../views/Profile.vue')
 import Races from '../views/Races.vue'
 import Race from '../views/Race.vue'
 import Boat from '../views/Boat.vue'
 import Admin from '../views/Admin.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'
 
 const routes = [

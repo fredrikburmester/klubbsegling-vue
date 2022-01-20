@@ -1,15 +1,11 @@
 <template>
 	<div>
-		<transition name="fade">
-			<div v-if="open">
-				<MobileNav @close-nav="open = false" />
-			</div>
-		</transition>
+		<MobileNav :open="open" @close-nav="open = false" />
 		<div class="navbar shadow-lg bg-white text-neutral-content">
 			<img
 				id="navbar-logo"
 				class="rounded-full w-10 h-10 ml-2"
-				:src="require('@/assets/klubbsegling/logo.png')"
+				src="@/assets/klubbsegling/logo.png"
 				alt="logo"
 			/>
 			<span class="ml-4 text-lg font-bold text-black">klubbsegling</span>
@@ -64,7 +60,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import MobileNav from './MobileNav.vue'
 
 // export component with name Navbar2
@@ -99,7 +94,6 @@ export default {
 			}
 		},
 		closeNav() {
-			console.log('close')
 			this.open = false
 		},
 	},
@@ -113,11 +107,15 @@ export default {
 	box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000),
 		var(--tw-shadow);
 }
-.fade-enter-active,
-.fade-leave-active {
-	transition: opacity 0.3s;
+.slide-fade-enter-active {
+	transition: all 0.2s ease;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.slide-fade-leave-active {
+	transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+	transform: translateX(10px);
 	opacity: 0;
 }
 </style>

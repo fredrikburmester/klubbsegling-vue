@@ -1,11 +1,13 @@
 <template>
-	<div class="races px-6">
-		<div v-if="error || !loaded">
-			{{ error }}
-		</div>
-		<div v-else>
-			<div v-for="race in races" :key="race.id">
-				<RaceCard :race="race" />
+	<div class="wrapper">
+		<div class="races px-6">
+			<div v-if="error || !loaded">
+				{{ error }}
+			</div>
+			<div v-else>
+				<div v-for="race in races" :key="race.id">
+					<RaceCard :race="race" />
+				</div>
 			</div>
 		</div>
 	</div>
@@ -35,3 +37,10 @@ export default {
 	},
 }
 </script>
+
+<style>
+.wrapper {
+	width: 100%;
+	min-height: 100vh;
+}
+</style>
