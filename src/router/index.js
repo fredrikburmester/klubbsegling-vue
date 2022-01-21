@@ -25,6 +25,7 @@ const routes = [
 		component: Races,
 		meta: {
 			requiresAuth: true,
+			breadcrumbs: [{ name: 'Seglingar', path: '/races', icon: 'flag' }],
 		},
 	},
 	{
@@ -32,15 +33,11 @@ const routes = [
 		name: 'Segling',
 		component: Race,
 		meta: {
-			requiresAuth: true,
-		},
-	},
-	{
-		path: '/boat/:id',
-		name: 'Båt',
-		component: Boat,
-		meta: {
-			requiresAuth: true,
+			requiresAuth: false,
+			breadcrumbs: [
+				{ name: 'Seglingar', path: '/races', icon: 'flag' },
+				{ name: 'Segling', path: '/races/:id', icon: 'calendar' },
+			],
 		},
 	},
 	{
@@ -49,6 +46,28 @@ const routes = [
 		component: Profile,
 		meta: {
 			requiresAuth: true,
+			breadcrumbs: [{ name: 'Profil', path: '/profile', icon: 'user' }],
+		},
+	},
+	{
+		path: '/profile/boat/:id',
+		name: 'Min Båt',
+		component: Boat,
+		meta: {
+			requiresAuth: true,
+			breadcrumbs: [
+				{ name: 'Profil', path: '/profile', icon: 'user' },
+				{ name: 'Båt', path: '/profile/boat/:id', icon: 'ship' },
+			],
+		},
+	},
+	{
+		path: '/boat/:id',
+		name: 'Båt',
+		component: Boat,
+		meta: {
+			requiresAuth: false,
+			breadcrumbs: [{ name: 'Båt', path: '/boat/:id' }],
 		},
 	},
 	{

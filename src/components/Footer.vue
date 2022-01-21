@@ -12,8 +12,10 @@
 							<font-awesome-icon icon="home" class="mr-2" />Hem
 						</router-link>
 					</li>
-					<li v-if="$route.name != 'Hem'">
-						<a>{{ $route.name }}</a>
+					<li v-for="r in $route.meta.breadcrumbs" :key="r.name">
+						<router-link :to="r.path">
+							<font-awesome-icon :icon="r.icon" class="mr-2" />{{ r.name }}
+						</router-link>
 					</li>
 				</ul>
 			</div>

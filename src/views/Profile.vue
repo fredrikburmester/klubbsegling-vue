@@ -6,13 +6,13 @@
 				{{ me.about || null }}
 			</p>
 			<h1 class="mt-4 font-bold z-0">Mina Båtar</h1>
-			<div class="flex flex-col lg:flex-row lg:flex-wrap">
+			<div class="flex flex-col lg:flex-row">
 				<div
 					v-for="b in userBoats"
 					:key="b.id"
 					class="w-full shadow stats mt-4 h-32 lg:mr-4"
 				>
-					<router-link :to="`/boat/${b.id}`">
+					<router-link :to="`/profile/boat/${b.id}`">
 						<div class="card card-side card-bordered overflow-x-auto">
 							<div
 								v-if="imageLoading"

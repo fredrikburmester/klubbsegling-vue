@@ -4,7 +4,14 @@ import store from './store'
 
 import { createApp } from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faHome, faFlag, faUser, faSlidersH } from '@fortawesome/free-solid-svg-icons'
+import {
+	faHome,
+	faFlag,
+	faUser,
+	faSlidersH,
+	faShip,
+	faCalendar,
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { API_URL } from './store/actions/auth'
 import { ApolloClient, InMemoryCache } from '@apollo/client/core'
@@ -32,6 +39,8 @@ library.add(faFlag)
 library.add(faHome)
 library.add(faSlidersH)
 library.add(faUser)
+library.add(faShip)
+library.add(faCalendar)
 
 createApp(App)
 	.use(store)

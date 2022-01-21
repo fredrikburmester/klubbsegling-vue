@@ -29,7 +29,7 @@
 						class="btn btn-sm rounded-btn mx-2"
 						:class="activeButton('Profil')"
 						to="/profile"
-						><font-awesome-icon icon="profile" class="mr-2" />Profil</router-link
+						><font-awesome-icon icon="user" class="mr-2" />Profil</router-link
 					>
 				</div>
 			</div>

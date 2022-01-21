@@ -1,6 +1,6 @@
 <template>
 	<div class="">
-		<div class="mt-20">
+		<div class="mt-16">
 			<router-view> </router-view>
 		</div>
 		<Header v-if="!$route.meta.hideNavigation" />
