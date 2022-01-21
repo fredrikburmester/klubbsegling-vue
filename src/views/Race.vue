@@ -4,7 +4,7 @@
 			{{ error }}
 		</div>
 		<div v-else class="flex flex-col overflow-hidden">
-			<div class="carousel rounded-0 h-64 shadow-xl">
+			<div v-if="images.length > 0" class="carousel rounded-0 h-64 shadow-xl">
 				<div v-for="i in images" :key="i.id" class="carousel-item">
 					<figure>
 						<img class="max-h-64" :src="getImageURL(i.formats.small.url)" />

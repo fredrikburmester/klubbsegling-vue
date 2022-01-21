@@ -1,11 +1,11 @@
 <template>
-	<div class="card shadow-xl image-full mt-4">
+	<div class="card shadow-xl image-full mt-4 h-56">
 		<figure v-if="hasImages">
 			<img :src="headerUrl" />
 		</figure>
-		<div class="justify-end card-body">
+		<div class="justify-end card-body h-56">
 			<h2 class="card-title">{{ race.name }}</h2>
-			<p>
+			<p class="max-h-12 overflow-hidden">
 				{{ race.description || '' }}
 			</p>
 			<router-link :to="`/race/${race.id}`">
