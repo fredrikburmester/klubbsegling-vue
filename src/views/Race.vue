@@ -62,15 +62,21 @@
 					<div class="modal-box m-0">
 						<p>Vilken båt vill du registrera med?</p>
 						<div v-if="optionsLoaded">
-							<select class="select select-bordered select w-full max-w-xs mb-4">
-								<option v-for="b in userBoats" :key="b.id">
+							<select
+								v-model="selectedBoat"
+								class="select select-bordered select w-full max-w-xs mb-4"
+							>
+								<option v-for="b in userBoats" :key="b.id" :value="b.id">
 									{{ b.name }}
 								</option>
 							</select>
 							<p>Välj handikappsystem</p>
-							<select class="select select-bordered select w-full max-w-xs mb-4">
-								<option v-for="value in type" :key="value">
-									{{ value }}
+							<select
+								v-model="hsys"
+								class="select select-bordered select w-full max-w-xs mb-4"
+							>
+								<option v-for="h in handicap_systems" :key="h.id" :value="h.id">
+									{{ h.name }}
 								</option>
 							</select>
 							<p>Välj gastar</p>
@@ -90,7 +96,9 @@
 							class="boarder border-slate-500 shadow rounded-md h-16 animate-pulse"
 						></div>
 						<div class="modal-action flex justify-start">
-							<label for="register-modal" class="btn btn-primary">Registrera</label>
+							<label for="register-modal" class="btn btn-primary" @click="register()"
+								>Registrera</label
+							>
 							<label for="register-modal" class="btn">Avbryt</label>
 						</div>
 					</div>
@@ -104,8 +112,8 @@
 <script>
 import axios from 'axios'
 import { API_URL } from '../store/actions/auth'
-import { register_for_race } from '../api/register_for_race'
-import { un_register_for_race } from '../api/un_register_from_race'
+import { registerForFace } from '../api/registerForRace'
+import { unRegisterForRace } from '../api/unRegisterForRace'
 import { createToast } from 'mosha-vue-toastify'
 import { getUsers } from '../api/users'
 import { getBoatsOfUser } from '../api/getBoatsOfUser.js'
@@ -131,14 +139,23 @@ export default {
 			boats: [],
 			crew: null,
 			userOptions: [],
-			type: ['Hcp', 'Hcp_FC_DWS', 'Hcp_FC_NoDWS', 'Hcp_SH_DWS', 'Hcp_SH_NoDWS'],
+			handicap_systems: [
+				{ name: 'Hcp', id: 1 },
+				{ name: 'Hcp_FC_DWS', id: 2 },
+				{ name: 'Hcp_FC_NoDWS', id: 3 },
+				{ name: 'Hcp_SH_DWS', id: 4 },
+				{ name: 'Hcp_SH_NoDWS', id: 5 },
+			],
+			hsys: '',
 			selectedBoat: null,
 			optionsLoaded: false,
 			me: this.$store.getters.getProfile,
+			raceId: this.$route.params.id,
 		}
 	},
 	async beforeMount() {
 		this.userBoats = await getBoatsOfUser(this.me)
+		console.log(this.userBoats)
 		getAllUsers().then((us) => {
 			for (var i in us) {
 				this.userOptions.push({
@@ -169,17 +186,25 @@ export default {
 		}
 	},
 	methods: {
-		async register(user, race) {
-			var res = await register_for_race(user, race)
-			if (res.length == this.race.participants.length + 1) {
-				this.race.participants = res
-				this.toast('Du är registrerad!')
-			} else {
-				this.toast('Någonting gick snett... Är du redan registrerad?', 'warning')
-			}
+		async register() {
+			console.log(
+				'register fields:',
+				this.me,
+				this.selectedBoat,
+				this.crew,
+				this.raceId,
+				this.hsys
+			)
+			registerForFace(this.me, this.selectedBoat, this.crew, this.raceId, this.hsys)
+				.then((res) => {})
+				.catch((err) => {
+					createToast(err, {
+						type: 'danger',
+					})
+				})
 		},
 		async unregister(user, race) {
-			var res = await un_register_for_race(user, race)
+			var res = await unRegisterForFace(user, race)
 			if (res.length == this.race.participants.length - 1) {
 				this.race.participants = res
 				this.toast('Du är avregistrerad!', 'info')

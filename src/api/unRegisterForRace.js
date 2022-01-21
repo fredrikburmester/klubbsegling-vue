@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { API_URL } from '../store/actions/auth'
 
-export const un_register_for_race = async (user, race) => {
+export const unRegisterForRace = async (user, race) => {
 	var p = [...race.participants]
 	p = p.filter(function (el) {
 		return el.username != user.username
