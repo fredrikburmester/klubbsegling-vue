@@ -36,15 +36,26 @@
 			</div>
 			<div class="overflow-x-auto my-4 mx-6">
 				<h1 class="my-2">Deltagare:</h1>
-				<table :key="race.participants" class="table w-full table-zebra">
+				<table class="table w-full table-zebra">
 					<thead>
 						<tr>
-							<th>Name</th>
+							<th>Båtnamn</th>
+							<th>Handikap</th>
+							<th>Crew</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr v-for="participant in race.participants" :key="participant.id">
-							<td>{{ participant.name }}</td>
+						<tr v-for="r in registrations" :key="r.id">
+							<td>{{ r.boat.name }}</td>
+							<td>{{ r.handicap_system.name }}</td>
+							<td>
+								<kbd
+									v-for="m in r.crew_members"
+									:key="m.id"
+									class="kbd kbd-sm bg-gray-100 text-black px-2 mr-2"
+									>{{ m.name }}
+								</kbd>
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -151,6 +162,7 @@ import { registerForFace } from '../api/registerForRace'
 import { unRegisterForRace } from '../api/unRegisterForRace'
 import { createToast } from 'mosha-vue-toastify'
 import { getUsers } from '../api/users'
+import { getRegistrations } from '../api/getRegistrations'
 import { getBoatsOfUser } from '../api/getBoatsOfUser.js'
 import { getAllUsers } from '../api/getAllUsers.js'
 import VueMultiselect from 'vue-multiselect'
@@ -186,6 +198,7 @@ export default {
 			optionsLoaded: false,
 			me: this.$store.getters.getProfile,
 			raceId: this.$route.params.id,
+			registrations: [],
 		}
 	},
 	async beforeMount() {
@@ -200,6 +213,10 @@ export default {
 			}
 		})
 		console.log(this.userOptions)
+		getRegistrations(this.$route.params.id).then((res) => {
+			console.log('reg:', res)
+			this.registrations = res
+		})
 	},
 	async mounted() {
 		try {
@@ -235,6 +252,10 @@ export default {
 					createToast(res, {
 						type: 'success',
 					})
+					getRegistrations(this.$route.params.id).then((res) => {
+						console.log('reg:', res)
+						this.registrations = res
+					})
 				})
 				.catch((err) => {
 					createToast(err, {
@@ -247,6 +268,10 @@ export default {
 				.then((res) => {
 					createToast(res, {
 						type: 'success',
+					})
+					getRegistrations(this.$route.params.id).then((res) => {
+						console.log('reg:', res)
+						this.registrations = res
 					})
 				})
 				.catch((err) => {

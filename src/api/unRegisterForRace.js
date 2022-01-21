@@ -21,7 +21,7 @@ export const unRegisterForRace = async (boatId) => {
 								Authorization: `Bearer ${localStorage.getItem('jwt')}`,
 							},
 						})
-						.then(() => {
+						.then((res) => {
 							resolve('Registreringen borttagen.')
 						})
 				}
