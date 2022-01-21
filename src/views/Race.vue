@@ -17,22 +17,14 @@
 				<div class="stat">
 					<div class="stat-figure text-secondary"></div>
 					<div class="stat-title">Registrerade Båtar</div>
-					<div class="stat-value">38st</div>
+					<div class="stat-value">{{ registrations.length }}st</div>
 				</div>
 				<div class="stat">
 					<div class="stat-figure text-secondary"></div>
 					<div class="stat-title">Sträcka</div>
-					<div class="stat-value">4</div>
+					<div class="stat-value">Obestämt</div>
 					<div class="stat-desc">Distans</div>
 				</div>
-			</div>
-			<div class="w-screen justify-start">
-				<ul class="steps steps-vertical w-screen p-6">
-					<li class="step step-primary">Registrering</li>
-					<li class="step step-primary">Registering stänger</li>
-					<li class="step step-primary">Gruppindelning</li>
-					<li class="step">Seglats</li>
-				</ul>
 			</div>
 			<div class="overflow-x-auto my-4 mx-6">
 				<h1 class="my-2">Deltagare:</h1>
