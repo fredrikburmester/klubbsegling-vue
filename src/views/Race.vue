@@ -3,39 +3,33 @@
 		<div v-if="error || loading">
 			{{ error }}
 		</div>
-		<div v-else class="flex flex-col overflow-auto mb-20">
+		<div v-else class="flex flex-col overflow-auto">
 			<figure class="px-6 pt-5">
 				<img :src="img" class="rounded-xl" />
 			</figure>
 			<div class="card-body">
 				<h2 class="card-title">{{ name }}</h2>
-				<p class="my-2">
+				<p class="mt-2">
 					{{ description }}
 				</p>
 			</div>
-			<div class="shadow stats mx-4 h-auto">
+			<hr class="mx-6 mt-6" />
+			<div class="shadow stats mx-4 mt-6">
 				<div class="stat">
 					<div class="stat-figure text-secondary"></div>
 					<div class="stat-title">Registrerade Båtar</div>
-					<div class="stat-value">38st</div>
+					<div class="stat-value">{{ registrations.length }}st</div>
 				</div>
 				<div class="stat">
 					<div class="stat-figure text-secondary"></div>
 					<div class="stat-title">Sträcka</div>
-					<div class="stat-value">4</div>
+					<div class="stat-value">Obestämt</div>
 					<div class="stat-desc">Distans</div>
 				</div>
 			</div>
-			<div class="w-screen justify-start">
-				<ul class="steps steps-vertical w-screen p-6">
-					<li class="step step-primary">Registrering</li>
-					<li class="step step-primary">Registering stänger</li>
-					<li class="step step-primary">Gruppindelning</li>
-					<li class="step">Seglats</li>
-				</ul>
-			</div>
+			<hr class="mx-6 mt-6" />
+			<h1 class="mt-6 ml-6 text-lg font-bold">Deltagare:</h1>
 			<div class="overflow-x-auto my-4 mx-6">
-				<h1 class="my-2">Deltagare:</h1>
 				<table class="table w-full table-zebra">
 					<thead>
 						<tr>
@@ -46,7 +40,7 @@
 					</thead>
 					<tbody>
 						<tr v-for="r in registrations" :key="r.id">
-							<td>{{ r.boat.name }}</td>
+							<th>{{ r.boat.name }}</th>
 							<td>{{ r.handicap_system.name }}</td>
 							<td>
 								<kbd
