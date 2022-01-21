@@ -51,7 +51,7 @@ export default {
 					route: '/',
 				},
 				{
-					text: 'Seglingar',
+					text: 'Alla Seglingar',
 					icon: 'flag',
 					route: '/races',
 				},

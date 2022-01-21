@@ -1,12 +1,12 @@
 <template>
 	<div class="wrapper">
-		<div class="races px-6">
+		<div class="races px-6 pt-2 pb-6">
 			<div v-if="error || !loaded">
 				{{ error }}
 			</div>
 			<div v-else>
 				<div v-for="race in races" :key="race.id">
-					<RaceCard :race="race" />
+					<RaceCard2 :race="race" />
 				</div>
 			</div>
 		</div>
@@ -15,14 +15,14 @@
 
 <script>
 import axios from 'axios'
-import RaceCard from '../components/RaceCard.vue'
+import RaceCard2 from '../components/RaceCard2.vue'
 import { API_URL } from '../store/actions/auth'
 import { getRaces } from '../api/getRaces'
 
 export default {
 	name: 'Races',
 	components: {
-		RaceCard,
+		RaceCard2,
 	},
 	data() {
 		return {
