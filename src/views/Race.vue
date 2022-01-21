@@ -103,7 +103,42 @@
 						</div>
 					</div>
 				</div>
-				<button class="btn" @click="unregister(user, race)">Avregistrera</button>
+				<label
+					for="un-register-modal"
+					class="btn btn-error text-base-content modal-button"
+					@click="loadRegisterOptions()"
+				>
+					Avregistrera
+				</label>
+				<input id="un-register-modal" type="checkbox" class="modal-toggle" />
+				<div class="modal m-0">
+					<div class="modal-box m-0">
+						<p>Vilken båt vill du avregistrera?</p>
+						<div v-if="optionsLoaded">
+							<select
+								v-model="selectedBoat"
+								class="select select-bordered select w-full max-w-xs mb-4"
+							>
+								<option v-for="b in userBoats" :key="b.id" :value="b.id">
+									{{ b.name }}
+								</option>
+							</select>
+						</div>
+						<div
+							v-else
+							class="boarder border-slate-500 shadow rounded-md h-16 animate-pulse"
+						></div>
+						<div class="modal-action flex justify-start">
+							<label
+								for="un-register-modal"
+								class="btn btn-error"
+								@click="unregister()"
+								>Avregistrera</label
+							>
+							<label for="un-register-modal" class="btn">Avbryt</label>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -196,27 +231,29 @@ export default {
 				this.hsys
 			)
 			registerForFace(this.me, this.selectedBoat, this.crew, this.raceId, this.hsys)
-				.then((res) => {})
+				.then((res) => {
+					createToast(res, {
+						type: 'success',
+					})
+				})
 				.catch((err) => {
 					createToast(err, {
 						type: 'danger',
 					})
 				})
 		},
-		async unregister(user, race) {
-			var res = await unRegisterForFace(user, race)
-			if (res.length == this.race.participants.length - 1) {
-				this.race.participants = res
-				this.toast('Du är avregistrerad!', 'info')
-			} else {
-				this.toast('Någonting gick snett...', 'warning')
-			}
-		},
-		toast: function (msg, type = 'success', transition = 'slide') {
-			createToast(msg, {
-				type: type,
-				transition: transition,
-			})
+		async unregister() {
+			unRegisterForRace(this.selectedBoat)
+				.then((res) => {
+					createToast(res, {
+						type: 'success',
+					})
+				})
+				.catch((err) => {
+					createToast(err, {
+						type: 'danger',
+					})
+				})
 		},
 		async loadRegisterOptions() {
 			this.users = await getUsers()

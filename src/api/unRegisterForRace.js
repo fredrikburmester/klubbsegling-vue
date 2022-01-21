@@ -1,18 +1,30 @@
 import axios from 'axios'
 import { API_URL } from '../store/actions/auth'
 
-export const unRegisterForRace = async (user, race) => {
-	var p = [...race.participants]
-	p = p.filter(function (el) {
-		return el.username != user.username
+export const unRegisterForRace = async (boatId) => {
+	return new Promise(function (resolve, reject) {
+		axios
+			.get(`${API_URL}/registrations?boat.id=${boatId}`, {
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+				},
+			})
+			.then((res) => {
+				if (res.data.length === 0) {
+					reject('Säker på att den båten är registrerad?')
+				} else {
+					console.log(res.data)
+					const id = res.data[0].id
+					axios
+						.delete(`${API_URL}/registrations/${id}`, {
+							headers: {
+								Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+							},
+						})
+						.then(() => {
+							resolve('Registreringen borttagen.')
+						})
+				}
+			})
 	})
-	const headers = {
-		Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-	}
-	const data = {
-		participants: p,
-	}
-
-	var res = await axios.put(`${API_URL}/races/${race.id}`, data, { headers })
-	return res.data.participants
 }
