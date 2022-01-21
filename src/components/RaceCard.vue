@@ -1,5 +1,5 @@
 <template>
-	<div class="card shadow-2xl lg:card-side my-4">
+	<div class="card shadow lg:card-side my-4">
 		<div class="card-body">
 			<h1 class="text-left text-xl font-bold">{{ race.name }}</h1>
 			<p class="text-left">{{ formatDate(race.start) }} - {{ formatDate(race.end) }}</p>

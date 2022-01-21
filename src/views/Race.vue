@@ -3,17 +3,20 @@
 		<div v-if="error || loading">
 			{{ error }}
 		</div>
-		<div v-else class="flex flex-col overflow-auto">
-			<figure class="px-6 pt-5">
-				<img :src="img" class="rounded-xl" />
-			</figure>
-			<div class="card-body">
-				<h2 class="card-title">{{ name }}</h2>
+		<div v-else class="flex flex-col overflow-hidden">
+			<div class="carousel rounded-0 h-64 shadow-xl">
+				<div v-for="i in images" :key="i.id" class="carousel-item">
+					<figure>
+						<img class="max-h-64" :src="getImageURL(i.formats.small.url)" />
+					</figure>
+				</div>
+			</div>
+			<div class="mx-6 mt-6">
+				<h2 class="text-5xl font-bold">{{ race.name }}</h2>
 				<p class="mt-2">
-					{{ description }}
+					{{ race.description || '' }}
 				</p>
 			</div>
-			<hr class="mx-6 mt-6" />
 			<div class="shadow stats mx-4 mt-6">
 				<div class="stat">
 					<div class="stat-figure text-secondary"></div>
@@ -27,7 +30,6 @@
 					<div class="stat-desc">Distans</div>
 				</div>
 			</div>
-			<hr class="mx-6 mt-6" />
 			<h1 class="mt-6 ml-6 text-lg font-bold">Deltagare:</h1>
 			<div class="overflow-x-auto my-4 mx-6">
 				<table class="table w-full table-zebra">
@@ -54,7 +56,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="w-screen flex space-x-4 h-20 place-content-center m-0">
+			<div class="w-screen flex space-x-4 h-20 place-content-start ml-6">
 				<label
 					for="register-modal"
 					class="btn btn-primary text-base-content modal-button"
@@ -110,7 +112,7 @@
 				</div>
 				<label
 					for="un-register-modal"
-					class="btn btn-error text-base-content modal-button"
+					class="btn modal-button text-base-100"
 					@click="loadRegisterOptions()"
 				>
 					Avregistrera
@@ -171,8 +173,7 @@ export default {
 			race: null,
 			name: null,
 			description: null,
-			error: null,
-			loading: true,
+			images: [],
 			API_URL: API_URL,
 			img: '',
 			userBoats: [],
@@ -193,6 +194,8 @@ export default {
 			me: this.$store.getters.getProfile,
 			raceId: this.$route.params.id,
 			registrations: [],
+			error: null,
+			loading: true,
 		}
 	},
 	async beforeMount() {
@@ -213,23 +216,18 @@ export default {
 		})
 	},
 	async mounted() {
-		try {
-			const response = await axios.get(`${API_URL}/races/${this.$route.params.id}`, {
+		await axios
+			.get(`${API_URL}/races/${this.$route.params.id}`, {
 				headers: {
 					Authorization: `Bearer ${localStorage.getItem('jwt')}`,
 				},
 			})
-			const race = response.data
-			this.race = race
-			this.name = !!race.name ? race.name : 'Saknar namn'
-			this.description = !!race.description ? race.description : 'Saknar beskrivning'
-			this.img = race.images.length != 0 ? API_URL + race.images[0].url : ''
-			this.id = race.id
-
-			this.loading = false
-		} catch (error) {
-			this.error = error
-		}
+			.then((res) => {
+				this.race = res.data
+				this.images = this.race.images
+				this.id = this.race.id
+				this.loading = false
+			})
 	},
 	methods: {
 		async register() {
@@ -277,6 +275,9 @@ export default {
 		async loadRegisterOptions() {
 			this.users = await getUsers()
 			this.optionsLoaded = true
+		},
+		getImageURL(url) {
+			return `${this.API_URL}${url}`
 		},
 	},
 }

@@ -17,7 +17,7 @@
 import axios from 'axios'
 import RaceCard from '../components/RaceCard.vue'
 import { API_URL } from '../store/actions/auth'
-import { getRaces } from '../api/races'
+import { getRaces } from '../api/getRaces'
 
 export default {
 	name: 'Races',

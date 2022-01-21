@@ -1,6 +1,8 @@
 <template>
 	<div id="header">
-		<div class="fixed top-0 w-screen left-0 navbar shadow-lg bg-base-100 text-base-content">
+		<div
+			class="fixed top-0 w-screen left-0 navbar shadow-lg bg-base-100 text-base-content z-50"
+		>
 			<img
 				id="navbar-logo"
 				class="rounded-full w-10 h-10 ml-2"

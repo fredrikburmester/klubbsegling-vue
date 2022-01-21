@@ -1,6 +1,6 @@
 <template>
 	<transition name="slide">
-		<div v-show="open" class="fixed top-0 left-0 w-screen bg-base-100">
+		<div v-show="open" class="fixed top-0 left-0 w-screen bg-base-100 z-50">
 			<div class="fixed top-0 left-0 h-screen w-screen" @click="$emit('close-nav')"></div>
 			<div class="">
 				<div class="card rounded-none shadow-lg lg:card-side text-primary-content">
