@@ -5,82 +5,85 @@
 		<div class="w-full shadow stats mt-4">
 			<div
 				class="stat cursor-pointer"
-				:class="{ 'bg-gray-100': active == 'currentRaces' }"
-				@click="setThisYearRacesInView"
+				:class="{ 'bg-gray-100': active == 'thisYear' }"
+				@click="
+					setActive(
+						`created_at_gte=${getCurrentYear}-01-01&created_at_lte=${getCurrentYear}-12-31&_sort=name:DESC`,
+						'thisYear'
+					)
+				"
 			>
 				<div class="stat-title">Seglatser i år</div>
-				<div class="stat-value text-info">{{ currentRaces.length }}</div>
-				<div class="stat-desc">{{ thisYear }}</div>
+				<div class="stat-value text-info">{{ racesThisYear }}</div>
+				<div class="stat-desc">{{ getCurrentYear }}</div>
 			</div>
 			<div
 				class="stat cursor-pointer"
-				:class="{ 'bg-gray-100': active == 'registeredRaces' }"
-				@click="setRegisteredRacesInView"
+				:class="{ 'bg-gray-100': active == 'registered' }"
+				@click="setActive(`registrations.crew_members.id=${me.id}`, 'registered')"
 			>
 				<div class="stat-title">Registrerad</div>
-				<div class="stat-value text-primary">{{ registeredRaces.length }}</div>
+				<div class="stat-value text-primary">{{ registeredRaces }}</div>
 				<div class="stat-desc"></div>
 			</div>
 		</div>
-		<h1 class="font-bold text-2xl mt-4">Seglatser i år</h1>
-		<Races :key="changeView" :races-in-view="racesInView" />
+		<!-- <h1 class="font-bold text-2xl mt-4">Seglatser i år</h1> -->
+		<RaceList :key="updateList" :query="raceListQuery" />
 	</div>
 </template>
 
 <script>
-import Races from '../components/Races.vue'
+import RaceList from '../components/RaceList.vue'
 import { API } from '../api/API.ts'
+
 export default {
 	name: 'Home',
 	components: {
-		Races,
+		RaceList,
 	},
 	data() {
 		return {
-			boats: null,
-			races: null,
 			me: this.$store.getters.getProfile,
-			currentRaces: [],
-			registeredRaces: [],
-			racesInView: [],
-			changeView: false,
-			active: 'currentRaces',
+			active: 'thisYear',
+			racesThisYear: 0,
+			registeredRaces: 0,
+			raceListQuery: '',
+			boats: 0,
 			loading: true,
+			updateList: false,
 		}
 	},
 	computed: {
-		thisYear() {
+		getCurrentYear() {
 			var now = new Date()
 			return now.getFullYear()
 		},
 	},
 	mounted() {
-		var today = new Date()
-		var year = today.getFullYear()
-
+		// Get races this year
 		API(
-			'races',
+			'races/count',
 			null,
-			`created_at_gte=${year}-01-01&created_at_lte=${year}-12-31&_sort=name:DESC`,
+			`created_at_gte=${this.getCurrentYear}-01-01&created_at_lte=${this.getCurrentYear}-12-31&_sort=name:DESC`,
 			true
-		).then((res) => {
-			this.currentRaces = res
-			API('races', null, `registrations.crew_members.id=${this.me.id}`, true).then((res) => {
-				this.registeredRaces = res
-				this.loading = false
-			})
+		).then((nrOfRaces) => {
+			this.racesThisYear = nrOfRaces
+			API('races/count', null, `registrations.crew_members.id=${this.me.id}`, true)
+				.then((registeredRaces) => {
+					this.registeredRaces = registeredRaces
+					this.loading = false
+				})
+				.catch((err) => {
+					console.log(err)
+				})
 		})
 	},
 	methods: {
-		setRegisteredRacesInView() {
-			this.racesInView = this.registeredRaces
-			this.changeView = !this.changeView
-			this.active = 'registeredRaces'
-		},
-		setThisYearRacesInView() {
-			this.racesInView = this.currentRaces
-			this.changeView = !this.changeView
-			this.active = 'currentRaces'
+		setActive(query, current) {
+			console.log(query, current)
+			this.raceListQuery = query
+			this.active = current
+			this.updateList = !this.updateList
 		},
 	},
 }
