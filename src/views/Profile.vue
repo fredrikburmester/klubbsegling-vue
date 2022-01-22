@@ -19,6 +19,9 @@
 
 		<AddBoatForm class="mt-4" :userboats="userBoats" @newBoat="onNewBoat" />
 	</div>
+	<div v-else class="wrapper justify-self-center md:max-w-2xl">
+		<LoadingCard v-for="i in 5" :key="i" />
+	</div>
 	<button id="logout" class="btn btn-error mb-6 mt-12 w-48 ml-auto mr-auto" @click="logout">
 		Logga ut
 	</button>
@@ -32,11 +35,13 @@ import AddBoatForm from '../components/AddBoatForm.vue'
 import { API } from '../api/API'
 import qs from 'qs'
 import BoatCard from '../components/BoatCard.vue'
+import LoadingCard from '@/components/LoadingCard.vue'
 
 export default {
 	components: {
 		AddBoatForm,
 		BoatCard,
+		LoadingCard,
 	},
 	data() {
 		return {

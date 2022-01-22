@@ -40,6 +40,8 @@ export default {
 		if (this.races.length == 0) {
 			this.races = await getRaces()
 			setTimeout(() => (this.loaded = true), 400)
+		} else {
+			this.loaded = true
 		}
 	},
 }

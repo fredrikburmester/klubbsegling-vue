@@ -25,20 +25,15 @@
 		<h1 class="font-bold text-2xl mt-4">Seglatser i år</h1>
 		<Races :key="changeView" :races-in-view="racesInView" />
 	</div>
-	<div v-else class="wrapper justify-self-center md:max-w-2xl">
-		<LoadingCard v-for="i in 10" :key="i" />
-	</div>
 </template>
 
 <script>
 import Races from '../components/Races.vue'
 import { API } from '../api/API.ts'
-import LoadingCard from '@/components/LoadingCard.vue'
 export default {
 	name: 'Home',
 	components: {
 		Races,
-		LoadingCard,
 	},
 	data() {
 		return {
@@ -59,7 +54,7 @@ export default {
 			return now.getFullYear()
 		},
 	},
-	async mounted() {
+	mounted() {
 		var today = new Date()
 		var year = today.getFullYear()
 
