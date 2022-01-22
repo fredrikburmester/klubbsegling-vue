@@ -9,7 +9,7 @@
 <script>
 import ClubCard from '../components/ClubCard.vue'
 
-import { API } from '../api/api'
+import { API } from '../api/API.js'
 
 export default {
 	name: 'Clubs',

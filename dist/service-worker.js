@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.d5969ff460f48756c0f9fc6d3ed4538e.js"
+  "/precache-manifest.25443c74ac4227862af42b0839536955.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "klubbsegling-vue"});
