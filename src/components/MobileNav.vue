@@ -56,6 +56,11 @@ export default {
 					route: '/races',
 				},
 				{
+					text: 'Klubbar',
+					icon: 'anchor',
+					route: '/clubs',
+				},
+				{
 					text: 'Profil',
 					icon: 'user',
 					route: '/profile',

@@ -11,6 +11,7 @@ import {
 	faSlidersH,
 	faShip,
 	faCalendar,
+	faAnchor,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { API_URL } from './store/actions/auth'
@@ -41,6 +42,7 @@ library.add(faSlidersH)
 library.add(faUser)
 library.add(faShip)
 library.add(faCalendar)
+library.add(faAnchor)
 
 createApp(App)
 	.use(store)

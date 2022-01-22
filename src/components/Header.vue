@@ -29,6 +29,13 @@
 					<router-link
 						id="profile"
 						class="btn btn-sm rounded-btn mx-2"
+						:class="activeButton('anchor')"
+						to="/clubs"
+						><font-awesome-icon icon="user" class="mr-2" />Klubbar</router-link
+					>
+					<router-link
+						id="profile"
+						class="btn btn-sm rounded-btn mx-2"
 						:class="activeButton('Profil')"
 						to="/profile"
 						><font-awesome-icon icon="user" class="mr-2" />Profil</router-link
