@@ -1,9 +1,8 @@
 import axios from 'axios'
 import { API_URL } from '../store/actions/auth'
 
-export const API = (type, id = null, query = null, auth = null) => {
+export const API = (type: string, id?: string, query?: string, auth?: boolean) => {
 	return new Promise(function (resolve, reject) {
-		console.log(type, id, query, auth)
 		var url = `${API_URL}/${type}`
 
 		if (id) {
@@ -14,7 +13,7 @@ export const API = (type, id = null, query = null, auth = null) => {
 			url = url + '?' + query
 		}
 
-		var headers = null
+		var headers = {}
 		if (auth) {
 			headers = {
 				headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` },

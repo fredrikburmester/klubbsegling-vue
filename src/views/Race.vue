@@ -162,7 +162,7 @@ import { getBoatsOfUser } from '../api/getBoatsOfUser.js'
 import VueMultiselect from 'vue-multiselect'
 import 'mosha-vue-toastify/dist/style.css'
 import 'vue-multiselect/dist/vue-multiselect.css'
-import { API } from '../api/API.js'
+import { API } from '../api/API.ts'
 
 export default {
 	name: 'Race',

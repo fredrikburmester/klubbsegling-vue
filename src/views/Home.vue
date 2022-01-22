@@ -29,7 +29,7 @@
 
 <script>
 import Races from '../components/Races.vue'
-import { API } from '../api/API.js'
+import { API } from '../api/API.ts'
 export default {
 	name: 'Home',
 	components: {

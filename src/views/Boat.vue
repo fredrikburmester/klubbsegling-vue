@@ -13,7 +13,7 @@
 </template>
 <script>
 import { API_URL } from '../store/actions/auth'
-import { API } from '../api/API.js'
+import { API } from '../api/API.ts'
 
 export default {
 	name: 'Boat',

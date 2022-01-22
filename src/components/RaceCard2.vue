@@ -1,26 +1,24 @@
 <template>
-	<div>
-		<div
-			v-show="!hasImages || imageLoaded"
-			class="border border-blue-300 card shadow-xl image-full mt-4 h-56"
-		>
-			<figure v-if="hasImages">
-				<img :src="headerUrl" @load="onImgLoad" />
-			</figure>
-			<div class="justify-end card-body h-56">
-				<h2 class="card-title">{{ race.name }}</h2>
-				<p class="max-h-12 overflow-hidden">
-					{{ race.description || '' }}
-				</p>
-				<router-link :to="`/race/${race.id}`">
-					<div class="card-actions">
-						<button class="btn btn-primary">Läs mer</button>
-					</div>
-				</router-link>
-			</div>
+	<div
+		v-show="!hasImages || imageLoaded"
+		class="border border-blue-300 card shadow-xl image-full mt-4 h-56"
+	>
+		<figure v-if="hasImages">
+			<img :src="headerUrl" @load="onImgLoad" />
+		</figure>
+		<div class="justify-end card-body h-56">
+			<h2 class="card-title">{{ race.name }}</h2>
+			<p class="max-h-12 overflow-hidden">
+				{{ race.description || '' }}
+			</p>
+			<router-link :to="`/race/${race.id}`">
+				<div class="card-actions">
+					<button class="btn btn-primary">Läs mer</button>
+				</div>
+			</router-link>
 		</div>
-		<LoadingRaceCard v-if="!imageLoaded && hasImages" />
 	</div>
+	<LoadingRaceCard v-if="!imageLoaded && hasImages" />
 </template>
 
 <script>
@@ -39,7 +37,6 @@ export default {
 	},
 	data: function () {
 		return {
-			occ: '',
 			hasImages: this.race.images.length > 0,
 			images: this.race.images,
 			imageLoaded: false,
