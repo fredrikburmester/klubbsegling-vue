@@ -25,8 +25,7 @@
 
 <script>
 import { API_URL } from '../store/actions/auth'
-import LoadingRaceCard from '../components/LoadingRaceCard.vue'
-import Race from '../views/Race.vue'
+import LoadingRaceCard from '../components/LoadingCard.vue'
 
 export default {
 	components: {

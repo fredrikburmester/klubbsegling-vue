@@ -152,7 +152,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { API_URL } from '../store/actions/auth'
 import { registerForFace } from '../api/registerForRace'
 import { unRegisterForRace } from '../api/unRegisterForRace'
@@ -160,10 +159,10 @@ import { createToast } from 'mosha-vue-toastify'
 import { getUsers } from '../api/users'
 import { getRegistrations } from '../api/getRegistrations'
 import { getBoatsOfUser } from '../api/getBoatsOfUser.js'
-import { getAllUsers } from '../api/getAllUsers.js'
 import VueMultiselect from 'vue-multiselect'
 import 'mosha-vue-toastify/dist/style.css'
 import 'vue-multiselect/dist/vue-multiselect.css'
+import { API } from '../api/api.js'
 
 export default {
 	name: 'Race',
@@ -200,8 +199,8 @@ export default {
 	},
 	async beforeMount() {
 		this.userBoats = await getBoatsOfUser(this.me)
-		console.log(this.userBoats)
-		getAllUsers().then((us) => {
+
+		API('users', null, null, true).then((us) => {
 			for (var i in us) {
 				this.userOptions.push({
 					value: us[i].id,
@@ -209,25 +208,17 @@ export default {
 				})
 			}
 		})
-		console.log(this.userOptions)
-		getRegistrations(this.$route.params.id).then((res) => {
-			console.log('reg:', res)
+		API('registrations', null, `race=${this.$route.params.id}`, true).then((res) => {
 			this.registrations = res
 		})
 	},
 	async mounted() {
-		await axios
-			.get(`${API_URL}/races/${this.$route.params.id}`, {
-				headers: {
-					Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-				},
-			})
-			.then((res) => {
-				this.race = res.data
-				this.images = this.race.images
-				this.id = this.race.id
-				this.loading = false
-			})
+		API('races', this.$route.params.id, null, null).then((res) => {
+			this.race = res
+			this.images = this.race.images
+			this.id = this.race.id
+			this.loading = false
+		})
 	},
 	methods: {
 		async register() {
@@ -245,7 +236,6 @@ export default {
 						type: 'success',
 					})
 					getRegistrations(this.$route.params.id).then((res) => {
-						console.log('reg:', res)
 						this.registrations = res
 					})
 				})
@@ -262,7 +252,6 @@ export default {
 						type: 'success',
 					})
 					getRegistrations(this.$route.params.id).then((res) => {
-						console.log('reg:', res)
 						this.registrations = res
 					})
 				})

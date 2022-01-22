@@ -15,6 +15,6 @@
 
 <script>
 export default {
-	name: 'LoadingRaceCard',
+	name: 'LoadingCard',
 }
 </script>

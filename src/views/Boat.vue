@@ -12,8 +12,8 @@
 	</div>
 </template>
 <script>
-import { getBoat } from '../api/getBoat'
 import { API_URL } from '../store/actions/auth'
+import { API } from '../api/api'
 
 export default {
 	name: 'Boat',
@@ -25,9 +25,8 @@ export default {
 		}
 	},
 	beforeMount() {
-		getBoat(this.$route.params.id)
+		API('boats', this.$route.params.id)
 			.then((boat) => {
-				console.log(boat)
 				this.boat = boat
 				this.loading = false
 				this.image = API_URL + boat.image.url

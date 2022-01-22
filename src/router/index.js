@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 // import Profile from '../views/Profile.vue'
 const Profile = () => import('../views/Profile.vue')
 import Races from '../views/Races.vue'
+import Clubs from '../views/Clubs.vue'
 import Race from '../views/Race.vue'
 import Boat from '../views/Boat.vue'
 import Admin from '../views/Admin.vue'
@@ -26,6 +27,15 @@ const routes = [
 		meta: {
 			requiresAuth: true,
 			breadcrumbs: [{ name: 'Seglingar', path: '/races', icon: 'flag' }],
+		},
+	},
+	{
+		path: '/clubs',
+		name: 'Klubbar',
+		component: Clubs,
+		meta: {
+			requiresAuth: false,
+			breadcrumbs: [{ name: 'Klubbar', path: '/clubs', icon: 'anchor' }],
 		},
 	},
 	{
