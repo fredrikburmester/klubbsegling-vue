@@ -3,7 +3,7 @@
 		<div v-if="error || loading">
 			{{ error }}
 		</div>
-		<div v-else class="flex flex-col overflow-hidden">
+		<div v-else class="flex flex-col w-screen overflow-hidden">
 			<div v-if="images.length > 0" class="carousel rounded-0 h-64 shadow-xl">
 				<div v-for="i in images" :key="i.id" class="carousel-item">
 					<figure>
@@ -17,7 +17,7 @@
 					{{ race.description || '' }}
 				</p>
 			</div>
-			<div class="shadow stats mx-4 mt-6">
+			<div class="shadow stats mt-6 mx-4 overflow-x-scroll">
 				<div class="stat">
 					<div class="stat-figure text-secondary"></div>
 					<div class="stat-title">Registrerade Båtar</div>
@@ -56,7 +56,7 @@
 					</tbody>
 				</table>
 			</div>
-			<div class="w-screen flex space-x-4 h-20 place-content-start ml-6">
+			<div class="flex space-x-4 h-20 place-content-start ml-6">
 				<label
 					for="register-modal"
 					class="btn btn-primary text-base-content modal-button"
