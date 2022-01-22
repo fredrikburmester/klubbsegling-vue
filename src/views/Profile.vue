@@ -1,46 +1,27 @@
 <template>
-	<div class="wrapper md:max-w-2xl justify-self-center">
-		<div v-if="!loading" class="p-6 h-full text-left relative min-height-inherit pb-20">
-			<h2 class="card-title text-2xl">{{ me.name }}</h2>
-			<p>
-				{{ me.about || null }}
-			</p>
-			<h1 class="mt-4 font-bold">Mina Båtar</h1>
-			<div class="flex flex-col">
-				<div v-for="b in userBoats" :key="b.id" class="w-full shadow stats mt-4 h-32">
-					<router-link :to="`/profile/boat/${b.id}`">
-						<div class="card card-side card-bordered overflow-x-auto">
-							<div
-								v-if="imageLoading"
-								class="w-24 h-32 flex justify-center content-center"
-							>
-								<button
-									class="btn btn-lg border-0 btn-circle loading h-auto"
-								></button>
-							</div>
-							<figure v-if="getBoatImage(b)">
-								<img
-									v-show="!imageLoading"
-									class="h-32"
-									:src="getBoatImage(b)"
-									@load="imageLoaded"
-								/>
-							</figure>
-							<div class="card-body">
-								<div class="stat-title">{{ getOwnerName(b) }}</div>
-								<div class="stat-value text-lg">{{ b.name }}</div>
-							</div>
-						</div>
-					</router-link>
-				</div>
+	<div v-if="!loading" class="wrapper md:max-w-2xl justify-self-center grid px-6">
+		<div v-if="!!profilePicture" class="avatar px-6 pt-12 justify-self-center">
+			<div class="mb-8 rounded-full w-32 h-32">
+				<img :src="profilePicture" />
 			</div>
-
-			<AddBoatForm class="mt-4" :userboats="userBoats" @newBoat="onNewBoat" />
-			<button id="logout" class="btn btn-error absolute bottom-6 px-6" @click="logout">
-				Logga ut
-			</button>
 		</div>
+		<div v-else class="avatar placeholder px-6 pt-12 justify-self-center">
+			<div class="bg-neutral-focus text-neutral-content rounded-full w-32 h-32">
+				<span class="text-3xl">{{ me.name[0] }}</span>
+			</div>
+		</div>
+		<h2 class="card-title text-2xl text-center mt-4">{{ me.name }}</h2>
+		<p class="text-center">
+			{{ me.about || null }}
+		</p>
+		<h1 class="mt-4 font-bold">Mina Båtar</h1>
+		<BoatCard v-for="b in userBoats" :key="b.id" :boat="b" />
+
+		<AddBoatForm class="mt-4" :userboats="userBoats" @newBoat="onNewBoat" />
 	</div>
+	<button id="logout" class="btn btn-error mb-6 mt-12 w-48 ml-auto mr-auto" @click="logout">
+		Logga ut
+	</button>
 </template>
 
 <script>
@@ -48,10 +29,14 @@ import { AUTH_LOGOUT } from '../store/actions/auth'
 import { API_URL } from '../store/actions/auth'
 import { getBoatsOfUser } from '../api/getBoatsOfUser'
 import AddBoatForm from '../components/AddBoatForm.vue'
+import { API } from '../api/API'
+import qs from 'qs'
+import BoatCard from '../components/BoatCard.vue'
 
 export default {
 	components: {
 		AddBoatForm,
+		BoatCard,
 	},
 	data() {
 		return {
@@ -61,8 +46,18 @@ export default {
 			imageLoading: true,
 		}
 	},
+	computed: {
+		profilePicture() {
+			return this.me.image ? API_URL + this.me.image.formats.small.url : null
+		},
+	},
 	mounted() {
-		getBoatsOfUser(this.me).then((boats) => {
+		const query = qs.stringify({
+			_where: {
+				_or: [[{ 'sailors.id': this.me.id }], [{ 'owner.id': this.me.id }]],
+			},
+		})
+		API('boats', null, query, this.me.id).then((boats) => {
 			this.userBoats = boats
 			this.loading = false
 		})
