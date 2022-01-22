@@ -1,6 +1,6 @@
 <template>
 	<div
-		v-show="!hasImages || imageLoaded"
+		v-show="loaded || !hasImages"
 		class="border border-blue-300 card shadow-xl image-full mt-4 h-56"
 	>
 		<figure v-if="hasImages">
@@ -18,16 +18,16 @@
 			</router-link>
 		</div>
 	</div>
-	<LoadingRaceCard v-if="!imageLoaded && hasImages" />
+	<LoadingCard v-if="!loaded && hasImages" />
 </template>
 
 <script>
 import { API_URL } from '../store/actions/auth'
-import LoadingRaceCard from '../components/LoadingCard.vue'
+import LoadingCard from '../components/LoadingCard.vue'
 
 export default {
 	components: {
-		LoadingRaceCard,
+		LoadingCard,
 	},
 	props: {
 		race: {
@@ -39,7 +39,7 @@ export default {
 		return {
 			hasImages: this.race.images.length > 0,
 			images: this.race.images,
-			imageLoaded: false,
+			loaded: false,
 		}
 	},
 	computed: {
@@ -62,7 +62,7 @@ export default {
 			return this.$store.getters.getProfile
 		},
 		onImgLoad() {
-			this.imageLoaded = true
+			this.loaded = true
 		},
 	},
 }
