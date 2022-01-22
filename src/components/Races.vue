@@ -1,12 +1,6 @@
 <template>
-	<div class="wrapper">
-		<div class="races pt-2 pb-6">
-			<div>
-				<div v-for="race in races" :key="race.id">
-					<RaceCard2 :race="race" />
-				</div>
-			</div>
-		</div>
+	<div class="pt-2 pb-6">
+		<RaceCard2 v-for="race in races" :key="race.id" :race="race" />
 	</div>
 </template>
 
@@ -46,9 +40,3 @@ export default {
 }
 </script>
 
-<style>
-.wrapper {
-	width: 100%;
-	min-height: 100vh;
-}
-</style>

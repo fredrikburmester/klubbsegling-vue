@@ -1,5 +1,5 @@
 <template>
-	<div class="wrapper px-6">
+	<div class="wrapper px-6 pt-2 pb-6 md:max-w-2xl justify-self-center">
 		<Races />
 	</div>
 </template>

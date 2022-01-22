@@ -1,17 +1,13 @@
 <template>
-	<div class="wrapper">
+	<div class="wrapper md:max-w-2xl justify-self-center">
 		<div v-if="!loading" class="p-6 h-full text-left relative min-height-inherit pb-20">
 			<h2 class="card-title text-2xl">{{ me.name }}</h2>
 			<p>
 				{{ me.about || null }}
 			</p>
-			<h1 class="mt-4 font-bold z-0">Mina Båtar</h1>
-			<div class="flex flex-col lg:flex-row">
-				<div
-					v-for="b in userBoats"
-					:key="b.id"
-					class="w-full shadow stats mt-4 h-32 lg:mr-4"
-				>
+			<h1 class="mt-4 font-bold">Mina Båtar</h1>
+			<div class="flex flex-col">
+				<div v-for="b in userBoats" :key="b.id" class="w-full shadow stats mt-4 h-32">
 					<router-link :to="`/profile/boat/${b.id}`">
 						<div class="card card-side card-bordered overflow-x-auto">
 							<div

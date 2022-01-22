@@ -1,8 +1,6 @@
 <template>
-	<div class="wrapper px-6 pt-2 pb-6">
-		<div v-for="c in clubs" :key="c.id">
-			<ClubCard :club="c" />
-		</div>
+	<div class="wrapper px-6 pt-2 pb-6 md:max-w-2xl justify-self-center">
+		<ClubCard v-for="c in clubs" :key="c.id" :club="c" />
 	</div>
 </template>
 

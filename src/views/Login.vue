@@ -1,6 +1,8 @@
 <template>
-	<div class="lg:flex lg:justify-around lg:flex-row container sm:mx-auto mt-48 px-14 pb-56">
-		<div class="lg:mx-12 self-center">
+	<div
+		class="lg:flex lg:justify-around lg:flex-row container sm:mx-auto mt-12 lg:mt-32 lg:px-14 pb-48"
+	>
+		<div class="lg:mx-12 self-center px-8">
 			<h1 class="mb-5 text-5xl font-bold text-left">Klubbsegling</h1>
 			<p class="mb-5">Välkommen till Sveriges bästa hemsida för <br />seglingsentusiaster!</p>
 		</div>
