@@ -21,8 +21,10 @@
 			</div>
 		</div>
 		<h1 class="font-bold text-2xl mt-4">Seglatser i år</h1>
-		<div v-for="r in currentRaces" :key="r.id">
-			<RaceCard2 :race="r" />
+		<div class="lg:flex lg:flex-wrap">
+			<div v-for="r in currentRaces" :key="r.id" class="lg:mr-4 lg:w-3/12">
+				<RaceCard2 :race="r" />
+			</div>
 		</div>
 	</div>
 </template>

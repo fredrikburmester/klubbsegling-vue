@@ -1,10 +1,7 @@
 <template>
 	<div class="wrapper">
 		<div class="races px-6 pt-2 pb-6">
-			<div v-if="error || !loaded">
-				{{ error }}
-			</div>
-			<div v-else>
+			<div>
 				<div v-for="race in races" :key="race.id">
 					<RaceCard2 :race="race" />
 				</div>
@@ -14,10 +11,8 @@
 </template>
 
 <script>
-import axios from 'axios'
-import RaceCard2 from '../components/RaceCard2.vue'
-import { API_URL } from '../store/actions/auth'
 import { getRaces } from '../api/getRaces'
+import RaceCard2 from '../components/RaceCard2.vue'
 
 export default {
 	name: 'Races',
@@ -27,13 +22,12 @@ export default {
 	data() {
 		return {
 			races: [],
-			error: null,
 			loaded: false,
 		}
 	},
 	async mounted() {
 		this.races = await getRaces()
-		this.loaded = true
+		setTimeout(() => (this.loaded = true), 400)
 	},
 }
 </script>

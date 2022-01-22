@@ -18,7 +18,7 @@
 							</div>
 						</div>
 					</div>
-					<hr class="mx-8 border-base-content" />
+					<hr class="mx-8 border-base-content opacity-10" />
 					<div class="py-8 flex flex-row justify-around">
 						<p class="text-base-content">Om oss</p>
 						<p class="text-base-content">Mer</p>
