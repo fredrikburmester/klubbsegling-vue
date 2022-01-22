@@ -2,8 +2,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import { registerSW } from 'virtual:pwa-register'
-
 import { createApp } from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -20,11 +18,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import './registerServiceWorker'
 import './index.css'
 import './assets/tailwind.css'
-
-const updateSW = registerSW({
-	onNeedRefresh() {},
-	onOfflineReady() {},
-})
 
 library.add(faFlag)
 library.add(faHome)
