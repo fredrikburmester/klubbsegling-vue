@@ -2,6 +2,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
+import { registerSW } from 'virtual:pwa-register'
+
 import { createApp } from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -14,26 +16,14 @@ import {
 	faAnchor,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { API_URL } from './store/actions/auth'
-import { ApolloClient, InMemoryCache } from '@apollo/client/core'
-import { createApolloProvider } from '@vue/apollo-option'
 
 import './registerServiceWorker'
 import './index.css'
 import './assets/tailwind.css'
 
-const cache = new InMemoryCache()
-
-const apolloClient = new ApolloClient({
-	cache,
-	uri: `${API_URL}/graphql`,
-	headers: {
-		Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-	},
-})
-
-const apolloProvider = createApolloProvider({
-	defaultClient: apolloClient,
+const updateSW = registerSW({
+	onNeedRefresh() {},
+	onOfflineReady() {},
 })
 
 library.add(faFlag)
@@ -47,6 +37,5 @@ library.add(faAnchor)
 createApp(App)
 	.use(store)
 	.use(router)
-	.use(apolloProvider)
 	.component('font-awesome-icon', FontAwesomeIcon)
 	.mount('#app')

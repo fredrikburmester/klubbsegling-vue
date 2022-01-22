@@ -12,7 +12,9 @@
         "sourceMap": true,
         "baseUrl": ".",
         "types": [
-            "webpack-env"
+            "webpack-env",
+            "vite-plugin-pwa/client",
+            "vite-plugin-layouts/client",
         ],
         "paths": {
         "@/*": [
