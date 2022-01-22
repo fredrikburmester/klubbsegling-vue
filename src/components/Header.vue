@@ -5,9 +5,10 @@
 		>
 			<img
 				id="navbar-logo"
-				class="rounded-full w-10 h-10 ml-2"
+				class="rounded-full w-10 h-10 ml-2 cursor-pointer"
 				src="/img/klubbsegling/logo.png"
 				alt="logo"
+				@click="goToHome"
 			/>
 			<span class="ml-4 text-lg font-bold text-base-content">klubbsegling</span>
 			<div class="flex-none hidden px-2 mx-2 sm:flex">
@@ -104,6 +105,9 @@ export default {
 		},
 		closeNav() {
 			this.open = false
+		},
+		goToHome() {
+			this.$router.push('/')
 		},
 	},
 }

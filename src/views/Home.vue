@@ -3,41 +3,37 @@
 		<h1 class="font-bold text-2xl mt-4">Din statistik</h1>
 
 		<div class="w-full shadow stats mt-4">
-			<div class="stat">
-				<div class="stat-title">Antal seglatser</div>
-				<div class="stat-value text-primary">2</div>
-				<div class="stat-desc">Som du deltagit i</div>
+			<div
+				class="stat cursor-pointer"
+				:class="{ 'bg-gray-100': active == 'currentRaces' }"
+				@click="setThisYearRacesInView"
+			>
+				<div class="stat-title">Seglatser i år</div>
+				<div class="stat-value text-info">{{ currentRaces.length }}</div>
+				<div class="stat-desc">{{ thisYear }}</div>
 			</div>
-			<div class="stat">
-				<div class="stat-title">Senaste placering</div>
-				<div class="stat-value">6a</div>
-				<div class="stat-desc text-info">Segling 1</div>
-			</div>
-			<div class="stat">
-				<div class="stat-figure text-info"></div>
-				<div class="stat-title">Båtar</div>
-				<div class="stat-value text-info">1st</div>
+			<div
+				class="stat cursor-pointer"
+				:class="{ 'bg-gray-100': active == 'registeredRaces' }"
+				@click="setRegisteredRacesInView"
+			>
+				<div class="stat-title">Registrerad</div>
+				<div class="stat-value text-primary">{{ registeredRaces.length }}</div>
 				<div class="stat-desc"></div>
 			</div>
 		</div>
 		<h1 class="font-bold text-2xl mt-4">Seglatser i år</h1>
-		<div class="lg:flex lg:flex-wrap">
-			<div v-for="r in currentRaces" :key="r.id" class="lg:mr-4 lg:w-3/12">
-				<RaceCard2 :race="r" />
-			</div>
-		</div>
+		<Races :key="changeView" :races-in-view="racesInView" />
 	</div>
 </template>
 
 <script>
-import axios from 'axios'
-import { API_URL } from '../store/actions/auth'
-import RaceCard from '../components/RaceCard.vue'
-import RaceCard2 from '../components/RaceCard2.vue'
+import Races from '../components/Races.vue'
+import { API } from '../api/api'
 export default {
 	name: 'Home',
 	components: {
-		RaceCard2,
+		Races,
 	},
 	data() {
 		return {
@@ -45,30 +41,48 @@ export default {
 			races: null,
 			me: this.$store.getters.getProfile,
 			currentRaces: [],
+			registeredRaces: [],
+			racesInView: [],
+			changeView: false,
+			active: 'currentRaces',
 		}
+	},
+	computed: {
+		thisYear() {
+			var now = new Date()
+			return now.getFullYear()
+		},
 	},
 	async beforeMount() {
 		var today = new Date()
 		var year = today.getFullYear()
 
-		await axios
-			.get(
-				`${API_URL}/races?created_at_gte=${year}-01-01&created_at_lte=${year}-12-31&_sort=name:DESC`,
-				{
-					headers: {
-						Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-					},
-				}
-			)
-			.then((res) => {
-				this.currentRaces = res.data
-				console.log(res.data)
-			})
+		API(
+			'races',
+			null,
+			`created_at_gte=${year}-01-01&created_at_lte=${year}-12-31&_sort=name:DESC`,
+			null
+		).then((res) => {
+			this.currentRaces = res
+		})
+
+		API('races', null, `registrations.crew_members.id=${this.me.id}`).then((res) => {
+			this.registeredRaces = res
+		})
 	},
-	async mounted() {
-		// axios get from API_URL
+	async mounted() {},
+	methods: {
+		setRegisteredRacesInView() {
+			this.racesInView = this.registeredRaces
+			this.changeView = !this.changeView
+			this.active = 'registeredRaces'
+		},
+		setThisYearRacesInView() {
+			this.racesInView = this.currentRaces
+			this.changeView = !this.changeView
+			this.active = 'currentRaces'
+		},
 	},
-	methods: {},
 }
 </script>
 

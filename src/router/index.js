@@ -19,6 +19,17 @@ const routes = [
 		meta: {
 			requiresAuth: true,
 		},
+		children: [
+			{
+				path: 'active',
+				name: 'Seglatser i år',
+				component: Races,
+				meta: {
+					requiresAuth: false,
+				},
+				props: (route) => ({ query: route.query.status }),
+			},
+		],
 	},
 	{
 		path: '/races',
