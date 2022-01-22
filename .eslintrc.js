@@ -68,6 +68,7 @@ module.exports = {
 
 	rules: {
 		'vue/script-setup-uses-vars': 'off',
+		'vue/no-multiple-template-root': 'off',
 		'prettier-vue/prettier': [
 			'error',
 			{

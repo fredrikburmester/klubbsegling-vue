@@ -21,7 +21,7 @@ module.exports = {
 	},
 	plugins: [require('daisyui')],
 	daisyui: {
-		themes: ['bumblebee', 'cupcake', 'retro', 'synthwave', 'emerald', 'forest'],
+		themes: ['bumblebee'],
 		styled: true,
 		base: true,
 		utils: true,
