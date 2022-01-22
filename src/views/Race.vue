@@ -213,7 +213,7 @@ export default {
 		})
 	},
 	async mounted() {
-		API('races', this.$route.params.id, null, null).then((res) => {
+		API('races', this.$route.params.id, null, true).then((res) => {
 			this.race = res
 			this.images = this.race.images
 			this.id = this.race.id
