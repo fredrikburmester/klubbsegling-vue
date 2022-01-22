@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-// import Profile from '../views/Profile.vue'
 const Profile = () => import('../views/Profile.vue')
 import Races from '../views/Races.vue'
 import Clubs from '../views/Clubs.vue'
@@ -25,7 +24,7 @@ const routes = [
 				name: 'Seglatser i år',
 				component: Races,
 				meta: {
-					requiresAuth: false,
+					requiresAuth: true,
 				},
 				props: (route) => ({ query: route.query.status }),
 			},
@@ -45,7 +44,7 @@ const routes = [
 		name: 'Klubbar',
 		component: Clubs,
 		meta: {
-			requiresAuth: false,
+			requiresAuth: true,
 			breadcrumbs: [{ name: 'Klubbar', path: '/clubs', icon: 'anchor' }],
 		},
 	},
@@ -54,7 +53,7 @@ const routes = [
 		name: 'Segling',
 		component: Race,
 		meta: {
-			requiresAuth: false,
+			requiresAuth: true,
 			breadcrumbs: [
 				{ name: 'Seglingar', path: '/races', icon: 'flag' },
 				{ name: 'Segling', path: '/races/:id', icon: 'calendar' },
@@ -87,7 +86,7 @@ const routes = [
 		name: 'Båt',
 		component: Boat,
 		meta: {
-			requiresAuth: false,
+			requiresAuth: true,
 			breadcrumbs: [{ name: 'Båt', path: '/boat/:id' }],
 		},
 	},
