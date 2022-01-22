@@ -25,14 +25,16 @@ export default {
 		}
 	},
 	beforeMount() {
-		API('boats', this.$route.params.id)
+		API('boats', this.$route.params.id, null, true)
 			.then((boat) => {
 				this.boat = boat
 				this.loading = false
 				this.image = API_URL + boat.image.url
 			})
 			.catch((err) => {
-				console.log(err)
+				if (process.env.NODE_ENV === 'development') {
+					console.log(err)
+				}
 			})
 	},
 	methods: {},

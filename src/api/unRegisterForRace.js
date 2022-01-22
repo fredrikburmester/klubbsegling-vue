@@ -13,7 +13,6 @@ export const unRegisterForRace = async (boatId) => {
 				if (res.data.length === 0) {
 					reject('Säker på att den båten är registrerad?')
 				} else {
-					console.log(res.data)
 					const id = res.data[0].id
 					axios
 						.delete(`${API_URL}/registrations/${id}`, {

@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vite preview",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint",
     "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "vue-cli-service lint",
+    "old-build": "vue-cli-service build",
     "old-serve": "vue-cli-service serve"
   },
   "dependencies": {

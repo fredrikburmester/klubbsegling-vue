@@ -55,7 +55,6 @@ export default {
 		},
 	},
 	async mounted() {
-		console.log(this.me)
 		var today = new Date()
 		var year = today.getFullYear()
 

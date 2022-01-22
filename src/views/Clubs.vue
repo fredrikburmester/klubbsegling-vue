@@ -20,7 +20,7 @@ export default {
 		}
 	},
 	beforeMount() {
-		API('clubs').then((clubs) => {
+		API('clubs', null, null, true).then((clubs) => {
 			this.clubs = clubs
 		})
 	},

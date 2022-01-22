@@ -222,14 +222,6 @@ export default {
 	},
 	methods: {
 		async register() {
-			console.log(
-				'register fields:',
-				this.me,
-				this.selectedBoat,
-				this.crew,
-				this.raceId,
-				this.hsys
-			)
 			registerForFace(this.me, this.selectedBoat, this.crew, this.raceId, this.hsys)
 				.then((res) => {
 					createToast(res, {

@@ -48,10 +48,7 @@ export default {
 			return API_URL + this.boat.image.formats.small.url
 		},
 	},
-	mounted() {
-		console.log(this.boat)
-		console.log(this.hasImages)
-	},
+	mounted() {},
 	methods: {
 		onImgLoad() {
 			this.imageLoaded = true

@@ -22,7 +22,6 @@ export const registerForFace = (user, boatId, crew, raceId, hsys) => {
 				},
 			})
 			.then((res) => {
-				console.log(res.data)
 				if (res.data.length === 0) {
 					// Create registration
 					var crew_members = []
@@ -36,7 +35,6 @@ export const registerForFace = (user, boatId, crew, raceId, hsys) => {
 						race: raceId,
 						handicap_system: hsys,
 					}
-					console.log('Data:', data)
 					axios
 						.post(`${API_URL}/registrations`, data, {
 							headers: {
@@ -73,7 +71,9 @@ export const registerForFace = (user, boatId, crew, raceId, hsys) => {
 				}
 			})
 			.catch((err) => {
-				console.log(err)
+				if (process.env.NODE_ENV === 'development') {
+					console.log(err)
+				}
 			})
 	})
 }
