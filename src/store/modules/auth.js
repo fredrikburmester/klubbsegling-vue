@@ -14,6 +14,10 @@ import { API_URL } from '../actions/auth'
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'
 
+const getProfileFromServer = () => {
+	return new Promise((resolve, reject) => {})
+}
+
 const state = {
 	token: localStorage.getItem('jwt') || '',
 	status: '',

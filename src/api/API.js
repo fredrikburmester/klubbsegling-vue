@@ -3,6 +3,7 @@ import { API_URL } from '../store/actions/auth'
 
 export const API = (type, id = null, query = null, auth = null) => {
 	return new Promise(function (resolve, reject) {
+		console.log(type, id, query, auth)
 		var url = `${API_URL}/${type}`
 
 		if (id) {

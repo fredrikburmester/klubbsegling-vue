@@ -1,5 +1,5 @@
 <template>
-	<div class="wrapper px-6 pt-6 pb-6">
+	<div v-if="!loading" class="wrapper px-6 pt-6 pb-6 md:max-w-2xl justify-self-center">
 		<h1 class="font-bold text-2xl mt-4">Din statistik</h1>
 
 		<div class="w-full shadow stats mt-4">
@@ -45,6 +45,7 @@ export default {
 			racesInView: [],
 			changeView: false,
 			active: 'currentRaces',
+			loading: true,
 		}
 	},
 	computed: {
@@ -53,7 +54,8 @@ export default {
 			return now.getFullYear()
 		},
 	},
-	async beforeMount() {
+	async mounted() {
+		console.log(this.me)
 		var today = new Date()
 		var year = today.getFullYear()
 
@@ -61,16 +63,15 @@ export default {
 			'races',
 			null,
 			`created_at_gte=${year}-01-01&created_at_lte=${year}-12-31&_sort=name:DESC`,
-			null
+			true
 		).then((res) => {
 			this.currentRaces = res
-		})
-
-		API('races', null, `registrations.crew_members.id=${this.me.id}`).then((res) => {
-			this.registeredRaces = res
+			API('races', null, `registrations.crew_members.id=${this.me.id}`, true).then((res) => {
+				this.registeredRaces = res
+				this.loading = false
+			})
 		})
 	},
-	async mounted() {},
 	methods: {
 		setRegisteredRacesInView() {
 			this.racesInView = this.registeredRaces
