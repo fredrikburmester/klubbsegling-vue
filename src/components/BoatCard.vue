@@ -1,6 +1,6 @@
 <template>
 	<div
-		v-show="!hasImages || imageLoaded"
+		v-show="!hasImage || imageLoaded"
 		class="border border-blue-300 card shadow-xl image-full mt-4 h-94"
 	>
 		<figure v-if="hasImage">
@@ -18,14 +18,18 @@
 			</router-link>
 		</div>
 	</div>
-	<LoadingboatCard v-if="!imageLoaded && hasImages" />
+	<LoadingCard v-if="!imageLoaded && hasImage" />
 </template>
 
 <script>
 import { API_URL } from '../store/actions/auth'
+import LoadingCard from './LoadingCard.vue'
 
 export default {
 	name: 'Profile',
+	components: {
+		LoadingCard,
+	},
 	props: {
 		boat: {
 			type: Object,
@@ -35,7 +39,7 @@ export default {
 	},
 	data() {
 		return {
-			hasImage: !!this.boat.image,
+			hasImage: true ? !!this.boat.image : false,
 			imageLoaded: false,
 		}
 	},
@@ -46,6 +50,7 @@ export default {
 	},
 	mounted() {
 		console.log(this.boat)
+		console.log(this.hasImages)
 	},
 	methods: {
 		onImgLoad() {
