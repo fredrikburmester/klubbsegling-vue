@@ -1,6 +1,6 @@
 <template>
-	<div v-if="!loading" class="wrapper px-6 pt-6 pb-6 md:max-w-2xl justify-self-center">
-		<h1 class="font-bold text-2xl mt-4">Din statistik</h1>
+	<div v-if="!loading" class="wrapper px-6 pt-2 pb-6 md:max-w-2xl justify-self-center">
+		<h1 class="font text-sm mt-4 opacity-50">Välj vy</h1>
 
 		<div class="w-full shadow stats mt-4">
 			<div
