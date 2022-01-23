@@ -6,7 +6,7 @@
 		<figure v-if="hasImage">
 			<img :src="thumbnail" @load="onImgLoad" />
 		</figure>
-		<div class="justify-end card-body h-56">
+		<div class="self-end card-body h-56">
 			<h2 class="card-title">{{ boat.name }}</h2>
 			<p v-if="!!boat.owner" class="max-h-12 overflow-hidden">
 				{{ boat.owner.name }}
