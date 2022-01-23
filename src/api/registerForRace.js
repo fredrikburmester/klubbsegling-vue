@@ -72,7 +72,7 @@ export const registerForFace = (user, boatId, crew, raceId, hsys) => {
 			})
 			.catch((err) => {
 				if (process.env.NODE_ENV === 'development') {
-					console.log(err)
+					console.error(err)
 				}
 			})
 	})

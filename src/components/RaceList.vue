@@ -43,7 +43,7 @@ export default {
 				this.loaded = true
 			})
 			.catch((err) => {
-				console.log(err)
+				console.error(err)
 				createToast('Någonting gick snett...', {
 					type: 'danger',
 					timeout: 3000,

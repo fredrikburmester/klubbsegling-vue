@@ -9,6 +9,7 @@ import Admin from '../views/Admin.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import 'mosha-vue-toastify/dist/style.css'
+import PageNotFound from '../views/PageNotFound.vue'
 
 const routes = [
 	{
@@ -100,6 +101,8 @@ const routes = [
 			is_admin: true,
 		},
 	},
+	{ path: "/:pathMatch(.*)*", name: 'PageNotFound', component: PageNotFound },
+	{ path: "/:pathMatch(.*)", name: 'PageNotFound', component: PageNotFound }
 ]
 
 const router = createRouter({

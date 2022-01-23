@@ -1,6 +1,6 @@
 import App from './App.vue'
 import router from './router'
-import store from './store'
+import {store, key} from './store'
 
 import { registerSW } from 'virtual:pwa-register'
 
@@ -34,4 +34,4 @@ library.add(faShip)
 library.add(faCalendar)
 library.add(faAnchor)
 
-createApp(App).use(store).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+createApp(App).use(store, key).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')

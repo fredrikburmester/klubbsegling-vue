@@ -68,7 +68,7 @@
 				<div class="modal m-0">
 					<div class="modal-box m-0">
 						<p>Vilken båt vill du registrera med?</p>
-						<div v-if="optionsLoaded">
+						<div v-if="userOptionsLoaded">
 							<select
 								v-model="selectedBoat"
 								class="select select-bordered select w-full max-w-xs mb-4"
@@ -121,7 +121,7 @@
 				<div class="modal m-0">
 					<div class="modal-box m-0">
 						<p>Vilken båt vill du avregistrera?</p>
-						<div v-if="optionsLoaded">
+						<div v-if="userOptionsLoaded">
 							<select
 								v-model="selectedBoat"
 								class="select select-bordered select w-full max-w-xs mb-4"
@@ -156,9 +156,6 @@ import { API_URL } from '../store/actions/auth'
 import { registerForFace } from '../api/registerForRace'
 import { unRegisterForRace } from '../api/unRegisterForRace'
 import { createToast } from 'mosha-vue-toastify'
-import { getUsers } from '../api/users'
-import { getRegistrations } from '../api/getRegistrations'
-import { getBoatsOfUser } from '../api/getBoatsOfUser.js'
 import VueMultiselect from 'vue-multiselect'
 import 'mosha-vue-toastify/dist/style.css'
 import 'vue-multiselect/dist/vue-multiselect.css'
@@ -189,7 +186,7 @@ export default {
 			],
 			hsys: '',
 			selectedBoat: null,
-			optionsLoaded: false,
+			userOptionsLoaded: false,
 			me: this.$store.getters.getProfile,
 			raceId: this.$route.params.id,
 			registrations: [],
@@ -198,7 +195,9 @@ export default {
 		}
 	},
 	async beforeMount() {
-		this.userBoats = await getBoatsOfUser(this.me)
+		API('boats', null, `sailors.username=${this.me.username}`, true).then((boats) => {
+			this.userBoats = boats
+		})
 
 		API('users', null, null, true).then((us) => {
 			for (var i in us) {
@@ -227,7 +226,7 @@ export default {
 					createToast(res, {
 						type: 'success',
 					})
-					getRegistrations(this.$route.params.id).then((res) => {
+					API('registrations', null, `race=${this.$route.params.id}`).then((res) => {
 						this.registrations = res
 					})
 				})
@@ -243,7 +242,7 @@ export default {
 					createToast(res, {
 						type: 'success',
 					})
-					getRegistrations(this.$route.params.id).then((res) => {
+					API('registrations', null, `race=${this.$route.params.id}`).then((res) => {
 						this.registrations = res
 					})
 				})
@@ -253,9 +252,11 @@ export default {
 					})
 				})
 		},
-		async loadRegisterOptions() {
-			this.users = await getUsers()
-			this.optionsLoaded = true
+		loadRegisterOptions() {
+			API('users', null, null, true).then((users) => {
+				this.users = users
+				this.userOptionsLoaded = true
+			})
 		},
 		getImageURL(url) {
 			return `${this.API_URL}${url}`

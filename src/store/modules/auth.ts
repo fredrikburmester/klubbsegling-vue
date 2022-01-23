@@ -18,24 +18,39 @@ const getProfileFromServer = () => {
 	return new Promise((resolve, reject) => {})
 }
 
-const state = {
+interface stateProps {
+	token: String,
+	status: String,
+	profile: Object,
+	hasLoadedOnce: Boolean,
+	userBoats: Array<Object>,
+}
+
+const state: {
+	token: String,
+	status: String,
+	profile: Object,
+	hasLoadedOnce: Boolean,
+	userBoats: Array<Object>,
+} = {
 	token: localStorage.getItem('jwt') || '',
 	status: '',
+	// @ts-ignore
 	profile: JSON.parse(localStorage.getItem('user')) || {},
 	hasLoadedOnce: false,
 	userBoats: [],
 }
 
 const getters = {
-	isAuthenticated: (state) => !!state.token,
-	getToken: (state) => state.token,
-	authStatus: (state) => state.status,
-	getProfile: (state) => state.profile,
-	getUserBoats: (state) => state.userBoats,
+	isAuthenticated: (state: stateProps) => !!state.token,
+	getToken: (state: stateProps) => state.token,
+	authStatus: (state: stateProps) => state.status,
+	getProfile: (state: stateProps) => state.profile,
+	getUserBoats: (state: stateProps) => state.userBoats,
 }
 
 const actions = {
-	[AUTH_REQUEST]: ({ commit /*dispatch*/ }, user) => {
+	[AUTH_REQUEST]: ({ commit /*dispatch*/ }: {commit: Function}, user: Object) => {
 		return new Promise((resolve, reject) => {
 			commit(AUTH_REQUEST)
 			axios({
@@ -61,7 +76,7 @@ const actions = {
 				})
 				.catch((err) => {
 					if (process.env.NODE_ENV === 'development') {
-						console.log(err)
+						console.error(err)
 					}
 					commit(AUTH_ERROR, err)
 					localStorage.removeItem('jwt')
@@ -74,7 +89,7 @@ const actions = {
 				})
 		})
 	},
-	[AUTH_LOGOUT]: ({ commit }) => {
+	[AUTH_LOGOUT]: ({ commit }: {commit: Function}): Promise<void> => {
 		return new Promise((resolve) => {
 			commit(AUTH_LOGOUT)
 			localStorage.removeItem('jwt')
@@ -89,36 +104,36 @@ const actions = {
 }
 
 const mutations = {
-	[AUTH_REQUEST]: (state) => {
+	[AUTH_REQUEST]: (state: stateProps) => {
 		state.status = 'loading'
 	},
-	[AUTH_SUCCESS]: (state, resp) => {
+	[AUTH_SUCCESS]: (state: stateProps, resp: stateProps) => {
 		state.status = 'success'
 		state.token = resp.token
 		state.hasLoadedOnce = true
 	},
-	[AUTH_ERROR]: (state) => {
+	[AUTH_ERROR]: (state: stateProps) => {
 		state.status = 'error'
 		state.hasLoadedOnce = true
 	},
-	[AUTH_LOGOUT]: (state) => {
+	[AUTH_LOGOUT]: (state: stateProps) => {
 		state.token = ''
 	},
-	[USER_REQUEST]: (state) => {
+	[USER_REQUEST]: (state: stateProps) => {
 		state.status = 'loading'
 	},
-	[USER_SUCCESS]: (state, resp) => {
+	[USER_SUCCESS]: (state: stateProps, resp: Object) => {
 		;('setting user')
 		state.status = 'success'
 		state.profile = resp
 	},
-	[USER_ERROR]: (state) => {
+	[USER_ERROR]: (state: stateProps) => {
 		state.status = 'error'
 	},
-	[AUTH_LOGOUT]: (state) => {
+	[AUTH_LOGOUT]: (state: stateProps) => {
 		state.profile = {}
 	},
-	[USER_BOATS]: (state, boats) => {
+	[USER_BOATS]: (state: stateProps, boats: Array<Object>) => {
 		state.userBoats = boats
 	},
 }

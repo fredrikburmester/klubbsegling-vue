@@ -65,7 +65,7 @@ export default {
 			this.selectedBoat = this.allBoats[0]
 		} catch (err) {
 			if (process.env.NODE_ENV === 'development') {
-				console.log(err)
+				console.error(err)
 			}
 		}
 	},
@@ -84,7 +84,7 @@ export default {
 				})
 				.catch((err) => {
 					if (process.env.NODE_ENV === 'development') {
-						console.log(err)
+						console.error(err)
 					}
 					createToast(err, {
 						type: 'danger',

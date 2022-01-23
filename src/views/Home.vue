@@ -27,7 +27,6 @@
 				<div class="stat-desc"></div>
 			</div>
 		</div>
-		<!-- <h1 class="font-bold text-2xl mt-4">Seglatser i år</h1> -->
 		<RaceList :key="updateList" :query="raceListQuery" />
 	</div>
 </template>
@@ -74,13 +73,12 @@ export default {
 					this.loading = false
 				})
 				.catch((err) => {
-					console.log(err)
+					console.error(err)
 				})
 		})
 	},
 	methods: {
 		setActive(query, current) {
-			console.log(query, current)
 			this.raceListQuery = query
 			this.active = current
 			this.updateList = !this.updateList
