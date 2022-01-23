@@ -30,12 +30,11 @@
 <script>
 import { AUTH_LOGOUT } from '../store/actions/auth'
 import { API_URL } from '../store/actions/auth'
-import { getBoatsOfUser } from '../api/getBoatsOfUser'
-import AddBoatForm from '../components/AddBoatForm.vue'
 import { API } from '../api/API'
-import qs from 'qs'
+import AddBoatForm from '../components/AddBoatForm.vue'
 import BoatCard from '../components/BoatCard.vue'
 import LoadingCard from '@/components/LoadingCard.vue'
+import qs from 'qs'
 
 export default {
 	components: {
@@ -120,7 +119,5 @@ export default {
 		margin-left: 5vw;
 		left: 0;
 	}
-}
-#logout {
 }
 </style>

@@ -18,17 +18,6 @@ const routes = [
 		meta: {
 			requiresAuth: true,
 		},
-		children: [
-			{
-				path: 'active',
-				name: 'Seglatser i år',
-				component: Races,
-				meta: {
-					requiresAuth: true,
-				},
-				props: (route) => ({ query: route.query.status }),
-			},
-		],
 	},
 	{
 		path: '/races',
@@ -126,6 +115,7 @@ router.beforeEach((to, from, next) => {
 				params: { nextUrl: to.fullPath },
 			})
 		} else {
+			// @ts-ignore
 			let user = JSON.parse(localStorage.getItem('user'))
 			if (to.matched.some((record) => record.meta.is_admin)) {
 				if (user.is_admin == 1) {

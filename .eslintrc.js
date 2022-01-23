@@ -37,14 +37,14 @@ module.exports = {
 		],
 	},
 	parserOptions: {
-        "parser": "babel-eslint",
-        "allowImportExportEverywhere": true,
-        "ecmaFeatures": {
-            "legacyDecorators": true,
-            "modules": true,
-            "experimentalObjectRestSpread": true
-        },
-        "ecmaVersion": 6,
-        "sourceType": "module",
-    },
+		parser: 'babel-eslint',
+		allowImportExportEverywhere: true,
+		ecmaFeatures: {
+			legacyDecorators: true,
+			modules: true,
+			experimentalObjectRestSpread: true,
+		},
+		ecmaVersion: 6,
+		sourceType: 'module',
+	},
 }

@@ -1,6 +1,6 @@
 <template>
 	<div v-if="loaded" class="pt-2 pb-6">
-		<RaceCard2 v-for="race in races" :key="race.id" :race="race" />
+		<RaceCard v-for="race in races" :key="race.id" :race="race" />
 	</div>
 	<div v-else class="wrapper justify-self-center md:max-w-2xl">
 		<LoadingCard v-for="i in 5" :key="i" />
@@ -12,7 +12,7 @@
 
 <script>
 import { API } from '@/api/API'
-import RaceCard2 from '../components/RaceCard2.vue'
+import RaceCard from '../components/RaceCard.vue'
 import LoadingCard from './LoadingCard.vue'
 import { createToast } from 'mosha-vue-toastify'
 import 'mosha-vue-toastify/dist/style.css'
@@ -20,7 +20,7 @@ import 'mosha-vue-toastify/dist/style.css'
 export default {
 	name: 'RaceList',
 	components: {
-		RaceCard2,
+		RaceCard,
 		LoadingCard,
 	},
 	props: {
