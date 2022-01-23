@@ -8,4 +8,5 @@ export const USER_SUCCESS = 'USER_SUCCESS'
 export const USER_ERROR = 'USER_ERROR'
 export const USER_BOATS = 'USER_BOATS'
 
-export const API_URL = 'https://admin.klubbsegling.se'
+export const API_URL = 'https://cms.klubbsegling.se/api'
+export const IMG_URL = 'https://cms.klubbsegling.se'

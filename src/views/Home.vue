@@ -1,44 +1,51 @@
 <template>
-	<div v-if="!loading" class="wrapper px-6 pt-2 pb-6 md:max-w-2xl justify-self-center">
-		<h1 class="font text-sm mt-4 opacity-50">Välj vy</h1>
-
-		<div class="w-full shadow stats mt-4">
+	<div class="wrapper px-6 pt-2 pb-6 md:max-w-2xl justify-self-center">
+		<h1 v-if="!loading" class="font text-sm mt-4 opacity-50">Välj vy</h1>
+		<div v-if="!loading" class="w-full shadow stats mt-4">
 			<div
 				class="stat cursor-pointer"
 				:class="{ 'bg-gray-100': active == 'thisYear' }"
-				@click="
-					setActive(
-						`created_at_gte=${getCurrentYear}-01-01&created_at_lte=${getCurrentYear}-12-31&_sort=name:DESC`,
-						'thisYear'
-					)
-				"
+				@click="setActive('thisYear')"
 			>
 				<div class="stat-title">Seglatser i år</div>
-				<div class="stat-value text-info">{{ racesThisYear }}</div>
+				<div class="stat-value text-info">
+					{{ racesThisYear.length }}
+				</div>
 				<div class="stat-desc">{{ getCurrentYear }}</div>
 			</div>
 			<div
 				class="stat cursor-pointer"
 				:class="{ 'bg-gray-100': active == 'registered' }"
-				@click="setActive(`registrations.crew_members.id=${me.id}`, 'registered')"
+				@click="setActive('registered')"
 			>
 				<div class="stat-title">Registrerad</div>
-				<div class="stat-value text-primary">{{ registeredRaces }}</div>
+				<div class="stat-value text-primary">
+					{{ registeredRaces.length }}
+				</div>
 				<div class="stat-desc"></div>
 			</div>
 		</div>
-		<RaceList :key="updateList" :query="raceListQuery" />
+		<div v-if="!loading">
+			<RaceList2 :key="updateList" :races="races" />
+		</div>
+		<div v-else class="wrapper justify-self-center md:max-w-2xl">
+			<LoadingCard v-for="i in 5" :key="i" />
+		</div>
 	</div>
 </template>
 
 <script>
 import RaceList from '../components/RaceList.vue'
-import { API } from '../api/API.ts'
+import RaceList2 from '../components/RaceList2.vue'
+import { API, getAllRaces, getRegisteredRaces } from '../api/API.ts'
+import LoadingCard from '@/components/LoadingCard.vue'
 
 export default {
 	name: 'Home',
 	components: {
 		RaceList,
+		RaceList2,
+		LoadingCard,
 	},
 	data() {
 		return {
@@ -50,6 +57,7 @@ export default {
 			boats: 0,
 			loading: true,
 			updateList: false,
+			races: [],
 		}
 	},
 	computed: {
@@ -58,29 +66,21 @@ export default {
 			return now.getFullYear()
 		},
 	},
-	mounted() {
-		// Get races this year
-		API(
-			'races/count',
-			null,
-			`created_at_gte=${this.getCurrentYear}-01-01&created_at_lte=${this.getCurrentYear}-12-31&_sort=name:DESC`,
-			true
-		).then((nrOfRaces) => {
-			this.racesThisYear = nrOfRaces
-			API('races/count', null, `registrations.crew_members.id=${this.me.id}`, true)
-				.then((registeredRaces) => {
-					this.registeredRaces = registeredRaces
-					this.loading = false
-				})
-				.catch((err) => {
-					console.error(err)
-				})
-		})
+	async mounted() {
+		this.registeredRaces = await getRegisteredRaces()
+		this.races = this.racesThisYear = await getAllRaces()
+
+		this.loading = false
 	},
 	methods: {
-		setActive(query, current) {
-			this.raceListQuery = query
-			this.active = current
+		setActive(list) {
+			if (list === 'thisYear') {
+				this.active = list
+				this.races = this.registeredRaces
+			} else if (list === 'registered') {
+				this.active = list
+				this.races = this.racesThisYear
+			}
 			this.updateList = !this.updateList
 		},
 	},

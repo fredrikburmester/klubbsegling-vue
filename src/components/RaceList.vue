@@ -5,8 +5,13 @@
 	<div v-else class="wrapper justify-self-center md:max-w-2xl">
 		<LoadingCard v-for="i in 5" :key="i" />
 	</div>
-	<div v-if="loaded & (races.length === 0)" class="wrapper justify-self-center md:max-w-2xl">
-		<h1 class="font-bold text-xl"><span class="text-2xl">🤷🏻‍♂️ </span>Här var det tomt...</h1>
+	<div
+		v-if="loaded & (races.length === 0)"
+		class="wrapper justify-self-center md:max-w-2xl"
+	>
+		<h1 class="font-bold text-xl">
+			<span class="text-2xl">🤷🏻‍♂️ </span>Här var det tomt...
+		</h1>
 	</div>
 </template>
 
