@@ -1,25 +1,16 @@
-import App from './App.vue'
-import router from './router'
-import { store, key } from './store'
-
-import { registerSW } from 'virtual:pwa-register'
-
-import { createApp } from 'vue'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
-	faHome,
-	faFlag,
-	faUser,
-	faSlidersH,
-	faShip,
-	faCalendar,
-	faAnchor,
+	faAnchor, faCalendar, faFlag, faHome, faShip, faSlidersH, faUser
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-
-import './registerServiceWorker'
-import './index.css'
+import { registerSW } from 'virtual:pwa-register'
+import { createApp } from 'vue'
+import App from './App.vue'
 import './assets/tailwind.css'
+import './index.css'
+import './registerServiceWorker'
+import router from './router'
+import { key, store } from './store'
 
 const updateSW = registerSW({
 	onNeedRefresh() {},
