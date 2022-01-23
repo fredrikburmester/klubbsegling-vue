@@ -1,11 +1,10 @@
 module.exports = {
-	purge: ['./public/**/*.html', './src/**/*.{vue,js,ts,tsx}'],
-	darkMode: false, // or 'media' or 'class'
+	purge: ['./dist/**/*.html', './src/**/*.{vue,js,ts,tsx,html}'],
+	darkMode: false,
 	theme: {
 		extend: {
 			colors: {
 				blue: '#00428C',
-				// primary: '#00428C',
 			},
 			dropShadow: {
 				'3xl': '0 0px 23px 12px rgba(0,0,0,0.25)',
@@ -15,9 +14,6 @@ module.exports = {
 				99: '99 !important',
 			},
 		},
-	},
-	variants: {
-		extend: {},
 	},
 	plugins: [require('daisyui')],
 	daisyui: {

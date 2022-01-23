@@ -4,7 +4,13 @@
 		<form>
 			<label for="name">Name</label>
 			<div>
-				<input id="name" v-model="name" type="text" required autofocus />
+				<input
+					id="name"
+					v-model="name"
+					type="text"
+					required
+					autofocus
+				/>
 			</div>
 
 			<label for="email">E-Mail Address</label>
@@ -14,7 +20,12 @@
 
 			<label for="password">Password</label>
 			<div>
-				<input id="password" v-model="password" type="password" required />
+				<input
+					id="password"
+					v-model="password"
+					type="password"
+					required
+				/>
 			</div>
 
 			<label for="password-confirm">Confirm Password</label>
@@ -27,7 +38,9 @@
 				/>
 			</div>
 
-			<label for="password-confirm">Is this an administrator account?</label>
+			<label for="password-confirm"
+				>Is this an administrator account?</label
+			>
 			<div>
 				<select v-model="is_admin">
 					<option value="1">Yes</option>
@@ -63,7 +76,10 @@ export default {
 		handleSubmit(e) {
 			e.preventDefault()
 
-			if (this.password === this.password_confirmation && this.password.length > 0) {
+			if (
+				this.password === this.password_confirmation &&
+				this.password.length > 0
+			) {
 				let url = 'http://localhost:3000/register'
 				this.$http
 					.post(url, {
@@ -73,7 +89,10 @@ export default {
 						is_admin: this.is_admin,
 					})
 					.then((response) => {
-						localStorage.setItem('user', JSON.stringify(response.data.user))
+						localStorage.setItem(
+							'user',
+							JSON.stringify(response.data.user)
+						)
 						localStorage.setItem('jwt', response.data.token)
 
 						if (localStorage.getItem('jwt') != null) {

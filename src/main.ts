@@ -1,6 +1,12 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
-	faAnchor, faCalendar, faFlag, faHome, faShip, faSlidersH, faUser
+	faAnchor,
+	faCalendar,
+	faFlag,
+	faHome,
+	faShip,
+	faSlidersH,
+	faUser,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { registerSW } from 'virtual:pwa-register'

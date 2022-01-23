@@ -8,7 +8,11 @@ export default defineConfig({
 	plugins: [
 		vue(),
 		VitePWA({
-			includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+			includeAssets: [
+				'favicon.ico',
+				'robots.txt',
+				'apple-touch-icon.png',
+			],
 			manifest: {
 				name: 'Klubbsegling',
 				short_name: 'Klubbsegling',
@@ -29,15 +33,10 @@ export default defineConfig({
 			'@': path.resolve(__dirname, '/src'),
 		},
 	},
-	define: {
-		'process.env': {},
-	},
 	css: {
-		preprocessorOptions: {
-			scss: { charset: false },
-			css: {
-				charset: false,
-			},
-		},
+		preprocessorOptions: {},
+	},
+	build: {
+		minify: true,
 	},
 })
