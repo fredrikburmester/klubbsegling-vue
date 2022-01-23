@@ -1,19 +1,16 @@
 module.exports = {
 	root: true,
-	parser: "vue-eslint-parser",
+	parser: 'vue-eslint-parser',
 	extends: [
 		'prettier',
-		'plugin:vue/recommended', 
-		"plugin:prettier/recommended",
-		'plugin:prettier-vue/recommended', 
-		"plugin:@typescript-eslint/recommended",
-		"@vue/prettier",
-		"@vue/typescript",
+		'plugin:vue/recommended',
+		'plugin:prettier/recommended',
+		'plugin:prettier-vue/recommended',
+		'plugin:@typescript-eslint/recommended',
+		'@vue/prettier',
+		'@vue/typescript',
 	],
-	plugins: [
-		"vue",
-		"@typescript-eslint"
-	],
+	plugins: ['vue', '@typescript-eslint'],
 	settings: {
 		'prettier-vue': {
 			SFCBlocks: {
@@ -49,7 +46,7 @@ module.exports = {
 		],
 	},
 	parserOptions: {
-		parser: "@typescript-eslint/parser",
+		parser: '@typescript-eslint/parser',
 		allowImportExportEverywhere: true,
 		ecmaFeatures: {
 			legacyDecorators: true,

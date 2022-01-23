@@ -101,8 +101,8 @@ const routes = [
 			is_admin: true,
 		},
 	},
-	{ path: "/:pathMatch(.*)*", name: 'PageNotFound', component: PageNotFound },
-	{ path: "/:pathMatch(.*)", name: 'PageNotFound', component: PageNotFound }
+	{ path: '/:pathMatch(.*)*', name: 'PageNotFound', component: PageNotFound },
+	{ path: '/:pathMatch(.*)', name: 'PageNotFound', component: PageNotFound },
 ]
 
 const router = createRouter({
@@ -119,7 +119,7 @@ router.beforeEach((to, from, next) => {
 			})
 		} else {
 			// @ts-ignore
-			let user = JSON.parse(localStorage.getItem('user'))
+			const user = JSON.parse(localStorage.getItem('user'))
 			if (to.matched.some((record) => record.meta.is_admin)) {
 				if (user.is_admin == 1) {
 					next()

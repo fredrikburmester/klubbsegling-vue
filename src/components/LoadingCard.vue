@@ -1,4 +1,3 @@
-
 <template>
 	<div>
 		<div class="border border-blue-300 shadow-xl rounded-2xl p-4 h-56 mt-4 w-full mx-auto">

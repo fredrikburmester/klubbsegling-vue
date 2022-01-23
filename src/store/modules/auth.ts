@@ -19,19 +19,19 @@ const getProfileFromServer = () => {
 }
 
 interface stateProps {
-	token: String,
-	status: String,
-	profile: Object,
-	hasLoadedOnce: Boolean,
-	userBoats: Array<Object>,
+	token: string
+	status: string
+	profile: Object
+	hasLoadedOnce: boolean
+	userBoats: Array<Object>
 }
 
 const state: {
-	token: String,
-	status: String,
-	profile: Object,
-	hasLoadedOnce: Boolean,
-	userBoats: Array<Object>,
+	token: string
+	status: string
+	profile: Object
+	hasLoadedOnce: boolean
+	userBoats: Array<Object>
 } = {
 	token: localStorage.getItem('jwt') || '',
 	status: '',
@@ -50,7 +50,7 @@ const getters = {
 }
 
 const actions = {
-	[AUTH_REQUEST]: ({ commit /*dispatch*/ }: {commit: Function}, user: Object) => {
+	[AUTH_REQUEST]: ({ commit /*dispatch*/ }: { commit: Function }, user: Object) => {
 		return new Promise((resolve, reject) => {
 			commit(AUTH_REQUEST)
 			axios({
@@ -89,7 +89,7 @@ const actions = {
 				})
 		})
 	},
-	[AUTH_LOGOUT]: ({ commit }: {commit: Function}): Promise<void> => {
+	[AUTH_LOGOUT]: ({ commit }: { commit: Function }): Promise<void> => {
 		return new Promise((resolve) => {
 			commit(AUTH_LOGOUT)
 			localStorage.removeItem('jwt')

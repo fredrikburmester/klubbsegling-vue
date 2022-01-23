@@ -4,7 +4,10 @@
 	>
 		<div class="lg:mx-12 self-center px-8">
 			<h1 class="mb-5 text-5xl font-bold text-left">Klubbsegling</h1>
-			<p class="mb-5">Välkommen till Sveriges bästa hemsida för <br />seglingsentusiaster!</p>
+			<p class="mb-5">
+				Välkommen till Sveriges bästa hemsida för
+				<br />seglingsentusiaster!
+			</p>
 		</div>
 		<form
 			class="lg:card lg:shadow-2xl lg:rounded-3xl lg:w-2/5 form-control"

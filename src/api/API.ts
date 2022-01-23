@@ -3,7 +3,7 @@ import { API_URL } from '../store/actions/auth'
 
 export const API = (type: string, id?: string, query?: string, auth?: boolean) => {
 	return new Promise(function (resolve, reject) {
-		var url = `${API_URL}/${type}`
+		let url = `${API_URL}/${type}`
 
 		if (id) {
 			url = url + '/' + id
@@ -13,10 +13,12 @@ export const API = (type: string, id?: string, query?: string, auth?: boolean) =
 			url = url + '?' + query
 		}
 
-		var headers = {}
+		let headers = {}
 		if (auth) {
 			headers = {
-				headers: { Authorization: `Bearer ${localStorage.getItem('jwt')}` },
+				headers: {
+					Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+				},
 			}
 		}
 
