@@ -1,15 +1,16 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-const Profile = () => import('../views/Profile.vue')
-import Races from '../views/Races.vue'
-import Clubs from '../views/Clubs.vue'
-import Race from '../views/Race.vue'
-import Boat from '../views/Boat.vue'
-import Admin from '../views/Admin.vue'
-import Login from '../views/Login.vue'
-import Register from '../views/Register.vue'
 import 'mosha-vue-toastify/dist/style.css'
+import { createRouter, createWebHistory } from 'vue-router'
+import Admin from '../views/Admin.vue'
+import Boat from '../views/Boat.vue'
+import Club from '../views/Club.vue'
+import Clubs from '../views/Clubs.vue'
+import Home from '../views/Home.vue'
+import Login from '../views/Login.vue'
 import PageNotFound from '../views/PageNotFound.vue'
+import Race from '../views/Race.vue'
+import Races from '../views/Races.vue'
+import Register from '../views/Register.vue'
+const Profile = () => import('../views/Profile.vue')
 
 const routes = [
 	{
@@ -36,6 +37,15 @@ const routes = [
 		meta: {
 			requiresAuth: true,
 			breadcrumbs: [{ name: 'Klubbar', path: '/clubs', icon: 'anchor' }],
+		},
+	},
+	{
+		path: '/club/:id',
+		name: 'Klubb',
+		component: Club,
+		meta: {
+			requiresAuth: true,
+			breadcrumbs: [{ name: 'Klubb', path: '/club/:id', icon: 'anchor' }],
 		},
 	},
 	{
