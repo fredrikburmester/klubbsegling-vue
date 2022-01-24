@@ -181,7 +181,6 @@ const getRacesThisYear = async () => {
 
 const getRegisteredRaces = async (id: Number) => {
     var races = {}
-    id = 1
     const query = qs.stringify(
         {
             populate: ['registrations', 'images'],

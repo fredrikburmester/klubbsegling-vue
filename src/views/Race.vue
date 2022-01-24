@@ -40,11 +40,9 @@
                     <tbody>
                         <tr v-for="r in registrations" :key="r.id">
                             <th>{{ r.attributes.boat.data.attributes.name }}</th>
-                            <td>{{ r.attributes.handicap_system.data.attributes.name }}</td>
+                            <td>{{ r.attributes.handicapSystem.data.attributes.name }}</td>
                             <td>
-                                <kbd v-for="u in r.attributes.users.data" :key="u.id" class="kbd kbd-sm bg-gray-100 text-black px-2 mr-2"
-                                    >{{ u.attributes.first_name }} {{ u.attributes.last_name }}</kbd
-                                >
+                                <kbd v-for="u in r.attributes.users.data" :key="u.id" class="kbd kbd-sm bg-gray-100 text-black px-2 mr-2">{{ u.attributes.firstName }} {{ u.attributes.lastName }}</kbd>
                             </td>
                         </tr>
                     </tbody>
@@ -156,7 +154,7 @@ export default {
             for (var i in this.users) {
                 this.userOptions.push({
                     value: this.users[i].id,
-                    label: this.users[i].first_name + ' ' + this.users[i].last_name,
+                    label: this.users[i].firstName + ' ' + this.users[i].lastName,
                 })
             }
 

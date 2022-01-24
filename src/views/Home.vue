@@ -29,7 +29,7 @@
 <script>
 import RaceList from '@/components/RaceList.vue'
 import LoadingCard from '@/components/LoadingCard.vue'
-import { getAllRaces } from '@/api/API.ts'
+import { getAllRaces, getRegisteredRaces } from '@/api/API.ts'
 
 export default {
     name: 'Home',
@@ -59,7 +59,9 @@ export default {
     },
     async mounted() {
         this.races = this.racesThisYear = await getAllRaces()
-        this.registeredRaces = this.getRegisteredRaces(this.races)
+        this.registeredRaces = await getRegisteredRaces(this.me.id)
+
+        console.log('[1]', this.registeredRaces)
 
         this.loading = false
     },
@@ -74,18 +76,20 @@ export default {
             }
             this.updateList = !this.updateList
         },
-        getRegisteredRaces(races) {
-            return races.filter(race => {
-                const registrations = race.attributes.registrations.data
-                for (let i in registrations) {
-                    const users = registrations[i].attributes.users.data
-                    for (let j in users) {
-                        var userId = users[j].id
-                        return userId == this.me.id
-                    }
-                }
-            })
-        },
+        // getRegisteredRaces(races) {
+        //     return races.filter(race => {
+        //         const registrations = race.attributes.registrations.data
+        //         console.log(registrations)
+        //         for (let i in registrations) {
+        //             const users = registrations[i].attributes.users.data
+        //             console.log(users)
+        //             for (let j in users) {
+        //                 console.log('[1]', users[j].id, this.me.id)
+        //                 return users[j].id == this.me.id
+        //             }
+        //         }
+        //     })
+        // },
     },
 }
 </script>
