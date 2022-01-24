@@ -7,6 +7,22 @@
     "rules": {
         "semi": ["error", "never"],
         "quotes": ["error", "single"],
-        "prettier/prettier": "error"
+        "prettier/prettier": ["error", {
+            "singleQuote": true,
+            "trailingComma": "es5",
+            "printWidth": 200,
+            "tabWidth": 4,
+            "useTabs": false,
+            "semi": false,
+            "bracketSpacing": true,
+            "jsxBracketSameLine": false,
+            "arrowParens": "avoid",
+            "rangeStart": 0,
+            "requirePragma": false,
+            "insertPragma": false,
+            "proseWrap": "preserve",
+            "htmlWhitespaceSensitivity": "css",
+            "endOfLine": "lf"
+        }]
     }
 }
