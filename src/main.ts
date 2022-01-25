@@ -1,13 +1,5 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
-import {
-	faAnchor,
-	faCalendar,
-	faFlag,
-	faHome,
-	faShip,
-	faSlidersH,
-	faUser,
-} from '@fortawesome/free-solid-svg-icons'
+import { faAnchor, faCalendar, faFlag, faHome, faShip, faSlidersH, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { registerSW } from 'virtual:pwa-register'
 import { createApp } from 'vue'
@@ -19,8 +11,8 @@ import router from './router'
 import { key, store } from './store'
 
 const updateSW = registerSW({
-	onNeedRefresh() {},
-	onOfflineReady() {},
+    onNeedRefresh() {},
+    onOfflineReady() {},
 })
 
 library.add(faFlag)
@@ -31,8 +23,4 @@ library.add(faShip)
 library.add(faCalendar)
 library.add(faAnchor)
 
-createApp(App)
-	.use(store, key)
-	.use(router)
-	.component('font-awesome-icon', FontAwesomeIcon)
-	.mount('#app')
+createApp(App).use(store, key).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
