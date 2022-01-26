@@ -332,4 +332,36 @@ const getAllUsers = async () => {
     return users
 }
 
-export { API, getAllBoats, getUserBoats, getAllRaces, getRacesThisYear, getRegisteredRaces, getRace, getAllRegistrations, getAllUsers, registerForRace, unRegisterFromRace }
+const getClub = async (id: Number) => {
+    const query = qs.stringify(
+        {
+            // fields: ['id', 'name'],
+            populate: ['images'],
+        },
+        {
+            encodeValuesOnly: true, // prettify url
+        }
+    )
+
+    const club: any = await API('clubs', id, query, true)
+
+    return club
+}
+
+const getBoat = async (id: Number) => {
+    const query = qs.stringify(
+        {
+            // fields: ['id', 'name'],
+            populate: ['image'],
+        },
+        {
+            encodeValuesOnly: true, // prettify url
+        }
+    )
+
+    const club: any = await API('boats', id, query, true)
+
+    return club
+}
+
+export { API, getAllBoats, getUserBoats, getAllRaces, getRacesThisYear, getRegisteredRaces, getRace, getAllRegistrations, getAllUsers, registerForRace, getClub, getBoat }
