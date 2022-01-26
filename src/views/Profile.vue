@@ -7,10 +7,10 @@
         </div>
         <div v-else class="avatar placeholder px-6 pt-12 justify-self-center">
             <div class="bg-neutral-focus text-neutral-content rounded-full w-32 h-32">
-                <span class="text-3xl">{{ me.first_name[0] }}</span>
+                <span class="text-3xl">{{ me.firstName[0] }}</span>
             </div>
         </div>
-        <h2 class="card-title text-2xl text-center mt-4">{{ me.first_name }} {{ me.last_name }}</h2>
+        <h2 class="card-title text-2xl text-center mt-4">{{ me.firstName }} {{ me.lastName }}</h2>
         <p class="text-center">
             {{ me.about || null }}
         </p>
@@ -57,7 +57,7 @@ export default {
         },
     },
     beforeMount() {
-        console.log(this.me)
+        console.log(this.me.firstName)
     },
     mounted() {
         const query = qs.stringify({
