@@ -7,10 +7,10 @@
         </div>
         <div v-else class="avatar placeholder px-6 pt-12 justify-self-center">
             <div class="bg-neutral-focus text-neutral-content rounded-full w-32 h-32">
-                <span class="text-3xl">{{ me.name[0] }}</span>
+                <span class="text-3xl">{{ me.first_name[0] }}</span>
             </div>
         </div>
-        <h2 class="card-title text-2xl text-center mt-4">{{ me.name }}</h2>
+        <h2 class="card-title text-2xl text-center mt-4">{{ me.first_name }} {{ me.last_name }}</h2>
         <p class="text-center">
             {{ me.about || null }}
         </p>
@@ -20,7 +20,8 @@
         <AddBoatForm class="mt-4" :userboats="userBoats" @newBoat="onNewBoat" />
     </div>
     <div v-else class="wrapper justify-self-center md:max-w-2xl">
-        <LoadingCard v-for="i in 5" :key="i" />
+        <LoadingAvatar class="pt-8 px-6 mb-12 justify-self-center" />
+        <LoadingCard class="px-6" v-for="i in 5" :key="i" />
     </div>
     <button id="logout" class="btn btn-error mb-6 mt-12 w-48 ml-auto mr-auto" @click="logout">Logga ut</button>
 </template>
@@ -33,12 +34,14 @@ import AddBoatForm from '../components/AddBoatForm.vue'
 import BoatCard from '../components/BoatCard.vue'
 import LoadingCard from '@/components/LoadingCard.vue'
 import qs from 'qs'
+import LoadingAvatar from '@/components/LoadingAvatar.vue'
 
 export default {
     components: {
         AddBoatForm,
         BoatCard,
         LoadingCard,
+        LoadingAvatar,
     },
     data() {
         return {
@@ -53,11 +56,12 @@ export default {
             return this.me.image ? API_URL + this.me.image.formats.small.url : null
         },
     },
+    beforeMount() {
+        console.log(this.me)
+    },
     mounted() {
         const query = qs.stringify({
-            _where: {
-                _or: [[{ 'sailors.id': this.me.id }], [{ 'owner.id': this.me.id }]],
-            },
+            populate: ['image'],
         })
         API('boats', null, query, this.me.id).then(boats => {
             this.userBoats = boats

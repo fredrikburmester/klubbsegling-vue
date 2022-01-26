@@ -1,6 +1,6 @@
 <template>
     <div v-show="loaded || !hasImages" class="border border-blue-300 card shadow-xl image-full mt-4 h-56">
-        <figure v-if="hasImages">
+        <figure v-if="hasImages" class="panel-image">
             <img :src="thumbnail" @load="onImgLoad" />
         </figure>
         <div class="justify-end card-body h-56">
@@ -43,7 +43,9 @@ export default {
         thumbnail() {
             var url = IMG_URL
             var formats = this.race.attributes.images.data[0].attributes.formats
-            if (!!formats.small) {
+            if (!!formats.medium) {
+                return url + formats.medium.url
+            } else if (!!formats.small) {
                 return url + formats.small.url
             } else {
                 return url + formats.thumbnail.url
@@ -69,3 +71,17 @@ export default {
     },
 }
 </script>
+
+<style>
+.panel-image > img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+</style>

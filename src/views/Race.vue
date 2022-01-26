@@ -39,7 +39,11 @@
                     </thead>
                     <tbody>
                         <tr v-for="r in registrations" :key="r.id">
-                            <th>{{ r.attributes.boat.data.attributes.name }}</th>
+                            <th>
+                                <router-link class="underline" :to="`/boat/${r.attributes.boat.data.id}`">
+                                    {{ r.attributes.boat.data.attributes.name }}
+                                </router-link>
+                            </th>
                             <td>{{ r.attributes.handicapSystem.data.attributes.name }}</td>
                             <td>
                                 <kbd v-for="u in r.attributes.users.data" :key="u.id" class="kbd kbd-sm bg-gray-100 text-black px-2 mr-2">{{ u.attributes.firstName }} {{ u.attributes.lastName }}</kbd>

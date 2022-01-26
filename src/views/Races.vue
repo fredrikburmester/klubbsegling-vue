@@ -2,7 +2,7 @@
     <div v-if="!loading" class="wrapper px-6 pt-2 pb-6 md:max-w-2xl justify-self-center">
         <RaceList :races="races" />
     </div>
-    <div v-else class="wrapper justify-self-center md:max-w-2xl">
+    <div v-else class="wrapper px-6 justify-self-center md:max-w-2xl">
         <LoadingCard v-for="i in 5" :key="i" />
     </div>
 </template>
