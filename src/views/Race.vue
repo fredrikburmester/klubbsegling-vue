@@ -1,13 +1,10 @@
 <template>
-    <div class="wrapper">
-        <div v-if="error || loading">
-            {{ error }}
-        </div>
-        <div v-else class="flex flex-col w-screen overflow-hidden">
-            <div v-if="images.length > 0" class="carousel rounded-0 h-64 shadow-xl">
-                <div v-for="i in images" :key="i.id" class="carousel-item">
+    <div v-if="!loading" class="wrapper">
+        <div class="flex flex-col w-screen overflow-hidden">
+            <div v-if="raceHasImages" class="carousel rounded-0 h-64 shadow-xl">
+                <div v-for="i in race.images.data" :key="i.id" class="carousel-item">
                     <figure>
-                        <img class="max-h-64" :src="getImageURL(i.formats.small.url)" />
+                        <img class="max-h-64" :src="getImageURL(i)" />
                     </figure>
                 </div>
             </div>
@@ -42,10 +39,14 @@
                     </thead>
                     <tbody>
                         <tr v-for="r in registrations" :key="r.id">
-                            <th>{{ r.boat.name }}</th>
-                            <td>{{ r.handicap_system.name }}</td>
+                            <th>
+                                <router-link class="underline" :to="`/boat/${r.attributes.boat.data.id}`">
+                                    {{ r.attributes.boat.data.attributes.name }}
+                                </router-link>
+                            </th>
+                            <td>{{ r.attributes.handicapSystem.data.attributes.name }}</td>
                             <td>
-                                <kbd v-for="m in r.crew_members" :key="m.id" class="kbd kbd-sm bg-gray-100 text-black px-2 mr-2">{{ m.name }} </kbd>
+                                <kbd v-for="u in r.attributes.users.data" :key="u.id" class="kbd kbd-sm bg-gray-100 text-black px-2 mr-2">{{ u.attributes.firstName }} {{ u.attributes.lastName }}</kbd>
                             </td>
                         </tr>
                     </tbody>
@@ -60,17 +61,17 @@
                         <div v-if="userOptionsLoaded">
                             <select v-model="selectedBoat" class="select select-bordered select w-full max-w-xs mb-4">
                                 <option v-for="b in userBoats" :key="b.id" :value="b.id">
-                                    {{ b.name }}
+                                    {{ b.attributes.name }}
                                 </option>
                             </select>
                             <p>Välj handikappsystem</p>
-                            <select v-model="hsys" class="select select-bordered select w-full max-w-xs mb-4">
+                            <select v-model="selectedHsys" class="select select-bordered select w-full max-w-xs mb-4">
                                 <option v-for="h in handicap_systems" :key="h.id" :value="h.id">
                                     {{ h.name }}
                                 </option>
                             </select>
                             <p>Välj gastar</p>
-                            <VueMultiselect v-model="crew" :options="userOptions" :multiple="true" track-by="value" :close-on-select="false" label="label" class="mb-4"> </VueMultiselect>
+                            <VueMultiselect v-model="selectedUsers" :options="userOptions" :multiple="true" track-by="value" :close-on-select="false" label="label" class="mb-4"> </VueMultiselect>
                         </div>
                         <div v-else class="boarder border-slate-500 shadow rounded-md h-16 animate-pulse"></div>
                         <div class="modal-action flex justify-start">
@@ -83,15 +84,7 @@
                 <input id="un-register-modal" type="checkbox" class="modal-toggle" />
                 <div class="modal m-0">
                     <div class="modal-box m-0">
-                        <p>Vilken båt vill du avregistrera?</p>
-                        <div v-if="userOptionsLoaded">
-                            <select v-model="selectedBoat" class="select select-bordered select w-full max-w-xs mb-4">
-                                <option v-for="b in userBoats" :key="b.id" :value="b.id">
-                                    {{ b.name }}
-                                </option>
-                            </select>
-                        </div>
-                        <div v-else class="boarder border-slate-500 shadow rounded-md h-16 animate-pulse"></div>
+                        <p>Är du säker?</p>
                         <div class="modal-action flex justify-start">
                             <label for="un-register-modal" class="btn btn-error" @click="unregister()">Avregistrera</label>
                             <label for="un-register-modal" class="btn">Avbryt</label>
@@ -104,14 +97,12 @@
 </template>
 
 <script>
-import { API_URL } from '../store/actions/auth'
-import { registerForFace } from '../api/registerForRace'
-import { unRegisterForRace } from '../api/unRegisterForRace'
+import { API_URL, IMG_URL } from '../store/actions/auth'
 import { createToast } from 'mosha-vue-toastify'
 import VueMultiselect from 'vue-multiselect'
 import 'mosha-vue-toastify/dist/style.css'
 import 'vue-multiselect/dist/vue-multiselect.css'
-import { API } from '../api/API.ts'
+import { getAllRegistrations, getRace, getUserBoats, getAllUsers, registerForRace, getRegisteredRaces } from '@/api/API'
 
 export default {
     name: 'Race',
@@ -119,15 +110,11 @@ export default {
     data() {
         return {
             race: null,
-            name: null,
-            description: null,
-            images: [],
             API_URL: API_URL,
-            img: '',
             userBoats: [],
-            id: null,
+            users: [],
             boats: [],
-            crew: null,
+            selectedUsers: [],
             userOptions: [],
             handicap_systems: [
                 { name: 'Hcp', id: 1 },
@@ -136,82 +123,57 @@ export default {
                 { name: 'Hcp_SH_DWS', id: 4 },
                 { name: 'Hcp_SH_NoDWS', id: 5 },
             ],
-            hsys: '',
+            selectedHsys: '',
             selectedBoat: null,
             userOptionsLoaded: false,
             me: this.$store.getters.getProfile,
             raceId: this.$route.params.id,
             registrations: [],
-            error: null,
             loading: true,
+            raceHasImages: false,
         }
     },
-    async beforeMount() {
-        API('boats', null, `sailors.username=${this.me.username}`, true).then(boats => {
-            this.userBoats = boats
-        })
-
-        API('users', null, null, true).then(us => {
-            for (var i in us) {
-                this.userOptions.push({
-                    value: us[i].id,
-                    label: us[i].name,
-                })
-            }
-        })
-        API('registrations', null, `race=${this.$route.params.id}`, true).then(res => {
-            this.registrations = res
-        })
-    },
     async mounted() {
-        API('races', this.$route.params.id, null, true).then(res => {
-            this.race = res
-            this.images = this.race.images
-            this.id = this.race.id
-            this.loading = false
-        })
+        const race = await getRace(this.$route.params.id)
+        this.race = race.attributes
+
+        this.registrations = await getAllRegistrations()
+        this.userBoats = await getUserBoats()
+
+        this.raceHasImages = !!this.race.images.data
+
+        this.loading = false
     },
     methods: {
         async register() {
-            registerForFace(this.me, this.selectedBoat, this.crew, this.raceId, this.hsys)
-                .then(res => {
-                    createToast(res, {
-                        type: 'success',
-                    })
-                    API('registrations', null, `race=${this.$route.params.id}`).then(res => {
-                        this.registrations = res
-                    })
-                })
-                .catch(err => {
-                    createToast(err, {
-                        type: 'danger',
-                    })
-                })
+            var registered = await registerForRace(this.raceId, this.selectedBoat, this.selectedUsers, this.selectedHsys, this.me.id)
+            if (registered) {
+                this.registrations = await getAllRegistrations()
+            }
         },
-        async unregister() {
-            unRegisterForRace(this.selectedBoat)
-                .then(res => {
-                    createToast(res, {
-                        type: 'success',
-                    })
-                    API('registrations', null, `race=${this.$route.params.id}`).then(res => {
-                        this.registrations = res
-                    })
+        async unregister() {},
+        async loadRegisterOptions() {
+            this.users = await getAllUsers()
+
+            for (var i in this.users) {
+                this.userOptions.push({
+                    value: this.users[i].id,
+                    label: this.users[i].firstName + ' ' + this.users[i].lastName,
                 })
-                .catch(err => {
-                    createToast(err, {
-                        type: 'danger',
-                    })
-                })
+            }
+
+            this.userOptionsLoaded = true
         },
-        loadRegisterOptions() {
-            API('users', null, null, true).then(users => {
-                this.users = users
-                this.userOptionsLoaded = true
-            })
-        },
-        getImageURL(url) {
-            return `${this.API_URL}${url}`
+        getImageURL(image) {
+            if (!!image.attributes.formats.large) {
+                return `${IMG_URL}${image.attributes.formats.large.url}`
+            } else if (!!image.attributes.formats.medium) {
+                return `${IMG_URL}${image.attributes.formats.medium.url}`
+            } else if (!!image.attributes.formats.small) {
+                return `${IMG_URL}${image.attributes.formats.small.url}`
+            } else if (!!image.attributes.formats.thumbnail) {
+                return `${IMG_URL}${image.attributes.formats.thumbnail.url}`
+            }
         },
     },
 }

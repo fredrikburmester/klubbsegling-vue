@@ -1,95 +1,102 @@
 <template>
-	<div v-if="!loading" class="wrapper px-6 pt-2 pb-6 md:max-w-2xl justify-self-center">
-		<h1 class="font text-sm mt-4 opacity-50">Välj vy</h1>
-
-		<div class="w-full shadow stats mt-4">
-			<div
-				class="stat cursor-pointer"
-				:class="{ 'bg-gray-100': active == 'thisYear' }"
-				@click="
-					setActive(
-						`created_at_gte=${getCurrentYear}-01-01&created_at_lte=${getCurrentYear}-12-31&_sort=name:DESC`,
-						'thisYear'
-					)
-				"
-			>
-				<div class="stat-title">Seglatser i år</div>
-				<div class="stat-value text-info">{{ racesThisYear }}</div>
-				<div class="stat-desc">{{ getCurrentYear }}</div>
-			</div>
-			<div
-				class="stat cursor-pointer"
-				:class="{ 'bg-gray-100': active == 'registered' }"
-				@click="setActive(`registrations.crew_members.id=${me.id}`, 'registered')"
-			>
-				<div class="stat-title">Registrerad</div>
-				<div class="stat-value text-primary">{{ registeredRaces }}</div>
-				<div class="stat-desc"></div>
-			</div>
-		</div>
-		<RaceList :key="updateList" :query="raceListQuery" />
-	</div>
+    <div class="wrapper px-6 pt-2 pb-6 md:max-w-2xl justify-self-center">
+        <h1 v-if="!loading" class="font text-sm mt-4 opacity-50">Välj vy</h1>
+        <div v-if="!loading" class="w-full shadow stats mt-4">
+            <div class="stat cursor-pointer" :class="{ 'bg-gray-100': active == 'thisYear' }" @click="setActive('thisYear')">
+                <div class="stat-title">Seglatser i år</div>
+                <div class="stat-value text-info">
+                    {{ racesThisYear.length }}
+                </div>
+                <div class="stat-desc">{{ getCurrentYear }}</div>
+            </div>
+            <div class="stat cursor-pointer" :class="{ 'bg-gray-100': active == 'registered' }" @click="setActive('registered')">
+                <div class="stat-title">Registrerad</div>
+                <div class="stat-value text-primary">
+                    {{ registeredRaces.length }}
+                </div>
+                <div class="stat-desc"></div>
+            </div>
+        </div>
+        <div v-if="!loading">
+            <RaceList :key="updateList" :races="races" />
+        </div>
+        <div v-else class="wrapper justify-self-center md:max-w-2xl">
+            <LoadingCard v-for="i in 5" :key="i" />
+        </div>
+    </div>
 </template>
 
 <script>
-import RaceList from '../components/RaceList.vue'
-import { API } from '../api/API.ts'
+import RaceList from '@/components/RaceList.vue'
+import LoadingCard from '@/components/LoadingCard.vue'
+import { getAllRaces, getRegisteredRaces } from '@/api/API.ts'
 
 export default {
-	name: 'Home',
-	components: {
-		RaceList,
-	},
-	data() {
-		return {
-			me: this.$store.getters.getProfile,
-			active: 'thisYear',
-			racesThisYear: 0,
-			registeredRaces: 0,
-			raceListQuery: '',
-			boats: 0,
-			loading: true,
-			updateList: false,
-		}
-	},
-	computed: {
-		getCurrentYear() {
-			var now = new Date()
-			return now.getFullYear()
-		},
-	},
-	mounted() {
-		// Get races this year
-		API(
-			'races/count',
-			null,
-			`created_at_gte=${this.getCurrentYear}-01-01&created_at_lte=${this.getCurrentYear}-12-31&_sort=name:DESC`,
-			true
-		).then((nrOfRaces) => {
-			this.racesThisYear = nrOfRaces
-			API('races/count', null, `registrations.crew_members.id=${this.me.id}`, true)
-				.then((registeredRaces) => {
-					this.registeredRaces = registeredRaces
-					this.loading = false
-				})
-				.catch((err) => {
-					console.error(err)
-				})
-		})
-	},
-	methods: {
-		setActive(query, current) {
-			this.raceListQuery = query
-			this.active = current
-			this.updateList = !this.updateList
-		},
-	},
+    name: 'Home',
+    components: {
+        RaceList,
+        RaceList,
+        LoadingCard,
+    },
+    data() {
+        return {
+            me: this.$store.getters.getProfile,
+            active: 'thisYear',
+            racesThisYear: 0,
+            registeredRaces: 0,
+            raceListQuery: '',
+            boats: 0,
+            loading: true,
+            updateList: false,
+            races: [],
+        }
+    },
+    computed: {
+        getCurrentYear() {
+            var now = new Date()
+            return now.getFullYear()
+        },
+    },
+    async mounted() {
+        this.races = this.racesThisYear = await getAllRaces()
+        this.registeredRaces = await getRegisteredRaces(this.me.id)
+
+        console.log('[1]', this.registeredRaces)
+
+        this.loading = false
+    },
+    methods: {
+        setActive(list) {
+            if (list === 'thisYear') {
+                this.active = list
+                this.races = this.racesThisYear
+            } else if (list === 'registered') {
+                this.active = list
+                this.races = this.registeredRaces
+            }
+            this.updateList = !this.updateList
+        },
+        // getRegisteredRaces(races) {
+        //     return races.filter(race => {
+        //         const registrations = race.attributes.registrations.data
+        //         console.log(registrations)
+        //         for (let i in registrations) {
+        //             const users = registrations[i].attributes.users.data
+        //             console.log(users)
+        //             for (let j in users) {
+        //                 console.log('[1]', users[j].id, this.me.id)
+        //                 return users[j].id == this.me.id
+        //             }
+        //         }
+        //     })
+        // },
+    },
 }
 </script>
 
 <style>
 .wrapper {
-	width: 100%;
-	min-height: 100vh;
+    width: 100%;
+    min-height: 100vh;
 }
 </style>
