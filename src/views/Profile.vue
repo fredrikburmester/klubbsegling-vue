@@ -1,15 +1,35 @@
 <template>
     <div v-if="!loading" class="wrapper md:max-w-2xl justify-self-center grid px-6">
-        <div v-if="!!profilePicture" class="avatar px-6 pt-12 justify-self-center">
+        <div v-if="!!profilePicture" class="avatar px-6 pt-12 justify-self-center" @click="openChangeProfileModal">
             <div class="mb-8 rounded-full w-32 h-32">
                 <img :src="profilePicture" />
             </div>
         </div>
-        <div v-else class="avatar placeholder px-6 pt-12 justify-self-center">
+        <div v-else class="avatar placeholder px-6 pt-12 justify-self-center" @click="openChangeProfileModal">
             <div class="bg-neutral-focus text-neutral-content rounded-full w-32 h-32">
                 <span class="text-3xl">{{ me.firstName[0] }}</span>
             </div>
         </div>
+
+        <input type="checkbox" id="changeProfileModal" class="modal-toggle" />
+        <div class="modal">
+            <div class="modal-box">
+                <form id="form">
+                    <label for="file-upload" class="btn" disabled>Välj bild</label>
+
+                    <input class="hidden" type="text" name="ref" value="api::user.user" />
+                    <input class="hidden" type="text" name="refId" :value="me.id" />
+                    <input class="hidden" type="text" name="field" value="profilePicture" />
+                    <input class="hidden" id="file-upload" name="files" type="file" @change="showImageName" />
+                </form>
+                <p class="text-black">{{ imageName || '' }}</p>
+                <div class="modal-action">
+                    <label for="changeProfileModal" class="btn btn-primary" @click="upload">Ladda upp</label>
+                    <label for="changeProfileModal" class="btn">Avbryt</label>
+                </div>
+            </div>
+        </div>
+
         <h2 class="card-title text-2xl text-center mt-4">{{ me.firstName }} {{ me.lastName }}</h2>
         <p class="text-center">
             {{ me.about || null }}
@@ -29,7 +49,7 @@
 <script>
 import { AUTH_LOGOUT } from '../store/actions/auth'
 import { API_URL } from '../store/actions/auth'
-import { API } from '../api/API'
+import { API, uploadProfilePicture, getProfilePicture } from '../api/API'
 import AddBoatForm from '../components/AddBoatForm.vue'
 import BoatCard from '../components/BoatCard.vue'
 import LoadingCard from '@/components/LoadingCard.vue'
@@ -49,17 +69,18 @@ export default {
             loading: true,
             userBoats: [],
             imageLoading: true,
+            imageName: '',
         }
     },
     computed: {
-        profilePicture() {
-            return this.me.image ? API_URL + this.me.image.formats.small.url : null
-        },
+        profilePicture() {},
     },
     beforeMount() {
         console.log(this.me.firstName)
     },
-    mounted() {
+    async mounted() {
+        let user = await getProfilePicture(this.me.id)
+        console.log(user)
         const query = qs.stringify({
             populate: ['image'],
         })
@@ -100,6 +121,29 @@ export default {
         },
         imageLoaded() {
             this.imageLoading = false
+        },
+        openChangeProfileModal() {
+            console.log('open')
+            var checkbox = document.getElementById('changeProfileModal')
+            checkbox.checked = !checkbox.checked
+        },
+        showImageName(e) {
+            const filename = e.srcElement.value.split('\\').pop()
+            this.imageName = filename
+            console.log(e.srcElement.value)
+            console.log(filename)
+        },
+        upload() {
+            const formElement = document.querySelector('form')
+            const image = document.getElementById('file-upload')
+            const formData = new FormData(formElement)
+
+            for (var [key, value] of formData.entries()) {
+                console.log(key, value)
+            }
+            uploadProfilePicture(formData).then(res => {
+                console.log(res)
+            })
         },
     },
 }

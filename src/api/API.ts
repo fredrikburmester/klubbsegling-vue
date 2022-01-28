@@ -74,18 +74,14 @@ const getUserBoats = async (id: Number) => {
 
     const query = qs.stringify(
         {
-            sort: ['name:desc'],
-            populate: '*',
+            populate: ['owners'],
             filters: {
-                user_boats_relations: {
-                    user: {
-                        id: {
-                            $eq: id,
-                        },
+                owners: {
+                    id: {
+                        $eq: id,
                     },
                 },
             },
-            // fields: ['name', 'owner', 'id'],
             publicationState: 'live',
         },
         {
@@ -188,7 +184,7 @@ const getRegisteredRaces = async (id: Number) => {
 
             filters: {
                 registrations: {
-                    users: {
+                    crew: {
                         id: {
                             $eq: id,
                         },
@@ -208,37 +204,17 @@ const getRegisteredRaces = async (id: Number) => {
     return races
 }
 
-const getAllRegistrations = async () => {
+const getAllRegistrations = async (id: Number) => {
     var registrations: any = []
     const query = qs.stringify(
         {
-            populate: ['*'],
-        },
-        {
-            encodeValuesOnly: true, // prettify url
-        }
-    )
-
-    await API('registrations?populate=*', undefined, undefined, true).then((res: any) => {
-        registrations = res
-    })
-
-    return registrations
-}
-
-const registerForRace = async (raceId: Number, boatId: Number, users: Array<{ value: Number; label: String }>, hsysId: Number, userId: Number) => {
-    const query = qs.stringify(
-        {
-            populate: ['*'],
+            populate: ['crew', 'boat', 'handicapSystem'],
             filters: {
-                $and: [
-                    {
-                        boat: boatId,
+                race: {
+                    id: {
+                        $eq: id,
                     },
-                    {
-                        user: userId,
-                    },
-                ],
+                },
             },
         },
         {
@@ -246,35 +222,30 @@ const registerForRace = async (raceId: Number, boatId: Number, users: Array<{ va
         }
     )
 
-    const realation: any = await API('user-boats-relations', undefined, query, true)
-    if (realation.length === 0) {
-        return false
-    } else {
-        if (realation[0].attributes.relation_to_boat !== 'owner') {
-            createToast('Du äger inte den båten.', {
-                type: 'danger',
-            })
-            return false
-        }
-    }
+    await API('registrations', undefined, query, true).then((res: any) => {
+        registrations = res
+    })
 
+    return registrations
+}
+
+const registerForRace = async (raceId: Number, boatId: Number, crew: Array<{ value: Number; label: String }>, hsysId: Number, userId: Number) => {
     var userIds = []
-    for (let i in users) {
-        let user = users[i]
+    for (let i in crew) {
+        let user = crew[i]
         userIds.push(user.value)
     }
-    console.log('registerForRace', raceId, boatId, userIds, hsysId)
-    var registered = false
 
     const data = {
         data: {
             race: raceId,
             boat: boatId,
-            users: userIds,
-            handicap_system: hsysId,
+            crew: userIds,
+            handicapSystem: hsysId,
         },
     }
 
+    var registered = false
     await axios
         .post(`${API_URL}/registrations`, data, {
             headers: {
@@ -289,8 +260,7 @@ const registerForRace = async (raceId: Number, boatId: Number, users: Array<{ va
         })
         .catch(err => {
             console.error(err)
-            registered = false
-            createToast('Något gick fel, försök igen.', {
+            createToast('Något gick fel, ladda om sidan och försök igen.', {
                 type: 'danger',
             })
         })
@@ -364,4 +334,143 @@ const getBoat = async (id: Number) => {
     return club
 }
 
-export { API, getAllBoats, getUserBoats, getAllRaces, getRacesThisYear, getRegisteredRaces, getRace, getAllRegistrations, getAllUsers, registerForRace, getClub, getBoat }
+const uploadProfilePicture = async (formData: any) => {
+    const headers = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        },
+    }
+
+    await axios
+        .post(`${API_URL}/upload`, formData, headers)
+        .then(res => {
+            if (process.env.NODE_ENV === 'development') {
+                console.log('API [uploadProfilePicture]:', res.data)
+            }
+        })
+        .catch(err => {
+            if (process.env.NODE_ENV === 'development') {
+                console.error('API [uploadProfilePicture]:', localStorage.getItem('jwt'), err)
+            }
+        })
+}
+
+const getProfilePicture = async (id: Number) => {
+    const query = qs.stringify(
+        {
+            populate: ['image'],
+        },
+        {
+            encodeValuesOnly: true,
+        }
+    )
+    const headers = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        },
+    }
+
+    let user = await axios
+        .get(`https://cms.klubbsegling.se/api/boats/1?${query}`, headers)
+        .then(res => {
+            if (process.env.NODE_ENV === 'development') {
+                console.log('API [getProfilePicture]:', res.data)
+                console.log(res.data.id)
+            }
+        })
+        .catch(err => {
+            if (process.env.NODE_ENV === 'development') {
+                console.error('API [getProfilePicture]:', localStorage.getItem('jwt'), err)
+            }
+        })
+
+    return user
+}
+
+const unRegisterFromRace = async (raceId: Number, boatId: Number, userId: Number) => {}
+
+const getMyRegistrations = async (userId: Number) => {
+    var registrations: any = []
+    const query = qs.stringify(
+        {
+            populate: ['race', 'crew', 'boat'],
+            filters: {
+                users: {
+                    id: {
+                        $eq: userId,
+                    },
+                },
+            },
+        },
+        {
+            encodeValuesOnly: true, // prettify url
+        }
+    )
+
+    await API('registrations', undefined, query, true).then((res: any) => {
+        registrations = res
+    })
+
+    return registrations
+}
+
+export const unRegisterForRace = async (userId: Number) => {
+    // const query = qs.stringify(
+    //     {
+    //         populate: ['race', 'crew', 'boat'],
+    //         filters: {
+    //             owners: {
+    //                 id: {
+    //                     $eq: userId,
+    //                 },
+    //             },
+    //         },
+    //     },
+    //     {
+    //         encodeValuesOnly: true, // prettify url
+    //     }
+    // )
+    // return new Promise(function (resolve, reject) {
+    //     axios
+    //         .get(`${API_URL}/registrations?boat.id=${boatId}`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+    //             },
+    //         })
+    //         .then(res => {
+    //             if (res.data.length === 0) {
+    //                 reject('Säker på att den båten är registrerad?')
+    //             } else {
+    //                 const id = res.data[0].id
+    //                 axios
+    //                     .delete(`${API_URL}/registrations/${id}`, {
+    //                         headers: {
+    //                             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+    //                         },
+    //                     })
+    //                     .then(res => {
+    //                         resolve('Registreringen borttagen.')
+    //                     })
+    //             }
+    //         })
+    // })
+}
+
+export {
+    API,
+    getAllBoats,
+    getUserBoats,
+    getAllRaces,
+    getRacesThisYear,
+    getRegisteredRaces,
+    getRace,
+    getAllRegistrations,
+    getAllUsers,
+    registerForRace,
+    getClub,
+    getBoat,
+    uploadProfilePicture,
+    getProfilePicture,
+    unRegisterFromRace,
+    getMyRegistrations,
+}

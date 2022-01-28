@@ -46,7 +46,7 @@
                             </th>
                             <td>{{ r.attributes.handicapSystem.data.attributes.name }}</td>
                             <td>
-                                <kbd v-for="u in r.attributes.users.data" :key="u.id" class="kbd kbd-sm bg-gray-100 text-black px-2 mr-2">{{ u.attributes.firstName }} {{ u.attributes.lastName }}</kbd>
+                                <kbd v-for="u in r.attributes.crew.data" :key="u.id" class="kbd kbd-sm bg-gray-100 text-black px-2 mr-2">{{ u.attributes.firstName }} {{ u.attributes.lastName }}</kbd>
                             </td>
                         </tr>
                     </tbody>
@@ -80,14 +80,16 @@
                         </div>
                     </div>
                 </div>
-                <label for="un-register-modal" class="btn modal-button text-base-100" @click="loadRegisterOptions()"> Avregistrera </label>
-                <input id="un-register-modal" type="checkbox" class="modal-toggle" />
-                <div class="modal m-0">
-                    <div class="modal-box m-0">
-                        <p>Är du säker?</p>
-                        <div class="modal-action flex justify-start">
-                            <label for="un-register-modal" class="btn btn-error" @click="unregister()">Avregistrera</label>
-                            <label for="un-register-modal" class="btn">Avbryt</label>
+                <div v-if="registrations.length > 0">
+                    <label for="un-register-modal" class="btn modal-button text-base-100"> Avregistrera </label>
+                    <input id="un-register-modal" type="checkbox" class="modal-toggle" />
+                    <div class="modal m-0">
+                        <div class="modal-box m-0">
+                            <p class="mb-4">Är du säker</p>
+                            <div class="modal-action flex justify-start">
+                                <label for="un-register-modal" class="btn btn-error" @click="unregister()">Avregistrera</label>
+                                <label for="un-register-modal" class="btn">Avbryt</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -98,11 +100,10 @@
 
 <script>
 import { API_URL, IMG_URL } from '../store/actions/auth'
-import { createToast } from 'mosha-vue-toastify'
 import VueMultiselect from 'vue-multiselect'
 import 'mosha-vue-toastify/dist/style.css'
 import 'vue-multiselect/dist/vue-multiselect.css'
-import { getAllRegistrations, getRace, getUserBoats, getAllUsers, registerForRace, getRegisteredRaces } from '@/api/API'
+import { getAllRegistrations, getRace, getUserBoats, getAllUsers, registerForRace, getRegisteredRaces, unRegisterFromRace, getMyRegistrations } from '@/api/API'
 
 export default {
     name: 'Race',
@@ -131,16 +132,22 @@ export default {
             registrations: [],
             loading: true,
             raceHasImages: false,
+            selectedUnRegisterRace: null,
         }
     },
     async mounted() {
         const race = await getRace(this.$route.params.id)
         this.race = race.attributes
 
-        this.registrations = await getAllRegistrations()
-        this.userBoats = await getUserBoats()
-
+        this.registrations = await getAllRegistrations(this.race.id)
+        this.myRegistrations = await getMyRegistrations()
+        this.userBoats = await getUserBoats(this.me.id)
         this.raceHasImages = !!this.race.images.data
+
+        console.log('Races: ', this.race)
+        console.log('All registrations: ', this.registrations)
+        console.log('My registrations: ', this.myRegistrations)
+        console.log('User boats: ', this.userBoats)
 
         this.loading = false
     },
@@ -151,7 +158,9 @@ export default {
                 this.registrations = await getAllRegistrations()
             }
         },
-        async unregister() {},
+        async unregister() {
+            await unRegisterFromRace(this.race.id)
+        },
         async loadRegisterOptions() {
             this.users = await getAllUsers()
 
