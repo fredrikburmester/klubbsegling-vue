@@ -52,6 +52,7 @@ const getAllBoats = async () => {
     const query = qs.stringify(
         {
             sort: ['name:desc'],
+            populate: ['owners'],
             // fields: ['name', 'owner', 'id'],
             publicationState: 'live',
         },
@@ -74,7 +75,7 @@ const getUserBoats = async (id: Number) => {
 
     const query = qs.stringify(
         {
-            populate: ['owners'],
+            populate: ['owners', 'image'],
             filters: {
                 owners: {
                     id: {
@@ -94,6 +95,27 @@ const getUserBoats = async (id: Number) => {
 
     store.commit('USER_BOATS', boats)
     return boats
+}
+
+const addBoatToUser = async (userId: Number, boat: any) => {
+    console.log(userId, boat)
+    var owners = boat.attributes.owners.data.push(userId)
+
+    var data = {
+        data: {
+            owners: owners,
+        },
+    }
+
+    await axios
+        .put(`${API_URL}/boats/${boat.id}`, data, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+            },
+        })
+        .then(res => {
+            return res.data
+        })
 }
 
 interface TimeRange {
@@ -230,42 +252,55 @@ const getAllRegistrations = async (id: Number) => {
 }
 
 const registerForRace = async (raceId: Number, boatId: Number, crew: Array<{ value: Number; label: String }>, hsysId: Number, userId: Number) => {
-    var userIds = []
-    for (let i in crew) {
-        let user = crew[i]
-        userIds.push(user.value)
+    if (!raceId || !boatId || !crew || !hsysId || !userId || crew.length === 0) {
+        createToast('Du måste fylla i alla fält.', {
+            type: 'danger',
+        })
+        return false
     }
 
-    const data = {
-        data: {
-            race: raceId,
-            boat: boatId,
-            crew: userIds,
-            handicapSystem: hsysId,
-        },
-    }
+    try {
+        var userIds = []
+        for (let i in crew) {
+            let user = crew[i]
+            userIds.push(user.value)
+        }
 
-    var registered = false
-    await axios
-        .post(`${API_URL}/registrations`, data, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        const data = {
+            data: {
+                race: raceId,
+                boat: boatId,
+                crew: userIds,
+                handicapSystem: hsysId,
             },
-        })
-        .then(res => {
-            registered = true
-            createToast('Du är nu registrerad!', {
-                type: 'success',
-            })
-        })
-        .catch(err => {
-            console.error(err)
-            createToast('Något gick fel, ladda om sidan och försök igen.', {
-                type: 'danger',
-            })
-        })
+        }
 
-    return registered
+        var registered = false
+        await axios
+            .post(`${API_URL}/registrations`, data, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                },
+            })
+            .then(res => {
+                registered = true
+                createToast('Du är nu registrerad!', {
+                    type: 'success',
+                })
+            })
+            .catch(err => {
+                console.error(err)
+                createToast('Något gick fel, ladda om sidan och försök igen.', {
+                    type: 'danger',
+                })
+            })
+
+        return registered
+    } catch {
+        createToast('Något gick fel, ladda om sidan och försök igen.', {
+            type: 'danger',
+        })
+    }
 }
 
 const getAllUsers = async () => {
@@ -358,7 +393,7 @@ const uploadProfilePicture = async (formData: any) => {
 const getProfilePicture = async (id: Number) => {
     const query = qs.stringify(
         {
-            populate: ['image'],
+            populate: ['profilePicture'],
         },
         {
             encodeValuesOnly: true,
@@ -370,24 +405,22 @@ const getProfilePicture = async (id: Number) => {
         },
     }
 
-    let user = await axios
-        .get(`https://cms.klubbsegling.se/api/boats/1?${query}`, headers)
+    await axios
+        .get(`https://cms.klubbsegling.se/api/users/${id}?${query}`, headers)
         .then(res => {
             if (process.env.NODE_ENV === 'development') {
                 console.log('API [getProfilePicture]:', res.data)
                 console.log(res.data.id)
             }
+            return res.data
         })
         .catch(err => {
             if (process.env.NODE_ENV === 'development') {
                 console.error('API [getProfilePicture]:', localStorage.getItem('jwt'), err)
             }
+            return null
         })
-
-    return user
 }
-
-const unRegisterFromRace = async (raceId: Number, boatId: Number, userId: Number) => {}
 
 const getMyRegistrations = async (userId: Number) => {
     var registrations: any = []
@@ -414,46 +447,30 @@ const getMyRegistrations = async (userId: Number) => {
     return registrations
 }
 
-export const unRegisterForRace = async (userId: Number) => {
-    // const query = qs.stringify(
-    //     {
-    //         populate: ['race', 'crew', 'boat'],
-    //         filters: {
-    //             owners: {
-    //                 id: {
-    //                     $eq: userId,
-    //                 },
-    //             },
-    //         },
-    //     },
-    //     {
-    //         encodeValuesOnly: true, // prettify url
-    //     }
-    // )
-    // return new Promise(function (resolve, reject) {
-    //     axios
-    //         .get(`${API_URL}/registrations?boat.id=${boatId}`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-    //             },
-    //         })
-    //         .then(res => {
-    //             if (res.data.length === 0) {
-    //                 reject('Säker på att den båten är registrerad?')
-    //             } else {
-    //                 const id = res.data[0].id
-    //                 axios
-    //                     .delete(`${API_URL}/registrations/${id}`, {
-    //                         headers: {
-    //                             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-    //                         },
-    //                     })
-    //                     .then(res => {
-    //                         resolve('Registreringen borttagen.')
-    //                     })
-    //             }
-    //         })
-    // })
+const unRegisterFromRace = async (registrationId: Number) => {
+    try {
+        await axios
+            .delete(`${API_URL}/registrations/${registrationId}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                },
+            })
+            .then(res => {
+                createToast('Du är avregistrerad.', {
+                    type: 'success',
+                })
+            })
+            .catch(err => {
+                createToast('Något gick fel, ladda om sidan och försök igen.', {
+                    type: 'danger',
+                })
+            })
+    } catch {
+        createToast('Något gick fel, ladda om sidan och försök igen.', {
+            type: 'danger',
+        })
+        return false
+    }
 }
 
 export {
@@ -473,4 +490,5 @@ export {
     getProfilePicture,
     unRegisterFromRace,
     getMyRegistrations,
+    addBoatToUser,
 }

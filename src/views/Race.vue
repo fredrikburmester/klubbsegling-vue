@@ -110,8 +110,9 @@ export default {
     components: { VueMultiselect },
     data() {
         return {
+            me: this.$store.getters.getProfile,
             race: null,
-            API_URL: API_URL,
+            raceId: this.$route.params.id,
             userBoats: [],
             users: [],
             boats: [],
@@ -127,12 +128,10 @@ export default {
             selectedHsys: '',
             selectedBoat: null,
             userOptionsLoaded: false,
-            me: this.$store.getters.getProfile,
-            raceId: this.$route.params.id,
             registrations: [],
-            loading: true,
+            myRegistrations: [],
             raceHasImages: false,
-            selectedUnRegisterRace: null,
+            loading: true,
         }
     },
     async mounted() {
@@ -156,10 +155,12 @@ export default {
             var registered = await registerForRace(this.raceId, this.selectedBoat, this.selectedUsers, this.selectedHsys, this.me.id)
             if (registered) {
                 this.registrations = await getAllRegistrations()
+                this.myRegistrations = await getMyRegistrations()
             }
         },
         async unregister() {
-            await unRegisterFromRace(this.race.id)
+            await unRegisterFromRace(this.myRegistrations[0].id)
+            this.registrations = await getAllRegistrations()
         },
         async loadRegisterOptions() {
             this.users = await getAllUsers()

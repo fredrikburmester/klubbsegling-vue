@@ -1,6 +1,6 @@
 <template>
     <div v-if="!loading" class="wrapper md:max-w-2xl justify-self-center grid px-6">
-        <div v-if="!!profilePicture" class="avatar px-6 pt-12 justify-self-center" @click="openChangeProfileModal">
+        <div v-if="profilePictureLoaded" class="avatar px-6 pt-12 justify-self-center" @click="openChangeProfileModal">
             <div class="mb-8 rounded-full w-32 h-32">
                 <img :src="profilePicture" />
             </div>
@@ -37,7 +37,7 @@
         <h1 class="mt-4 font-bold">Mina Båtar</h1>
         <BoatCard v-for="b in userBoats" :key="b.id" :boat="b" />
 
-        <AddBoatForm class="mt-4" :userboats="userBoats" @newBoat="onNewBoat" />
+        <AddBoatForm @boat="updateBoats" class="mt-4" :userboats="userBoats" @newBoat="onNewBoat" />
     </div>
     <div v-else class="wrapper justify-self-center md:max-w-2xl">
         <LoadingAvatar class="pt-8 px-6 mb-12 justify-self-center" />
@@ -49,11 +49,10 @@
 <script>
 import { AUTH_LOGOUT } from '../store/actions/auth'
 import { API_URL } from '../store/actions/auth'
-import { API, uploadProfilePicture, getProfilePicture } from '../api/API'
+import { uploadProfilePicture, getProfilePicture, getUserBoats } from '../api/API'
 import AddBoatForm from '../components/AddBoatForm.vue'
 import BoatCard from '../components/BoatCard.vue'
 import LoadingCard from '@/components/LoadingCard.vue'
-import qs from 'qs'
 import LoadingAvatar from '@/components/LoadingAvatar.vue'
 
 export default {
@@ -70,24 +69,24 @@ export default {
             userBoats: [],
             imageLoading: true,
             imageName: '',
+            profilePictureLoaded: false,
+            profilePictureUrl: '',
         }
     },
-    computed: {
-        profilePicture() {},
-    },
-    beforeMount() {
-        console.log(this.me.firstName)
-    },
     async mounted() {
-        let user = await getProfilePicture(this.me.id)
-        console.log(user)
-        const query = qs.stringify({
-            populate: ['image'],
-        })
-        API('boats', null, query, this.me.id).then(boats => {
-            this.userBoats = boats
-            this.loading = false
-        })
+        // var user = await getProfilePicture(this.me.id)
+        // console.log('[1]', user)
+        // var formats = user
+        // if (!!formats.medium) {
+        //     profilePictureUrl = url + formats.medium.url
+        // } else if (!!formats.small) {
+        //     profilePictureUrl = url + formats.small.url
+        // } else {
+        //     profilePictureUrl = url + formats.thumbnail.url
+        // }
+        // this.profilePictureLoaded = true
+        await this.updateBoats()
+        this.loading = false
     },
     methods: {
         logout: function () {
@@ -99,9 +98,11 @@ export default {
                 }
             })
         },
-        onNewBoat(value) {
-            // Add the new boat to the table
-            this.userBoats.push(value)
+        async updateBoats() {
+            await getUserBoats(this.me.id).then(boats => {
+                this.userBoats = boats
+                this.loading = false
+            })
         },
         getOwnerName(boat) {
             // return boat.owner.name
