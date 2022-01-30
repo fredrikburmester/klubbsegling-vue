@@ -473,6 +473,64 @@ const unRegisterFromRace = async (registrationId: Number) => {
     }
 }
 
+const getArticle = async (id: Number) => {
+    var article = {}
+    const query = qs.stringify(
+        {
+            populate: ['authors', 'images'],
+        },
+        {
+            encodeValuesOnly: true,
+        }
+    )
+
+    await API('articles', id, query, true).then((res: any) => {
+        article = res
+    })
+
+    return article
+}
+
+// article exists
+const articleExists = async (id: Number) => {
+    var exist: Boolean = false
+    const query = qs.stringify({
+        fields: ['id'],
+    })
+    const headers = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+        },
+    }
+
+    await axios
+        .get(`${API_URL}/articles/${id}`, headers)
+        .then(res => {
+            if (process.env.NODE_ENV === 'development') {
+                console.log('API [articelExists]:', res)
+            }
+            if (res.status == 200) {
+                exist = true
+            } else {
+                exist = false
+                createToast('Artikeln finns inte.', {
+                    type: 'danger',
+                })
+            }
+        })
+        .catch(err => {
+            if (process.env.NODE_ENV === 'development') {
+                console.error('API [articelExists]:', id, query, localStorage.getItem('jwt'), err)
+            }
+            exist = false
+            createToast('Artikeln finns inte.', {
+                type: 'danger',
+            })
+        })
+
+    return exist
+}
+
 export {
     API,
     getAllBoats,
@@ -491,4 +549,6 @@ export {
     unRegisterFromRace,
     getMyRegistrations,
     addBoatToUser,
+    getArticle,
+    articleExists,
 }
