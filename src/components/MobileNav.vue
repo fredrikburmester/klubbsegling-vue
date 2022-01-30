@@ -23,8 +23,8 @@
                         <router-link to="/article/1" @click="$emit('close-nav')">
                             <a class="text-base-content">Om oss</a>
                         </router-link>
-                        <router-link to="/article/2">
-                            <a class="text-base-content">Mer</a>
+                        <router-link to="/article/2" @click="$emit('close-nav')">
+                            <a class="text-base-content">Kontakt</a>
                         </router-link>
                     </div>
                 </div>
