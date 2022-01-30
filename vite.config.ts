@@ -8,7 +8,7 @@ export default defineConfig({
     plugins: [
         vue(),
         VitePWA({
-            includeAssets: ['favicon.ico', 'robots.txt', 'apple-touch-icon.png'],
+            includeAssets: ['favicon.ico', 'robots.txt', '/img/apple-touch-icon.png'],
             manifest: {
                 name: 'Klubbsegling',
                 short_name: 'Klubbsegling',
@@ -16,7 +16,7 @@ export default defineConfig({
                 theme_color: '#00428C',
                 icons: [
                     {
-                        src: 'android-chrome-192x192.png',
+                        src: '/img/android-chrome-192x192.png',
                         sizes: '192x192',
                         type: 'image/png',
                     },
