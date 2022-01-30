@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper max-w-2xl px-6 pt-6" v-if="!loading">
+    <div class="wrapper max-w-2xl px-6 pt-6 justify-self-center grid" v-if="!loading">
         <h1 class="text-3xl font-bold mb-4">{{ article.title }}</h1>
         <div class="badge badge-info mr-2" v-for="author in article.authors.data">{{ author.attributes.firstName }} {{ author.attributes.lastName }}</div>
         <hr class="my-4" />
