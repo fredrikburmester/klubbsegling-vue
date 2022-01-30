@@ -1,25 +1,32 @@
 <template>
-    <div v-show="loaded || !hasImages" class="border border-blue-300 card shadow-xl image-full mt-4 h-56">
+    <div v-show="loaded || !hasImages" class="border border-blue-300 card shadow-xl image-full mt-4 bg-gray-500">
         <figure v-if="hasImages" class="panel-image">
             <img :src="thumbnail" @load="onImgLoad" />
         </figure>
-        <div class="justify-end card-body h-56">
+        <div class="justify-end card-body">
             <h2 class="card-title">{{ race.attributes.name }}</h2>
-            <p class="max-h-12 overflow-hidden">
+            <p class="max-h-24">
                 {{ race.attributes.description || '' }}
             </p>
-            <router-link :to="`/race/${race.id}`">
-                <div class="card-actions">
+            <p class="font-bold mt-2">{{ getDateString }}</p>
+            <div class="card-actions">
+                <router-link :to="`/race/${race.id}/report`">
+                    <div class="relative" v-if="isActive">
+                        <button class="btn bg-red-600 border-0 shadow-xl">Rapportera nu</button>
+                    </div>
+                </router-link>
+                <router-link v-if="!disabled" :to="`/race/${race.id}`">
                     <button class="btn btn-primary">Läs mer</button>
-                </div>
-            </router-link>
+                </router-link>
+                <button v-else class="btn btn-primary opacity-50">Kommer snart</button>
+            </div>
         </div>
     </div>
     <LoadingCard v-if="!loaded && hasImages" />
 </template>
 
 <script>
-import { API_URL, IMG_URL } from '../store/actions/auth'
+import { IMG_URL } from '../store/actions/auth'
 import LoadingCard from '../components/LoadingCard.vue'
 
 export default {
@@ -31,12 +38,21 @@ export default {
             type: Object,
             default: () => {},
         },
+        registered: {
+            type: Boolean,
+            default: false,
+        },
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
     },
     data: function () {
         return {
             hasImages: !!this.race.attributes.images.data,
             images: this.race.attributes.images.data,
             loaded: false,
+            isActive: new Date() > new Date(this.race.attributes.start) && new Date() < new Date(this.race.attributes.end),
         }
     },
     computed: {
@@ -51,7 +67,18 @@ export default {
                 return url + formats.thumbnail.url
             }
         },
+        getDateString() {
+            let start = new Date(this.race.attributes.start)
+            let end = new Date(this.race.attributes.end)
+
+            let month = start.getMonth() + 1
+            let day = start.getDate()
+            let year = start.getDate()
+
+            return `Start: ${day}/${month}/${year}`
+        },
     },
+    mounted() {},
     methods: {
         formatDate(date) {
             if (date !== undefined) {
@@ -67,6 +94,15 @@ export default {
         },
         onImgLoad() {
             this.loaded = true
+        },
+        compareDates(date1, date2) {
+            let y1 = date1.getFullYear()
+            let m1 = date1.getMonth() + 1
+            let d1 = date1.getDate()
+            let y2 = date2.getFullYear()
+            let m2 = date2.getMonth() + 1
+            let d2 = date2.getDate()
+            return y1 === y2 && m1 === m2 && d1 === d2
         },
     },
 }
