@@ -76,7 +76,8 @@
 		"vite": "^2.7.13",
 		"vite-plugin-pwa": "^0.11.13",
 		"vue-cli-plugin-tailwind": "~2.2.18",
-		"vue-cli-plugin-vuetify": "~2.2.2"
+		"vue-cli-plugin-vuetify": "~2.2.2",
+		"workbox-precaching": "^6.4.2"
 	},
 	"eslintConfig": {
 		"root": true,

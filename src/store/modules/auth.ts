@@ -80,6 +80,7 @@ const actions = {
         return new Promise(resolve => {
             commit(AUTH_LOGOUT)
             localStorage.removeItem('jwt')
+            localStorage.removeItem('user')
             createToast('Du är nu utloggad.', {
                 type: 'danger',
                 timeout: 2000,

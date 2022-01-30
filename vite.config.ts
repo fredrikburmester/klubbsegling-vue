@@ -11,7 +11,9 @@ export default defineConfig({
             mode: 'development',
             base: '/',
             srcDir: 'src',
+            filename: 'sw.ts',
             includeAssets: ['favicon.ico', 'robots.txt', '/img/icons/apple-touch-icon.png'],
+            strategies: 'injectManifest',
             manifest: {
                 name: 'Klubbsegling',
                 short_name: 'Klubbsegling',

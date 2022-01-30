@@ -34,7 +34,7 @@
         <p class="text-center">
             {{ me.about || null }}
         </p>
-        <h1 class="mt-4 font-bold">Mina Båtar</h1>
+        <h1 class="mt-4 font-bold">Mina Båtar:</h1>
         <BoatCard v-for="b in userBoats" :key="b.id" :boat="b" />
 
         <AddBoatForm @boat="updateBoats" class="mt-4" :userboats="userBoats" @newBoat="onNewBoat" />
@@ -49,7 +49,7 @@
 <script>
 import { AUTH_LOGOUT } from '../store/actions/auth'
 import { API_URL } from '../store/actions/auth'
-import { uploadProfilePicture, getProfilePicture, getUserBoats } from '../api/API'
+import { uploadProfilePicture, getUserBoats } from '../api/API'
 import AddBoatForm from '../components/AddBoatForm.vue'
 import BoatCard from '../components/BoatCard.vue'
 import LoadingCard from '@/components/LoadingCard.vue'

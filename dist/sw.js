@@ -67,68 +67,72 @@ if (!self.define) {
     });
   };
 }
-define(['./workbox-a1977ae0'], (function (workbox) { 'use strict';
+define(['./workbox-a51b997a'], (function (workbox) { 'use strict';
 
-  /**
-  * Welcome to your Workbox-powered service worker!
-  *
-  * You'll need to register this file in your web app.
-  * See https://goo.gl/nhQhGp
-  *
-  * The rest of the code is auto-generated. Please don't update this file
-  * directly; instead, make changes to your Workbox build configuration
-  * and re-run your build process.
-  * See https://goo.gl/2aRDsh
-  */
-
-  self.addEventListener('message', event => {
+  self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
       self.skipWaiting();
     }
   });
+
+
+
+
   /**
    * The precacheAndRoute() method efficiently caches and responds to
    * requests for URLs in the manifest.
    * See https://goo.gl/S9QRab
    */
-
-  workbox.precacheAndRoute([{
-    "url": "_index.html",
-    "revision": "09ad08f0f1942258804ffb3b0bb202a3"
-  }, {
-    "url": "assets/index.189986e3.css",
-    "revision": null
-  }, {
-    "url": "assets/index.31f2e69b.js",
-    "revision": null
-  }, {
-    "url": "assets/Profile.366f613e.js",
-    "revision": null
-  }, {
-    "url": "assets/Profile.c3f56788.css",
-    "revision": null
-  }, {
-    "url": "assets/vendor.de2d5cab.js",
-    "revision": null
-  }, {
-    "url": "index.html",
-    "revision": "2b95305dda341886778c504d664f9d24"
-  }, {
-    "url": "favicon.ico",
-    "revision": "51caf0d9ba2834403feccac40a23086e"
-  }, {
-    "url": "robots.txt",
-    "revision": "5e0bd1c281a62a380d7a948085bfe2d1"
-  }, {
-    "url": "img/icons/apple-touch-icon.png",
-    "revision": "52ec76aa45f1aed626c168f01048b51d"
-  }, {
-    "url": "img/icons/android-chrome-192x192.png",
-    "revision": "84af42a18d627fe50bb966b412d02037"
-  }, {
-    "url": "manifest.webmanifest",
-    "revision": "9499c081f20f4c48a7d08a675c9fd46b"
-  }], {});
+  workbox.precacheAndRoute([
+    {
+      "url": "_index.html",
+      "revision": "09ad08f0f1942258804ffb3b0bb202a3"
+    },
+    {
+      "url": "assets/index.7b7d250b.js",
+      "revision": null
+    },
+    {
+      "url": "assets/index.e11c04bd.css",
+      "revision": null
+    },
+    {
+      "url": "assets/Profile.c3f56788.css",
+      "revision": null
+    },
+    {
+      "url": "assets/Profile.db628ae8.js",
+      "revision": null
+    },
+    {
+      "url": "assets/vendor.f4f07c6f.js",
+      "revision": null
+    },
+    {
+      "url": "index.html",
+      "revision": "42203914936a90306f7b3630ed363cf2"
+    },
+    {
+      "url": "favicon.ico",
+      "revision": "51caf0d9ba2834403feccac40a23086e"
+    },
+    {
+      "url": "robots.txt",
+      "revision": "5e0bd1c281a62a380d7a948085bfe2d1"
+    },
+    {
+      "url": "img/icons/apple-touch-icon.png",
+      "revision": "52ec76aa45f1aed626c168f01048b51d"
+    },
+    {
+      "url": "img/icons/android-chrome-192x192.png",
+      "revision": "84af42a18d627fe50bb966b412d02037"
+    },
+    {
+      "url": "manifest.webmanifest",
+      "revision": "9499c081f20f4c48a7d08a675c9fd46b"
+    }
+  ], {});
   workbox.cleanupOutdatedCaches();
   workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html")));
 

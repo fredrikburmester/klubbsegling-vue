@@ -1,10 +1,10 @@
 <template>
-    <!-- <ReloadPWA /> -->
     <div class="mt-16 grid">
-        <router-view> </router-view>
+        <router-view></router-view>
     </div>
     <Header v-if="!$route.meta.hideNavigation" />
-    <Footer class="" />
+    <Footer />
+    <ReloadPWA />
 </template>
 
 <script>
