@@ -1,8 +1,12 @@
 <template>
     <footer class="p-10 footer bg-base-200 text-base-content footer-center">
         <div class="grid grid-flow-col gap-4">
-            <a class="link link-hover">About us</a>
-            <a class="link link-hover">Contact</a>
+            <router-link to="/article/1">
+                <a class="link link-hover">Om oss</a>
+            </router-link>
+            <router-link to="/article/2">
+                <a class="link link-hover">Kontakt</a>
+            </router-link>
         </div>
         <div>
             <div class="text-sm breadcrumbs">
