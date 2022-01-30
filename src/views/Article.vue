@@ -1,7 +1,7 @@
 <template>
-    <div class="wrapper max-w-2xl px-6 pt-6 justify-self-center grid" v-if="!loading">
+    <div class="max-w-2xl px-6 pt-6 justify-self-center grid mb-16" v-if="!loading">
         <h1 class="text-3xl font-bold mb-4">{{ article.title }}</h1>
-        <div class="badge badge-info mr-2" v-for="author in article.authors.data">{{ author.attributes.firstName }} {{ author.attributes.lastName }}</div>
+        <div class="badge badge-info mr-2 mt-2" v-for="author in article.authors.data">{{ author.attributes.firstName }} {{ author.attributes.lastName }}</div>
         <hr class="my-4" />
         <Markdown :source="article.body" class="my-8" />
         <div class="carousel rounded-box">
