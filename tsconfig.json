@@ -36,7 +36,10 @@
     ],
     "exclude": [
         "node_modules",
-        "./dist/**/*" 
+        "dist",
+        "./dist/**/*",
+        "**/*.spec.ts",
+        "**/*.worker.ts"
         
     ]
 }

@@ -75,7 +75,6 @@ const routes = [
             ],
         },
         beforeEnter: async (to: any, from: any, next: any) => {
-            console.log(to)
             if (await articleExists(to.params.id)) {
                 next()
             } else {

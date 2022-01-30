@@ -486,6 +486,7 @@ const getArticle = async (id: Number) => {
 
     await API('articles', id, query, true).then((res: any) => {
         article = res
+        console.log('API [article]', res)
     })
 
     return article
