@@ -10,7 +10,10 @@ import PageNotFound from '../views/PageNotFound.vue'
 import Race from '../views/Race.vue'
 import Races from '../views/Races.vue'
 import Register from '../views/Register.vue'
+import Article from '../views/Article.vue'
 const Profile = () => import('../views/Profile.vue')
+
+import { articleExists } from '@/api/API'
 
 const routes = [
     {
@@ -61,6 +64,26 @@ const routes = [
         },
     },
     {
+        path: '/article/:id',
+        name: 'Artikel',
+        component: Article,
+        meta: {
+            requiresAuth: true,
+            breadcrumbs: [
+                { name: 'Artikel', path: '/article', icon: 'flag' },
+                { name: 'Artikel', path: '/article/:id', icon: 'calendar' },
+            ],
+        },
+        beforeEnter: async (to, from, next) => {
+            console.log(to)
+            if (await articleExists(to.params.id)) {
+                next()
+            } else {
+                next('/404')
+            }
+        },
+    },
+    {
         path: '/profile',
         name: 'Profil',
         component: Profile,
@@ -108,7 +131,6 @@ const routes = [
         component: Admin,
         meta: {
             requiresAuth: true,
-            is_admin: true,
         },
     },
     { path: '/:pathMatch(.*)*', name: 'PageNotFound', component: PageNotFound },
