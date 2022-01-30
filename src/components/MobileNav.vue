@@ -20,10 +20,10 @@
                     </div>
                     <hr class="mx-8 border-base-content opacity-10" />
                     <div class="py-8 flex flex-row justify-around">
-                        <router-link to="article/1" @click="$emit('close-nav')">
+                        <router-link to="/article/1" @click="$emit('close-nav')">
                             <a class="text-base-content">Om oss</a>
                         </router-link>
-                        <router-link to="article/2">
+                        <router-link to="/article/2">
                             <a class="text-base-content">Mer</a>
                         </router-link>
                     </div>

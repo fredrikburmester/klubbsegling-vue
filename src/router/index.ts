@@ -74,7 +74,7 @@ const routes = [
                 { name: 'Artikel', path: '/article/:id', icon: 'calendar' },
             ],
         },
-        beforeEnter: async (to, from, next) => {
+        beforeEnter: async (to: any, next: any) => {
             console.log(to)
             if (await articleExists(to.params.id)) {
                 next()
