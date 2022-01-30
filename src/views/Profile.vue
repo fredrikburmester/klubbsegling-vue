@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!loading" class="md:max-w-2xl justify-self-center grid px-6 mb-16">
+    <div v-if="!loading" class="w-full max-w-2xl justify-self-center grid px-6 mb-16">
         <div v-if="profilePictureLoaded" class="avatar px-6 pt-12 justify-self-center" @click="openChangeProfileModal">
             <div class="mb-8 rounded-full w-32 h-32">
                 <img :src="profilePicture" />
