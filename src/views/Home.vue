@@ -61,8 +61,6 @@ export default {
         this.races = this.racesThisYear = await getAllRaces()
         this.registeredRaces = await getRegisteredRaces(this.me.id)
 
-        console.log('[1]', this.registeredRaces)
-
         this.loading = false
     },
     methods: {
