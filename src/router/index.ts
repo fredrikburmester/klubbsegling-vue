@@ -11,6 +11,7 @@ import Race from '../views/Race.vue'
 import Races from '../views/Races.vue'
 import Register from '../views/Register.vue'
 import Article from '../views/Article.vue'
+import Report from '../views/Report.vue'
 const Profile = () => import('../views/Profile.vue')
 
 import { articleExists } from '@/api/API'
@@ -60,6 +61,18 @@ const routes = [
             breadcrumbs: [
                 { name: 'Seglingar', path: '/races', icon: 'flag' },
                 { name: 'Segling', path: '/races/:id', icon: 'calendar' },
+            ],
+        },
+    },
+    {
+        path: '/race/:id/report',
+        name: 'Rapoprtering',
+        component: Report,
+        meta: {
+            requiresAuth: true,
+            breadcrumbs: [
+                { name: 'Seglingar', path: '/races', icon: 'flag' },
+                { name: 'Segling', path: '/race/:id/report', icon: 'calendar' },
             ],
         },
     },
