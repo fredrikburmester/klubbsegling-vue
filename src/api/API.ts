@@ -162,8 +162,7 @@ const getRace = async (id: Number) => {
 
     const query = qs.stringify(
         {
-            populate: ['images', 'registrations.users'],
-            fields: ['id', 'name', 'description', 'start', 'end'],
+            populate: ['images', 'registrations', 'partRaces'],
             publicationState: 'live',
         },
         {
