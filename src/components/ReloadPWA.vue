@@ -39,6 +39,7 @@ export default defineComponent({
         },
         async updateServiceWorker() {
             await updateServiceWorker()
+            window.location.href = 'https://klubbsegling.se'
         },
     },
 })
