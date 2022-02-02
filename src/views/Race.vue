@@ -184,9 +184,6 @@ export default {
             },
         })
 
-        console.log(race)
-        console.log(registrations)
-
         this.race = race.data[0].attributes
         this.registrations = registrations.data
 
@@ -194,11 +191,6 @@ export default {
         this.myRegistrations = await getMyRegistrations()
         this.userBoats = await getUserBoats(this.me.id)
         this.raceHasImages = !!this.race.images.data
-
-        console.log('Races: ', this.race)
-        console.log('All registrations: ', this.registrations)
-        console.log('My registrations: ', this.myRegistrations)
-        console.log('User boats: ', this.userBoats)
 
         this.loading = false
     },

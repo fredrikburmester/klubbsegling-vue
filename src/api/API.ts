@@ -98,7 +98,6 @@ const getUserBoats = async (id: Number) => {
 }
 
 const addBoatToUser = async (userId: Number, boat: any) => {
-    console.log(userId, boat)
     var owners = boat.attributes.owners.data.push(userId)
 
     var data = {
@@ -409,7 +408,6 @@ const getProfilePicture = async (id: Number) => {
         .then(res => {
             if (process.env.NODE_ENV === 'development') {
                 console.log('API [getProfilePicture]:', res.data)
-                console.log(res.data.id)
             }
             return res.data
         })
@@ -485,7 +483,9 @@ const getArticle = async (id: Number) => {
 
     await API('articles', id, query, true).then((res: any) => {
         article = res
-        console.log('API [article]', res)
+        if (process.env.NODE_ENV === 'development') {
+            console.log('API [article]', res)
+        }
     })
 
     return article

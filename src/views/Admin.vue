@@ -26,11 +26,8 @@ export default {
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`,
             },
         }
-        axios.get(`${API_URL}/users/me?${query}`, headers).then(res => {
-            console.log(res.data)
-        })
+        axios.get(`${API_URL}/users/me?${query}`, headers).then(res => {})
         var a = this.$store.getters.getProfile
-        console.log(a)
     },
 }
 </script>

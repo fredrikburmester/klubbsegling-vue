@@ -75,7 +75,6 @@ export default {
     },
     async mounted() {
         // var user = await getProfilePicture(this.me.id)
-        // console.log('[1]', user)
         // var formats = user
         // if (!!formats.medium) {
         //     profilePictureUrl = url + formats.medium.url
@@ -124,15 +123,12 @@ export default {
             this.imageLoading = false
         },
         openChangeProfileModal() {
-            console.log('open')
             var checkbox = document.getElementById('changeProfileModal')
             checkbox.checked = !checkbox.checked
         },
         showImageName(e) {
             const filename = e.srcElement.value.split('\\').pop()
             this.imageName = filename
-            console.log(e.srcElement.value)
-            console.log(filename)
         },
         upload() {
             const formElement = document.querySelector('form')
@@ -140,11 +136,8 @@ export default {
             const formData = new FormData(formElement)
 
             for (var [key, value] of formData.entries()) {
-                console.log(key, value)
             }
-            uploadProfilePicture(formData).then(res => {
-                console.log(res)
-            })
+            uploadProfilePicture(formData).then(res => {})
         },
     },
 }

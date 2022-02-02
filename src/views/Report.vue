@@ -22,7 +22,6 @@ export default {
         const race = await this.strapi.findOne('races', this.$route.params.id)
         this.race = race.data.attributes
         this.loaded = true
-        console.log(this.race)
     },
     methods: {
         //
