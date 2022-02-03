@@ -115,7 +115,8 @@
                 <input id="un-register-modal" type="checkbox" class="modal-toggle" />
                 <div class="modal m-0">
                     <div class="modal-box m-0">
-                        <p class="mb-4">Är du säker på att du vill avregistrera dig från {{ race.name }}? Du kan alltid återregistrera dig om registreringen inte har stängt.</p>
+                        <p class="mb-4 font-bold">Är du säker på att du vill avregistrera dig från {{ race.name }}?</p>
+                        <p>Du kan alltid återregistrera dig om registreringen inte har stängt.</p>
                         <div class="modal-action flex justify-start">
                             <label for="un-register-modal" class="btn btn-error" @click="unregister()">Avregistrera</label>
                             <label for="un-register-modal" class="btn">Avbryt</label>
