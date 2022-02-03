@@ -241,9 +241,6 @@ export default {
 .modal {
     margin: 0 !important;
 }
-.wrapper {
-    width: 100%;
-}
 .multiselect__tags {
     width: 100% !important;
 }

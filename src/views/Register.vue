@@ -1,5 +1,5 @@
 <template>
-    <div class="lg:flex lg:justify-around lg:flex-row container sm:mx-auto mt-12 lg:mt-32 lg:px-14 pb-48">
+    <div class="register-container lg:flex lg:justify-around lg:flex-row container sm:mx-auto lg:px-14 pb-16">
         <div class="lg:mx-12 self-center px-8">
             <h1 class="mb-5 text-5xl font-bold text-left">Klubbsegling</h1>
             <p class="mb-5">
@@ -7,7 +7,7 @@
                 <br />seglingsentusiaster!
             </p>
         </div>
-        <form class="lg:card lg:shadow-2xl lg:rounded-3xl lg:w-2/5 form-control" @submit.prevent="login">
+        <form class="lg:card lg:shadow-2xl lg:rounded-3xl lg:w-2/6 form-control self-center" @submit.prevent="login">
             .
             <div class="card-body">
                 <label class="label">Användarnamn</label>
@@ -93,3 +93,9 @@ export default {
     },
 }
 </script>
+
+<style>
+.register-container {
+    min-height: calc(100vh - 4rem - 240px);
+}
+</style>

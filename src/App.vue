@@ -32,4 +32,8 @@ export default {
 .fade-leave-to {
     opacity: 0;
 }
+.wrapper {
+    min-height: calc(100vh - 240px - 4rem);
+    width: 100%;
+}
 </style>

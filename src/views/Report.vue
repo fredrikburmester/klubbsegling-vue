@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loaded" class="max-w-2xl px-6 pt-6 justify-self-center w-full mb-6">
+    <div v-if="loaded" class="wrapper max-w-2xl px-6 pt-6 justify-self-center w-full mb-6">
         <h1 class="text-3xl font-bold mb-2">Rapportera tid</h1>
         <h1 class="text-xl font-bold italic text-gray-500 mb-4">för {{ race.name }}</h1>
         <label class="label">
