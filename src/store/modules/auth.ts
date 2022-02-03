@@ -63,13 +63,18 @@ const actions = {
                 })
                 .catch(err => {
                     if (process.env.NODE_ENV === 'development') {
-                        console.error(err)
+                        console.error('[auth]', err.response)
                     }
                     commit(AUTH_ERROR, err)
                     localStorage.removeItem('jwt')
-                    createToast('Någonting gick snett...', {
+                    createToast('Fel uppgifter.', {
                         type: 'danger',
-                        timeout: 2000,
+                        timeout: 3000,
+                        position: 'top-right',
+                    })
+                    createToast('Är du registrerad?', {
+                        type: 'danger',
+                        timeout: 5000,
                         position: 'top-right',
                     })
                     reject(err)
