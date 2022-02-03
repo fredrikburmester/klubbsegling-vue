@@ -1,5 +1,5 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faAnchor, faCalendar, faFlag, faHome, faShip, faSlidersH, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faAnchor, faCalendar, faFlag, faHome, faShip, faSlidersH, faUser, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { createApp } from 'vue'
 
@@ -24,6 +24,7 @@ library.add(faUser)
 library.add(faShip)
 library.add(faCalendar)
 library.add(faAnchor)
+library.add(faEye)
 
 let app = createApp(App)
 
