@@ -13,11 +13,17 @@
                 <label class="label">Användarnamn</label>
                 <input v-model="username" class="input input-bordered" required type="text" placeholder="användarnamn" />
                 <label class="label">Lösenord</label>
-                <input v-model="password" class="input input-bordered" required type="password" placeholder="lösenord" />
+                <div class="relative">
+                    <input v-model="password" class="input input-bordered w-full" required :type="showPassword ? 'text' : 'password'" placeholder="lösenord" />
+                    <button @click="showPassword = !showPassword" class="absolute top-0 right-0 rounded-l-none btn btn-primary"><font-awesome-icon icon="eye" class="" /></button>
+                </div>
                 <hr />
 
                 <button v-if="loading" class="btn btn-primary my-4 loading" type="submit"></button>
-                <button v-else class="btn btn-primary my-4" type="submit">Login</button>
+                <button v-else class="btn btn-primary my-4" type="submit">Logga in</button>
+                <router-link :to="{ name: 'Registrera', params: { _username: this.username, _password: this.password } }">
+                    <button class="underline text-gray-500">Registrera</button>
+                </router-link>
             </div>
         </form>
     </div>
@@ -28,27 +34,34 @@ import { AUTH_REQUEST } from '../store/actions/auth'
 export default {
     data() {
         return {
-            email: '',
+            username: '',
             password: '',
             loading: false,
+            showPassword: false,
         }
     },
     methods: {
-        login: function () {
+        login() {
             this.loading = true
-            const { username, password } = this
             const user = {
-                identifier: username,
-                password: password,
+                identifier: this.username,
+                password: this.password,
             }
-            this.$store.dispatch(AUTH_REQUEST, user).then(() => {
-                this.$emit('loggedIn')
-                if (this.$route.params.nextUrl != null) {
-                    this.$router.push(this.$route.params.nextUrl)
-                } else {
-                    this.$router.push('/')
-                }
-            })
+            this.$store
+                .dispatch(AUTH_REQUEST, user)
+                .then(() => {
+                    this.$emit('loggedIn')
+                    if (this.$route.params.nextUrl != null) {
+                        this.$router.push(this.$route.params.nextUrl)
+                    } else {
+                        this.$router.push('/')
+                    }
+                })
+                .catch(msg => {
+                    console.log(msg)
+                    console.log(msg.error)
+                    this.loading = false
+                })
         },
     },
 }

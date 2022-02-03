@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper px-6 pt-2 pb-6 md:max-w-2xl justify-self-center">
-        <h1 v-if="!loading" class="font text-sm mt-4 opacity-50">Välj vy</h1>
+        <h1 v-if="!loading" class="font text-sm mt-4 opacity-50">Välj vy:</h1>
         <div v-if="!loading" class="w-full shadow stats mt-4">
             <div class="stat cursor-pointer" :class="{ 'bg-gray-100': active == 'thisYear' }" @click="setActive('thisYear')">
                 <div class="stat-title">Seglatser i år</div>
@@ -18,7 +18,9 @@
             </div>
         </div>
         <div v-if="!loading">
-            <RaceList :key="updateList" :races="races" />
+            <transition name="slide-fade" mode="out-in">
+                <RaceList :key="updateList" :races="races" />
+            </transition>
         </div>
         <div v-else class="wrapper justify-self-center md:max-w-2xl">
             <LoadingCard v-for="i in 5" :key="i" />
@@ -74,20 +76,6 @@ export default {
             }
             this.updateList = !this.updateList
         },
-        // getRegisteredRaces(races) {
-        //     return races.filter(race => {
-        //         const registrations = race.attributes.registrations.data
-        //         console.log(registrations)
-        //         for (let i in registrations) {
-        //             const users = registrations[i].attributes.users.data
-        //             console.log(users)
-        //             for (let j in users) {
-        //                 console.log('[1]', users[j].id, this.me.id)
-        //                 return users[j].id == this.me.id
-        //             }
-        //         }
-        //     })
-        // },
     },
 }
 </script>
@@ -96,5 +84,18 @@ export default {
 .wrapper {
     width: 100%;
     min-height: 100vh;
+}
+.slide-fade-enter-active {
+    transition: all 0.2s;
+}
+
+.slide-fade-leave-active {
+    transition: all 0.2s;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+    transform: translateY(10px);
+    opacity: 0;
 }
 </style>

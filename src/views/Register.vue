@@ -1,37 +1,32 @@
 <template>
-    <div>
-        <h4>Register</h4>
-        <form>
-            <label for="name">Name</label>
-            <div>
-                <input id="name" v-model="name" type="text" required autofocus />
-            </div>
+    <div class="lg:flex lg:justify-around lg:flex-row container sm:mx-auto mt-12 lg:mt-32 lg:px-14 pb-48">
+        <div class="lg:mx-12 self-center px-8">
+            <h1 class="mb-5 text-5xl font-bold text-left">Klubbsegling</h1>
+            <p class="mb-5">
+                Välkommen till Sveriges bästa hemsida för
+                <br />seglingsentusiaster!
+            </p>
+        </div>
+        <form class="lg:card lg:shadow-2xl lg:rounded-3xl lg:w-2/5 form-control" @submit.prevent="login">
+            .
+            <div class="card-body">
+                <label class="label">Användarnamn</label>
+                <input v-model="username" class="input input-bordered" required type="text" placeholder="ex. förnamnefternamn" />
+                <label class="label">E-post</label>
+                <input v-model="email" class="input input-bordered" required type="email" placeholder="ex. förnamn.efternamn@gmail.com" />
+                <label class="label">Förnamn</label>
+                <input v-model="firstName" class="input input-bordered" required type="text" placeholder="Förnamn" />
+                <label class="label">Efternamn</label>
+                <input v-model="lastName" class="input input-bordered" required type="text" placeholder="Efternamn" />
+                <label class="label">Lösenord</label>
+                <div class="relative">
+                    <input v-model="password" class="input input-bordered w-full" required :type="showPassword ? 'text' : 'password'" placeholder="lösenord" />
+                    <button @click="showPassword = !showPassword" class="absolute top-0 right-0 rounded-l-none btn btn-primary"><font-awesome-icon icon="eye" class="" /></button>
+                </div>
+                <hr />
 
-            <label for="email">E-Mail Address</label>
-            <div>
-                <input id="email" v-model="email" type="email" required />
-            </div>
-
-            <label for="password">Password</label>
-            <div>
-                <input id="password" v-model="password" type="password" required />
-            </div>
-
-            <label for="password-confirm">Confirm Password</label>
-            <div>
-                <input id="password-confirm" v-model="password_confirmation" type="password" required />
-            </div>
-
-            <label for="password-confirm">Is this an administrator account?</label>
-            <div>
-                <select v-model="is_admin">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
-                </select>
-            </div>
-
-            <div>
-                <button type="submit" @click="handleSubmit">Register</button>
+                <button v-if="loading" class="btn btn-primary my-4 loading" type="submit"></button>
+                <button v-else class="btn btn-primary my-4" type="submit" disabled>Registrera</button>
             </div>
         </form>
     </div>
@@ -48,10 +43,13 @@ export default {
     data() {
         return {
             name: '',
+            username: this.$route.params._username || '',
             email: '',
-            password: '',
+            password: this.$route.params._password || '',
             password_confirmation: '',
             is_admin: null,
+            loading: false,
+            showPassword: false,
         }
     },
     methods: {

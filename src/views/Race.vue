@@ -125,6 +125,7 @@
             </div>
         </div>
     </div>
+    <div v-else class="h-screen"></div>
 </template>
 
 <script>

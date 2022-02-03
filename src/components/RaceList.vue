@@ -1,10 +1,12 @@
 <template>
-    <div class="pt-2 pb-6">
-        <RaceCard v-for="race in races" :key="race.id" :race="race" />
-    </div>
+    <div>
+        <div class="pt-2 pb-6">
+            <RaceCard v-for="race in races" :key="race.id" :race="race" />
+        </div>
 
-    <div v-if="races.length === 0" class="wrapper justify-self-center md:max-w-2xl">
-        <h1 class="font-bold text-xl"><span class="text-2xl">🤷🏻‍♂️ </span>Här var det tomt...</h1>
+        <div v-if="races.length === 0" class="wrapper justify-self-center md:max-w-2xl">
+            <h1 class="font-bold text-xl"><span class="text-2xl">🤷🏻‍♂️ </span>Här var det tomt...</h1>
+        </div>
     </div>
 </template>
 
