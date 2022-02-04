@@ -8,7 +8,7 @@
             <p class="max-h-24">
                 {{ race.attributes.description || '' }}
             </p>
-            <p class="font-bold mt-2">{{ getDateString }}</p>
+            <p class="font-bold mt-2 capitalize">{{ getDateString }}</p>
             <div class="card-actions">
                 <router-link :to="`/race/${race.id}/report`">
                     <div class="relative" v-if="isActive">
@@ -28,6 +28,7 @@
 <script>
 import { IMG_URL } from '../store/actions/auth'
 import LoadingCard from '../components/LoadingCard.vue'
+import { formatDate } from '../lib/utils'
 
 export default {
     components: {
@@ -71,21 +72,11 @@ export default {
             let start = new Date(this.race.attributes.start)
             let end = new Date(this.race.attributes.end)
 
-            let month = start.getMonth() + 1
-            let day = start.getDate()
-            let year = start.getDate()
-
-            return `Start: ${day}/${month}/${year}`
+            return formatDate(start, end)
         },
     },
     mounted() {},
     methods: {
-        formatDate(date) {
-            if (date !== undefined) {
-                date = new Date(date)
-                return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
-            } else return '-'
-        },
         loggedIn() {
             return this.$store.getters.isAuthenticated
         },

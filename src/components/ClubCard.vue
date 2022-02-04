@@ -7,7 +7,7 @@
         <div class="justify-end card-body h-56">
             <h2 class="card-title text-2xl">{{ club.attributes.name }}</h2>
             <p class="max-h-12 overflow-hidden">
-                {{ club.attributes.description || '' }}
+                {{ club.attributes.shortDescription || '' }}
             </p>
             <router-link :to="`/club/${club.id}`">
                 <div class="card-actions">

@@ -96,7 +96,6 @@ pre {
     border-radius: var(--tw-border-radius, 0.25rem);
     padding: var(--tw-space-x-2, 1rem);
     overflow-x: scroll;
-    border-radius: ;
 }
 .hljs {
     overflow: hidden;

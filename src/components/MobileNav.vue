@@ -83,11 +83,11 @@ export default {
 <style>
 .slide-enter-active,
 .slide-leave-active {
-    transition: all 0.2s ease;
+    transition: all 0.5s cubic-bezier(0.73, 0.02, 0.23, 0.98);
 }
 
 .slide-enter-from,
 .slide-leave-to {
-    transform: translateY(-400px);
+    transform: translateY(-380px);
 }
 </style>
