@@ -1,3 +1,105 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+.article > * {
+    font-family: 'Playfair Display', serif;
+}
+
+.article {
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.article > p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+.article > blockquote {
+    font-style: italic;
+    font-size: 1.2rem;
+    word-wrap: normal;
+    display: inline;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    display: block;
+    text-align: center;
+}
+.article > blockquote > p {
+    display: inline;
+}
+
+.article > blockquote::before {
+    content: '“';
+    font-size: 2rem;
+    line-height: 1;
+}
+.article > blockquote::after {
+    content: '”';
+    font-size: 2rem;
+    line-height: 1;
+}
+.article > pre {
+    max-width: 100%;
+    background-color: hsla(var(--n) / var(--tw-bg-opacity, 1));
+    border-radius: var(--tw-border-radius, 0.25rem);
+    padding: var(--tw-space-x-2, 1rem);
+    overflow-x: scroll;
+    border-radius: ;
+}
+.article > .hljs {
+    overflow: hidden;
+    overflow-x: auto;
+    position: relative;
+    background-color: hsla(var(--n) / var(--tw-bg-opacity, 1));
+    border-radius: var(--rounded-box, 1rem);
+    color: white;
+}
+.article > .hljs-keyword {
+    color: rgb(204, 83, 103);
+}
+.articel > .hljs-params {
+    color: rgb(50, 190, 214);
+}
+.articel > .hljs-number {
+    color: greenyellow;
+}
+.article > h1 {
+    font-size: 1.7rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+.article > h2 {
+    font-size: 1.4rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+.article > h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+.article > h4 {
+    font-size: 1.4rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.article > ul {
+    list-style: disc;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+.article > ol {
+    list-style: decimal;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
