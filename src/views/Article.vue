@@ -1,5 +1,5 @@
 <template>
-    <div id="article" class="wrapper flex flex-1 flex-col max-w-2xl px-6 pt-12 justify-self-center mb-16" v-if="!loading">
+    <div v-if="!loading" id="article" class="wrapper flex flex-1 flex-col max-w-2xl px-6 pt-6 lg:pt-12 justify-self-center mb-16">
         <header class="flex-none">
             <h1 class="text-5xl font-bold mb-2">{{ article.title }}</h1>
             <p class="text-sm italic mb-2">Publicerad: {{ formatDate(article.publishedAt) }}</p>
@@ -21,16 +21,19 @@
             </div>
         </footer>
     </div>
+    <LoadingArticle v-else />
 </template>
 
 <script>
 import { getArticle } from '@/api/API'
 import Markdown from 'vue3-markdown-it'
+import LoadingArticle from '@/components/LoadingArticle.vue'
 
 export default {
     name: 'Article',
     components: {
         Markdown,
+        LoadingArticle,
     },
     data() {
         return {
@@ -54,7 +57,10 @@ export default {
         async updateArticle() {
             await getArticle(this.$route.params.id).then(article => {
                 this.article = article.attributes
-                this.loading = false
+                // wait one second
+                setTimeout(() => {
+                    this.loading = false
+                }, 300)
             })
         },
     },
