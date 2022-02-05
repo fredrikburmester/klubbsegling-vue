@@ -1,6 +1,8 @@
 <template>
     <div class="mt-16 grid">
-        <router-view></router-view>
+        <transition name="fade" mode="out-in">
+            <router-view></router-view>
+        </transition>
     </div>
     <Header v-if="!$route.meta.hideNavigation" />
     <Footer />
