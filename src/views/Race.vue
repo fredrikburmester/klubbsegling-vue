@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!loading" class="wrapper flex flex-col flex-1 max-w-sm md:max-w-xl justify-self-center mt-8 px-6">
+    <div v-if="!loading" class="wrapper flex flex-col flex-1 max-w-sm md:max-w-xl justify-self-center mt-6 lg:mt-12 px-6">
         <!-- <div v-if="raceHasImages" class="carousel rounded-0 h-64 shadow-xl">
                 <div v-for="i in race.images.data" :key="i.id" class="carousel-item">
                     <figure>
