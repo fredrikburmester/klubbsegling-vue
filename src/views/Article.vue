@@ -1,27 +1,30 @@
 <template>
-    <div v-if="!loading" id="article" class="wrapper flex flex-1 flex-col max-w-2xl px-6 pt-6 lg:pt-12 justify-self-center mb-16">
-        <header class="flex-none">
-            <h1 class="text-5xl font-bold mb-2">{{ article.title }}</h1>
-            <p class="text-sm italic mb-2">Publicerad: {{ formatDate(article.publishedAt) }}</p>
-            <hr class="my-4" />
-        </header>
-        <body class="flex flex-1 flex-col self-start grow my-4">
-            <Markdown :source="article.body" class="mb-8 max-w-xs md:max-w-xl" />
-            <div class="p-4 space-x-4 carousel carousel-center bg-blue-400 rounded-box">
-                <div v-for="image in article.images.data" class="carousel-item">
-                    <img :src="`https://cms.klubbsegling.se${image.attributes.formats.small.url}`" />
+    <transition name="fade" mode="out-in">
+        <div v-if="!loading" id="article" class="wrapper flex flex-1 flex-col max-w-2xl px-6 pt-6 lg:pt-12 justify-self-center mb-16">
+            <header class="flex-none">
+                <h1 class="text-5xl font-bold mb-2">{{ article.title }}</h1>
+                <p class="text-sm italic mb-2">Publicerad: {{ formatDate(article.publishedAt) }}</p>
+                <hr class="my-4" />
+            </header>
+            <body class="flex flex-1 flex-col self-start grow my-4">
+                <Markdown :source="article.body" class="mb-8 max-w-xs md:max-w-xl" />
+                <div class="p-4 space-x-4 carousel carousel-center bg-blue-400 rounded-box">
+                    <div v-for="image in article.images.data" class="carousel-item">
+                        <img :src="`https://cms.klubbsegling.se${image.attributes.formats.small.url}`" />
+                    </div>
                 </div>
-            </div>
-        </body>
-        <footer class="h-24 flex-none">
-            <hr class="my-4" />
-            <p class="mr-2 mt-2 italic text-gray-400">Skriven av:</p>
-            <div class="flex mb-2 flex-wrap">
-                <div class="badge badge-info mr-2 mt-2" v-for="author in article.authors.data">{{ author.attributes.firstName }} {{ author.attributes.lastName }}</div>
-            </div>
-        </footer>
-    </div>
-    <LoadingArticle v-else />
+            </body>
+            <footer class="h-24 flex-none">
+                <hr class="my-4" />
+                <p class="mr-2 mt-2 italic text-gray-400">Skriven av:</p>
+                <div class="flex mb-2 flex-wrap">
+                    <div class="badge badge-info mr-2 mt-2" v-for="author in article.authors.data">{{ author.attributes.firstName }} {{ author.attributes.lastName }}</div>
+                </div>
+            </footer>
+        </div>
+    </transition>
+
+    <LoadingArticle v-show="loading" />
 </template>
 
 <script>
@@ -124,5 +127,15 @@ h2 {
     font-size: 1.5rem;
     line-height: 1.2;
     margin-bottom: 1rem;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
 }
 </style>
