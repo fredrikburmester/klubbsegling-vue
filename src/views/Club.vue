@@ -50,7 +50,6 @@ export default {
         })
         this.club = club.data[0].attributes
         console.log(club.data[0].attributes)
-        console.log(this.getHeaderURL)
         this.loaded = true
     },
     computed: {

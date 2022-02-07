@@ -80,16 +80,14 @@ export default {
             }
         },
         permissionToReport() {
-            console.log('[0]', this.race.attributes.registrations)
+            console.log('[permission to report]', this.race.attributes.registrations)
             for (let r of this.race.attributes.registrations.data) {
-                console.log('1', r)
+                // ...
             }
             return true
         },
     },
-    mounted() {
-        console.log(this.race)
-    },
+    mounted() {},
     methods: {
         loggedIn() {
             return this.$store.getters.isAuthenticated

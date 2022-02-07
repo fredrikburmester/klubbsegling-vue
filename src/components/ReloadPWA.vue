@@ -28,9 +28,7 @@ export default defineComponent({
     },
     methods: {
         async update() {
-            console.log('[0] updateServiceWorker')
             await this.updateServiceWorker()
-            console.log('[1] updateServiceWorker')
             this.$router.go(0)
         },
         async reload() {

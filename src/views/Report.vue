@@ -65,7 +65,6 @@ export default {
         }
     },
     async mounted() {
-        console.log(this.me)
         const race = await this.strapi.find('races', {
             populate: ['registrations.boat.crew', 'partRaces.marks.mark'],
             filters: {
@@ -95,7 +94,6 @@ export default {
         } else if (race.data.length > 1) {
             // registered with 2 boats
         } else {
-            console.log(race.data)
             this.race = race.data[0].attributes
             this.loaded = true
         }
@@ -105,9 +103,6 @@ export default {
             await strapi.create('restaurants', {
                 name: '',
             })
-        },
-        log() {
-            console.log(this.selectedPartRace)
         },
     },
     components: { MarkReport },
