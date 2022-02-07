@@ -1,19 +1,19 @@
 <template>
-    <transition name="fade" mode="out-in">
-        <div v-if="!loading" id="article" class="wrapper flex flex-1 flex-col max-w-2xl px-6 pt-6 lg:pt-12 justify-self-center mb-16">
+    <div id="article" v-if="!loading" class="wrapper max-w-2xl justify-self-center">
+        <div class="flex flex-1 flex-col px-6 pt-6 lg:pt-12">
             <header class="flex-none">
                 <h1 class="text-5xl font-bold mb-2">{{ article.title }}</h1>
                 <p class="text-sm italic mb-2">Publicerad: {{ formatDate(article.publishedAt) }}</p>
                 <hr class="my-4" />
             </header>
-            <body class="flex flex-1 flex-col self-start grow my-4">
-                <Markdown :source="article.body" class="mb-8 max-w-xs md:max-w-xl" />
-                <div class="p-4 space-x-4 carousel carousel-center bg-blue-400 rounded-box">
-                    <div v-for="image in article.images.data" class="carousel-item">
-                        <img :src="`https://cms.klubbsegling.se${image.attributes.formats.small.url}`" />
-                    </div>
-                </div>
-            </body>
+            <div class="">
+                <Markdown :source="article.body" class="" />
+            </div>
+        </div>
+
+        <Slider :article="article" :key="article.id" v-if="!!article.images.data" />
+
+        <div class="flex flex-1 flex-col px-6 mb-6">
             <footer class="h-24 flex-none">
                 <hr class="my-4" />
                 <p class="mr-2 mt-2 italic text-gray-400">Skriven av:</p>
@@ -22,7 +22,7 @@
                 </div>
             </footer>
         </div>
-    </transition>
+    </div>
 
     <LoadingArticle v-show="loading" />
 </template>
@@ -31,23 +31,25 @@
 import { getArticle } from '@/api/API'
 import Markdown from 'vue3-markdown-it'
 import LoadingArticle from '@/components/LoadingArticle.vue'
+import Slider from '@/components/Slider.vue'
 
 export default {
     name: 'Article',
     components: {
         Markdown,
         LoadingArticle,
+        Slider,
     },
     data() {
         return {
-            article: null,
+            article: {},
             loading: true,
         }
     },
-
     async mounted() {
-        this.updateArticle()
+        await this.updateArticle()
     },
+
     watch: {
         $route(to, from) {
             this.updateArticle()
