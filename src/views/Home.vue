@@ -63,7 +63,6 @@ export default {
         const races = await this.strapi.find('races', {
             populate: ['images', 'registrations.crew'],
         })
-        console.log(',', races)
         this.races = this.racesThisYear = races.data
         this.races = this.racesThisYear = await getAllRaces()
         this.registeredRaces = await getRegisteredRaces(this.me.id)
