@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!loading" class="wrapper flex flex-col flex-1 max-w-sm md:max-w-xl justify-self-center mt-6 lg:mt-12 px-6">
+    <div v-if="!loading" class="wrapper flex flex-col flex-1 max-w-sm md:max-w-2xl justify-self-center mt-6 lg:mt-12 px-6">
         <h2 class="text-5xl font-bold">{{ race.name }}</h2>
         <p class="italic text-gray-500">Publicerad: {{ formatDate(race.publishedAt) || '' }}</p>
         <hr class="my-4" />
@@ -65,7 +65,7 @@
                     <tr v-for="r in registrations" :key="r.id">
                         <th>
                             <router-link class="underline" :to="`/boat/${r.attributes.boat.data.id}`">
-                                {{ r.attributes.boat.data.attributes.name }}
+                                {{ r.attributes.boat.data.attributes.boatName }}
                             </router-link>
                         </th>
                         <td>{{ r.attributes.handicapSystem.data.attributes.name }}</td>
