@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!loading" class="w-full max-w-2xl justify-self-center grid px-6 mb-16">
+    <div v-if="!loading" class="wrapper w-full max-w-2xl justify-self-center grid px-6 mb-16">
         <div v-if="profilePictureLoaded" class="avatar px-6 pt-12 justify-self-center" @click="openChangeProfileModal">
             <div class="mb-8 rounded-full w-32 h-32">
                 <img :src="profilePicture" />
@@ -38,12 +38,9 @@
         <BoatCard v-for="b in userBoats" :key="b.id" :boat="b" />
 
         <AddBoatForm @boat="updateBoats" class="mt-4" :userboats="userBoats" @newBoat="onNewBoat" />
+        <button class="btn btn-error" @click="logout">Logga ut</button>
     </div>
-    <div v-else class="wrapper justify-self-center md:max-w-2xl">
-        <LoadingAvatar class="pt-8 px-6 mb-12 justify-self-center" />
-        <LoadingCard class="px-6" v-for="i in 5" :key="i" />
-    </div>
-    <button id="logout" class="btn btn-error mb-6 mt-12 w-48 ml-auto mr-auto" @click="logout">Logga ut</button>
+    <div v-else class="wrapper h-screen">Laddar...</div>
 </template>
 
 <script>
@@ -145,10 +142,6 @@ export default {
 <style>
 * {
     z-index: '0 !important';
-}
-.wrapper {
-    width: 100%;
-    min-height: 100vh;
 }
 .min-height-inherit {
     min-height: inherit;
