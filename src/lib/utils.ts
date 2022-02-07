@@ -9,15 +9,21 @@ export const formatDate = (d1: Date, d2?: Date): String => {
     const options = { weekday: 'short', month: 'numeric', day: 'numeric' }
 
     if (!!d2) {
+        if (typeof d2 === 'string') {
+            d2 = new Date(d2)
+        }
         // @ts-ignore
         return `${d1.toLocaleDateString('sv-SE', options)} - ${d2.toLocaleDateString('sv-SE', options)}`
     } else {
+        if (typeof d1 === 'string') {
+            d1 = new Date(d1)
+        }
         // @ts-ignore
         return `${d1.toLocaleDateString('sv-SE', options)}`
     }
 }
 
-export const getLargestImageFromFormats = (imageObj: any): string => {
+export const getLargestImageFromFormats = (imageObj: any): String => {
     var formats = null
     if (!!imageObj.data.attributes.formats) {
         formats = imageObj.data.attributes.formats
