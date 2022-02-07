@@ -1,12 +1,5 @@
 <template>
     <div v-if="!loading" class="wrapper flex flex-col flex-1 max-w-sm md:max-w-xl justify-self-center mt-6 lg:mt-12 px-6">
-        <!-- <div v-if="raceHasImages" class="carousel rounded-0 h-64 shadow-xl">
-                <div v-for="i in race.images.data" :key="i.id" class="carousel-item">
-                    <figure>
-                        <img class="max-h-64" :src="getImageURL(i)" />
-                    </figure>
-                </div>
-            </div> -->
         <h2 class="text-5xl font-bold">{{ race.name }}</h2>
         <p class="italic text-gray-500">Publicerad: {{ formatDate(race.publishedAt) || '' }}</p>
         <hr class="my-4" />
@@ -127,20 +120,23 @@
             </div>
         </div>
     </div>
-    <div v-else class="h-screen"></div>
+    <LoadingArticle v-else />
 </template>
 
 <script>
-import { API_URL, IMG_URL } from '../store/actions/auth'
+import { IMG_URL } from '../store/actions/auth'
 import VueMultiselect from 'vue-multiselect'
 import 'mosha-vue-toastify/dist/style.css'
 import 'vue-multiselect/dist/vue-multiselect.css'
-import { getAllRegistrations, getRace, getUserBoats, getAllUsers, registerForRace, getRegisteredRaces, unRegisterFromRace, getMyRegistrations } from '@/api/API'
-import { formatDate } from '@/lib/utils'
+import { getAllRegistrations, getUserBoats, getAllUsers, registerForRace, unRegisterFromRace, getMyRegistrations } from '@/api/API'
+import LoadingArticle from '@/components/LoadingArticle.vue'
 
 export default {
     name: 'Race',
-    components: { VueMultiselect },
+    components: {
+        VueMultiselect,
+        LoadingArticle,
+    },
     data() {
         return {
             me: this.$store.getters.getProfile,
@@ -190,8 +186,6 @@ export default {
 
         this.race = race.data[0].attributes
         this.registrations = registrations.data
-
-        // this.registrations = await getAllRegistrations(this.race.id)
         this.myRegistrations = await getMyRegistrations()
         this.userBoats = await getUserBoats(this.me.id)
         this.raceHasImages = !!this.race.images.data
