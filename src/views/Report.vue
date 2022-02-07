@@ -1,6 +1,15 @@
 <template>
     <div v-if="loaded" class="wrapper max-w-2xl px-6 pt-12 justify-self-center w-full mb-6">
         <h1 class="text-3xl font-bold mb-2">Rapportering för {{ race.name }}</h1>
+        <div v-if="multipleBoatsRegistered">
+            <p class="text-sm text-gray-500 italic">Rapportering sker per delsegling</p>
+            <label class="label">
+                <span class="label-text">Välj delsegling:</span>
+            </label>
+            <select v-model="selectedPartRace" name="" id="" class="select select-bordered w-full max-w-xs mb-4" @change="log">
+                <option :value="r" v-for="r in race.partRaces">{{ r.name }}</option>
+            </select>
+        </div>
         <p class="text-sm text-gray-500 italic">Rapportering sker per delsegling</p>
         <label class="label">
             <span class="label-text">Välj delsegling:</span>
@@ -8,6 +17,7 @@
         <select v-model="selectedPartRace" name="" id="" class="select select-bordered w-full max-w-xs mb-4" @change="log">
             <option :value="r" v-for="r in race.partRaces">{{ r.name }}</option>
         </select>
+
         <div v-if="selectedPartRace">
             <h1 class="text-xl mt-4 font-bold">Start och målgång</h1>
             <div class="form-control">
@@ -51,6 +61,7 @@ export default {
             boatBehind: '',
             markReports: {},
             selectedPartRace: '',
+            multipleBoatsRegistered: false,
         }
     },
     async mounted() {
@@ -81,10 +92,13 @@ export default {
             createToast('Du är inte registrerad.', {
                 type: 'danger',
             })
+        } else if (race.data.length > 1) {
+            // registered with 2 boats
+        } else {
+            console.log(race.data)
+            this.race = race.data[0].attributes
+            this.loaded = true
         }
-        console.log(race.data)
-        this.race = race.data[0].attributes
-        this.loaded = true
     },
     methods: {
         async sendReport() {
