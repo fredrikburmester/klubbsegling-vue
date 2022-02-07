@@ -1,5 +1,5 @@
 <template>
-    <div id="article-slider" class="my-4 w-screen lg:max-w-lg justify-self-center">
+    <div id="article-slider" class="my-4 w-screen md:max-w-lg justify-self-center">
         <div ref="slider" class="keen-slider mb-4">
             <div v-for="(image, index) in article.images.data" :key="index" :class="`keen-slider__slide number-slide${index}`">
                 <img :src="`https://cms.klubbsegling.se${image.attributes.formats.small.url}`" alt="" />
