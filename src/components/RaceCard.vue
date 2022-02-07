@@ -10,7 +10,7 @@
             </p>
             <p class="font-bold mt-2 capitalize">{{ getDateString }}</p>
             <div class="card-actions">
-                <router-link :to="`/race/${race.id}/report`">
+                <router-link :to="`/race/${race.id}/report`" v-if="permissionToReport">
                     <div class="relative" v-if="isActive">
                         <button class="btn bg-red-600 border-0 shadow-xl">Rapportera nu</button>
                     </div>
@@ -74,8 +74,22 @@ export default {
 
             return formatDate(start, end)
         },
+        registered() {
+            if (true) {
+                return 0
+            }
+        },
+        permissionToReport() {
+            console.log('[0]', this.race.attributes.registrations)
+            for (let r of this.race.attributes.registrations.data) {
+                console.log('1', r)
+            }
+            return true
+        },
     },
-    mounted() {},
+    mounted() {
+        console.log(this.race)
+    },
     methods: {
         loggedIn() {
             return this.$store.getters.isAuthenticated
