@@ -7,14 +7,15 @@
                     </figure>
                 </div>
             </div> -->
-        <div class="mt-6">
-            <h2 class="text-5xl font-bold">{{ race.name }}</h2>
-            <p class="mt-2 italic text-gray-500">Publicerad: {{ race.publishedAt || '' }}</p>
-            <p class="mt-2">
-                {{ race.description || '' }}
-            </p>
-            <p class="mt-2 font-bold">{{ race.start }} - {{ race.end }}</p>
-        </div>
+        <h2 class="text-5xl font-bold">{{ race.name }}</h2>
+        <p class="italic text-gray-500">Publicerad: {{ formatDate(race.publishedAt) || '' }}</p>
+        <hr class="my-4" />
+        <p class="font-bold">Beskrivning:</p>
+        <p class="mb-2">
+            {{ race.description || '' }}
+        </p>
+        <p class="font-bold">Datum:</p>
+        <p class="mb-2">{{ race.start }} - {{ race.end }}</p>
         <div class="shadow stats mt-6 overflow-x-scroll">
             <div class="stat">
                 <div class="stat-figure text-secondary"></div>
@@ -28,7 +29,7 @@
                 <div class="stat-desc">Distans</div>
             </div>
         </div>
-        <h1 class="mt-6 mb-2 text-lg font-bold">Delseglingar:</h1>
+        <p class="mt-6 mb-2 font-bold">Delseglingar:</p>
         <div class="overflow-x-auto">
             <table v-if="race.partRaces" class="table table-zebra">
                 <thead>
@@ -57,7 +58,7 @@
             <p v-else>Inga delseglingar än...</p>
         </div>
 
-        <h1 class="mt-6 mb-2 text-lg font-bold">Deltagare:</h1>
+        <p class="mt-6 mb-2 font-bold">Deltagare:</p>
         <div class="overflow-x-auto">
             <table class="table table-zebra">
                 <thead>
@@ -135,6 +136,7 @@ import VueMultiselect from 'vue-multiselect'
 import 'mosha-vue-toastify/dist/style.css'
 import 'vue-multiselect/dist/vue-multiselect.css'
 import { getAllRegistrations, getRace, getUserBoats, getAllUsers, registerForRace, getRegisteredRaces, unRegisterFromRace, getMyRegistrations } from '@/api/API'
+import { formatDate } from '@/lib/utils'
 
 export default {
     name: 'Race',
@@ -230,6 +232,9 @@ export default {
             } else if (!!image.attributes.formats.thumbnail) {
                 return `${IMG_URL}${image.attributes.formats.thumbnail.url}`
             }
+        },
+        formatDate(date) {
+            return new Date(date).toLocaleDateString('sv-SE')
         },
     },
 }
