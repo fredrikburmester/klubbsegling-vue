@@ -53,7 +53,7 @@ export default {
     },
     computed: {
         getHeaderURL() {
-            return IMG_URL + getLargestImageFromFormats(this.club.header)
+            return IMG_URL + getLargestImageFromFormats(this.club.header.data.attributes.formats)
         },
     },
     methods: {
@@ -62,9 +62,6 @@ export default {
                 url: url,
             })
             return 'https://www.google.com/search?q=' + url
-        },
-        getHeaderURL() {
-            return IMG_URL + getLargestImageFromFormats(this.club.header)
         },
     },
 }

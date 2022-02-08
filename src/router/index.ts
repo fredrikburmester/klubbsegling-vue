@@ -48,7 +48,10 @@ const routes = [
         component: Club,
         meta: {
             requiresAuth: true,
-            breadcrumbs: [{ name: 'Klubb', path: '/club/:id', icon: 'anchor' }],
+            breadcrumbs: [
+                { name: 'Klubbar', path: '/clubs', icon: 'anchor' },
+                { name: 'Klubb', path: '/club/:id', icon: 'anchor' },
+            ],
         },
     },
     {
@@ -80,7 +83,7 @@ const routes = [
         name: 'Blog',
         component: Articles,
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             breadcrumbs: [{ name: 'Blog', path: '/articles', icon: 'rss' }],
         },
     },
@@ -89,7 +92,7 @@ const routes = [
         name: 'Artikel',
         component: Article,
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             breadcrumbs: [
                 { name: 'Blog', path: '/articles', icon: 'rss' },
                 { name: 'Artikel', path: '/article/:id', icon: 'calendar' },
