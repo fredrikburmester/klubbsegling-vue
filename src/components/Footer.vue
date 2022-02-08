@@ -1,10 +1,10 @@
 <template>
     <footer class="p-10 footer bg-base-200 text-base-content footer-center">
         <div class="grid grid-flow-col gap-4">
-            <router-link to="/article/1">
+            <router-link to="/article/om-oss">
                 <a class="link link-hover">Om oss</a>
             </router-link>
-            <router-link to="/article/2">
+            <router-link to="/article/kontakt">
                 <a class="link link-hover">Kontakt</a>
             </router-link>
         </div>
