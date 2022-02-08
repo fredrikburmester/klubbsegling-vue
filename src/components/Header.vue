@@ -8,6 +8,7 @@
                     <router-link id="home" class="btn btn-sm rounded-btn mx-2" :class="activeButton('Hem')" to="/"><font-awesome-icon icon="home" class="mr-2" />Hem</router-link>
                     <router-link id="races" class="btn btn-sm rounded-btn mx-2" :class="activeButton('Seglingar')" to="/races"><font-awesome-icon icon="flag" class="mr-2" />Tävlingar</router-link>
                     <router-link id="clubs" class="btn btn-sm rounded-btn mx-2" :class="activeButton('Klubbar')" to="/clubs"><font-awesome-icon icon="user" class="mr-2" />Klubbar</router-link>
+                    <router-link id="articles" class="btn btn-sm rounded-btn mx-2" :class="activeButton('Blog')" to="/articles"><font-awesome-icon icon="user" class="mr-2" />Blog</router-link>
                     <router-link id="profile" class="btn btn-sm rounded-btn mx-2" :class="activeButton('Profil')" to="/profile"><font-awesome-icon icon="user" class="mr-2" />Profil</router-link>
                 </div>
             </div>
