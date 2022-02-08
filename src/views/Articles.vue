@@ -11,6 +11,12 @@
 import ArticleCard from '../components/ArticleCard.vue'
 import LoadingCard from '@/components/LoadingCard.vue'
 
+import Strapi from 'strapi-sdk-js'
+import { API_URL } from '@/store/actions/auth'
+const strapi = new Strapi({
+    url: API_URL,
+})
+
 export default {
     name: 'Articles',
     components: {
@@ -24,7 +30,7 @@ export default {
         }
     },
     async mounted() {
-        this.strapi
+        strapi
             .find('articles', {
                 populate: '*',
             })

@@ -70,6 +70,10 @@
 .articel .hljs-number {
     color: greenyellow;
 }
+.article a {
+    color: rgb(27, 140, 160);
+    text-decoration: underline;
+}
 .article h1 {
     font-size: 3rem;
     line-height: 1.2;

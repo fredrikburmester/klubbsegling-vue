@@ -26,10 +26,15 @@
 </template>
 
 <script>
-import { getArticle } from '@/api/API'
 import Markdown from 'vue3-markdown-it'
 import LoadingArticle from '@/components/LoadingArticle.vue'
 import Slider from '@/components/Slider.vue'
+
+import Strapi from 'strapi-sdk-js'
+import { API_URL } from '@/store/actions/auth'
+const strapi = new Strapi({
+    url: API_URL,
+})
 
 export default {
     name: 'Article',
@@ -57,7 +62,7 @@ export default {
             return new Date(date).toLocaleDateString('sv-SE')
         },
         async updateArticle() {
-            this.strapi
+            strapi
                 .find('articles', {
                     populate: '*',
                     filters: {
