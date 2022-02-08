@@ -1,5 +1,5 @@
 <template>
-    <div v-if="loaded" class="wrapper max-w-md px-6 mt-6">
+    <div v-if="loaded" class="wrapper max-w-md px-6 mt-6 justify-self-center">
         <h1 class="font-bold text-3xl mb-2">{{ boat.boatName }}</h1>
         <p>Beskrivning: {{ boat.description || '' }}</p>
         <hr class="my-4" />
