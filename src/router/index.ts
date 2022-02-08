@@ -12,9 +12,8 @@ import Races from '../views/Races.vue'
 import Register from '../views/Register.vue'
 import Article from '../views/Article.vue'
 import Report from '../views/Report.vue'
+import Articles from '../views/Articles.vue'
 const Profile = () => import('../views/Profile.vue')
-
-import { articleExists } from '@/api/API'
 
 const routes = [
     {
@@ -77,22 +76,24 @@ const routes = [
         },
     },
     {
-        path: '/article/:id',
+        path: '/articles',
+        name: 'Blog',
+        component: Articles,
+        meta: {
+            requiresAuth: true,
+            breadcrumbs: [{ name: 'Blog', path: '/articles', icon: 'calendar' }],
+        },
+    },
+    {
+        path: '/articles/:id',
         name: 'Artikel',
         component: Article,
         meta: {
             requiresAuth: true,
             breadcrumbs: [
-                { name: 'Artikel', path: '/article', icon: 'flag' },
-                { name: 'Artikel', path: '/article/:id', icon: 'calendar' },
+                { name: 'Blog', path: '/articles', icon: 'calendar' },
+                { name: 'Artikel', path: '/articles/:id', icon: 'calendar' },
             ],
-        },
-        beforeEnter: async (to: any, from: any, next: any) => {
-            if (await articleExists(to.params.id)) {
-                next()
-            } else {
-                next('/404')
-            }
         },
     },
     {
