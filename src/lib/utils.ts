@@ -23,12 +23,7 @@ export const formatDate = (d1: Date, d2?: Date): String => {
     }
 }
 
-export const getLargestImageFromFormats = (imageObj: any): String => {
-    var formats = null
-    if (!!imageObj.data.attributes.formats) {
-        formats = imageObj.data.attributes.formats
-    }
-
+export const getLargestImageFromFormats = (formats: any): String => {
     if (!!formats.medium) {
         return formats.large.url
     } else if (!!formats.medium) {
