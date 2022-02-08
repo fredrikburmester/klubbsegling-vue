@@ -1,5 +1,5 @@
 <template>
-    <div id="article" v-if="!loading" class="wrapper max-w-2xl justify-self-center">
+    <div v-if="!loading" id="article" class="wrapper max-w-2xl justify-self-center">
         <div class="flex flex-1 flex-col px-6 pt-6 lg:pt-12">
             <header class="flex-none">
                 <h1 class="text-5xl font-bold mb-2">{{ article.title }}</h1>
@@ -13,7 +13,7 @@
 
         <Slider :article="article" :key="article.id" v-if="!!article.images.data" />
 
-        <div class="flex flex-1 flex-col px-6 mb-6">
+        <div id="article" class="flex flex-1 flex-col px-6 mb-6">
             <footer class="h-24 flex-none">
                 <hr class="my-4" />
                 <p class="mr-2 mt-2 italic text-gray-400">Skriven av:</p>
@@ -24,7 +24,7 @@
         </div>
     </div>
 
-    <LoadingArticle v-show="loading" />
+    <LoadingArticle v-else="loading" />
 </template>
 
 <script>
@@ -49,7 +49,6 @@ export default {
     async mounted() {
         await this.updateArticle()
     },
-
     watch: {
         $route(to, from) {
             this.updateArticle()
@@ -60,13 +59,29 @@ export default {
             return new Date(date).toLocaleDateString('sv-SE')
         },
         async updateArticle() {
-            await getArticle(this.$route.params.id).then(article => {
-                this.article = article.attributes
-                // wait one second
-                setTimeout(() => {
-                    this.loading = false
-                }, 300)
-            })
+            this.strapi
+                .find('articles', {
+                    populate: '*',
+                    filters: {
+                        slug: {
+                            $eq: this.$route.params.id,
+                        },
+                    },
+                })
+                .then(res => {
+                    if (res.data.length == 1) {
+                        this.article = res.data[0].attributes
+                        setTimeout(() => {
+                            this.loading = false
+                        }, 300)
+                    } else {
+                        this.$router.push('/articles')
+                    }
+                })
+                .catch(err => {
+                    console.log(err)
+                    this.$router.push('/articles')
+                })
         },
     },
 }

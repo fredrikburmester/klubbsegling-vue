@@ -1,5 +1,5 @@
 <template>
-    <div class="flex flex-col justify-self-center text-center h-96 mt-52 mb-12">
+    <div class="wrapper flex flex-col justify-self-center text-center pt-64">
         <h1 class="mb-4 text-5xl font-bold">404</h1>
         <h2 clas="mb-4">Kunde inte hitta sidan</h2>
         <router-link to="/" class="mt-4"

@@ -13,7 +13,7 @@
             <a class="underline hover:font-bold" :href="club.website">{{ club.website || 'Saknar hemsida.' }}</a>
         </p>
         <hr class="my-4" />
-        <Markdown :source="club.description" class="article mb-8 max-w-xs md:max-w-xl" />
+        <Markdown :source="club.description" class="article mb-8 md:max-w-2xl" />
     </div>
 </template>
 
@@ -49,7 +49,6 @@ export default {
             },
         })
         this.club = club.data[0].attributes
-        console.log(club.data[0].attributes)
         this.loaded = true
     },
     computed: {
