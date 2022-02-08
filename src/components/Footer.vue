@@ -1,7 +1,7 @@
 <template>
     <footer class="p-10 footer bg-base-200 text-base-content footer-center">
         <div class="grid grid-flow-col gap-4">
-            <router-link to="/article/om-oss">
+            <router-link to="/article/om-klubbsegling">
                 <a class="link link-hover">Om oss</a>
             </router-link>
             <router-link to="/article/kontakt">

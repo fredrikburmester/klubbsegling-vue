@@ -40,7 +40,7 @@
         <AddBoatForm @boat="updateBoats" class="mt-4" :userboats="userBoats" @newBoat="onNewBoat" />
         <button class="btn btn-error" @click="logout">Logga ut</button>
     </div>
-    <div v-else class="wrapper h-screen">Laddar...</div>
+    <LoadingArticle v-else />
 </template>
 
 <script>
@@ -51,6 +51,7 @@ import AddBoatForm from '../components/AddBoatForm.vue'
 import BoatCard from '../components/BoatCard.vue'
 import LoadingCard from '@/components/LoadingCard.vue'
 import LoadingAvatar from '@/components/LoadingAvatar.vue'
+import LoadingArticle from '@/components/LoadingArticle.vue'
 
 export default {
     components: {
@@ -58,6 +59,7 @@ export default {
         BoatCard,
         LoadingCard,
         LoadingAvatar,
+        LoadingArticle,
     },
     data() {
         return {
@@ -71,16 +73,6 @@ export default {
         }
     },
     async mounted() {
-        // var user = await getProfilePicture(this.me.id)
-        // var formats = user
-        // if (!!formats.medium) {
-        //     profilePictureUrl = url + formats.medium.url
-        // } else if (!!formats.small) {
-        //     profilePictureUrl = url + formats.small.url
-        // } else {
-        //     profilePictureUrl = url + formats.thumbnail.url
-        // }
-        // this.profilePictureLoaded = true
         await this.updateBoats()
         this.loading = false
     },
@@ -97,7 +89,6 @@ export default {
         async updateBoats() {
             await getUserBoats(this.me.id).then(boats => {
                 this.userBoats = boats
-                this.loading = false
             })
         },
         getOwnerName(boat) {
@@ -140,12 +131,6 @@ export default {
 }
 </script>
 <style>
-* {
-    z-index: '0 !important';
-}
-.min-height-inherit {
-    min-height: inherit;
-}
 @media (max-width: 640px) {
     #logout {
         width: 90vw;

@@ -1,14 +1,12 @@
 <template>
-    <div v-if="!loading" id="article" class="wrapper max-w-2xl justify-self-center">
+    <div v-if="!loading" class="article wrapper max-w-2xl justify-self-center">
         <div class="flex flex-1 flex-col px-6 pt-6 lg:pt-12">
             <header class="flex-none">
                 <h1 class="text-5xl font-bold mb-2">{{ article.title }}</h1>
                 <p class="text-sm italic mb-2">Publicerad: {{ formatDate(article.publishedAt) }}</p>
                 <hr class="my-4" />
             </header>
-            <div class="">
-                <Markdown :source="article.body" class="" />
-            </div>
+            <Markdown :source="article.body" class="" />
         </div>
 
         <Slider :article="article" :key="article.id" v-if="!!article.images.data" />
@@ -88,64 +86,6 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-#article {
-    font-family: 'Playfair Display', serif;
-}
-blockquote {
-    font-style: italic;
-    font-size: 1.2rem;
-    word-wrap: normal;
-    display: inline;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    display: block;
-    text-align: center;
-}
-blockquote > p {
-    display: inline;
-}
-
-blockquote::before {
-    content: '“';
-    font-size: 2rem;
-    line-height: 1;
-}
-blockquote::after {
-    content: '”';
-    font-size: 2rem;
-    line-height: 1;
-}
-pre {
-    max-width: 100%;
-    background-color: hsla(var(--n) / var(--tw-bg-opacity, 1));
-    border-radius: var(--tw-border-radius, 0.25rem);
-    padding: var(--tw-space-x-2, 1rem);
-    overflow-x: scroll;
-}
-.hljs {
-    overflow: hidden;
-    overflow-x: auto;
-    position: relative;
-    background-color: hsla(var(--n) / var(--tw-bg-opacity, 1));
-    border-radius: var(--rounded-box, 1rem);
-    color: white;
-}
-.hljs-keyword {
-    color: rgb(204, 83, 103);
-}
-.hljs-params {
-    color: rgb(50, 190, 214);
-}
-.hljs-number {
-    color: greenyellow;
-}
-h2 {
-    font-size: 1.5rem;
-    line-height: 1.2;
-    margin-bottom: 1rem;
-}
-
 .fade-enter-active,
 .fade-leave-active {
     transition: opacity 0.5s ease;

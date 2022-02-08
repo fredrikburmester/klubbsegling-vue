@@ -17,11 +17,11 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
-.article > p {
+.article p {
     margin-top: 0;
     margin-bottom: 1rem;
 }
-.article > blockquote {
+.article blockquote {
     font-style: italic;
     font-size: 1.2rem;
     word-wrap: normal;
@@ -31,21 +31,21 @@
     display: block;
     text-align: center;
 }
-.article > blockquote > p {
+.article blockquote > p {
     display: inline;
 }
 
-.article > blockquote::before {
+.article blockquote::before {
     content: '“';
     font-size: 2rem;
     line-height: 1;
 }
-.article > blockquote::after {
+.article blockquote::after {
     content: '”';
     font-size: 2rem;
     line-height: 1;
 }
-.article > pre {
+.article pre {
     max-width: 100%;
     background-color: hsla(var(--n) / var(--tw-bg-opacity, 1));
     border-radius: var(--tw-border-radius, 0.25rem);
@@ -53,7 +53,7 @@
     overflow-x: scroll;
     border-radius: ;
 }
-.article > .hljs {
+.article .hljs {
     overflow: hidden;
     overflow-x: auto;
     position: relative;
@@ -61,44 +61,44 @@
     border-radius: var(--rounded-box, 1rem);
     color: white;
 }
-.article > .hljs-keyword {
+.article .hljs-keyword {
     color: rgb(204, 83, 103);
 }
-.articel > .hljs-params {
+.articel .hljs-params {
     color: rgb(50, 190, 214);
 }
-.articel > .hljs-number {
+.articel .hljs-number {
     color: greenyellow;
 }
-.article > h1 {
-    font-size: 1.7rem;
+.article h1 {
+    font-size: 3rem;
     line-height: 1.2;
     margin-bottom: 1rem;
 }
-.article > h2 {
-    font-size: 1.4rem;
+.article h2 {
+    font-size: 1.5rem;
     line-height: 1.2;
     margin-bottom: 1rem;
 }
-.article > h3 {
+.article h3 {
     font-size: 1.2rem;
     font-weight: bold;
     line-height: 1.2;
     margin-bottom: 1rem;
 }
-.article > h4 {
+.article h4 {
     font-size: 1.4rem;
     line-height: 1.2;
     margin-bottom: 1rem;
 }
 
-.article > ul {
+.article ul {
     list-style: disc;
     margin-left: 1rem;
     margin-bottom: 1rem;
 }
 
-.article > ol {
+.article ol {
     list-style: decimal;
     margin-left: 1rem;
     margin-bottom: 1rem;

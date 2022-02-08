@@ -20,7 +20,7 @@
                     </div>
                     <hr class="mx-8 border-base-content opacity-10" />
                     <div class="py-8 flex flex-row justify-around">
-                        <router-link to="/article/om-oss" @click="$emit('close-nav')">
+                        <router-link to="/article/om-klubbsegling" @click="$emit('close-nav')">
                             <a class="text-base-content">Om oss</a>
                         </router-link>
                         <router-link to="/article/kontakt" @click="$emit('close-nav')">
@@ -66,7 +66,7 @@ export default {
                 },
                 {
                     text: 'Blog',
-                    icon: 'calendar',
+                    icon: 'rss',
                     route: '/articles',
                 },
                 {

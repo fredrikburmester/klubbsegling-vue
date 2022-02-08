@@ -6,7 +6,7 @@
         </figure>
         <div class="justify-end card-body h-56">
             <h2 class="card-title text-2xl">{{ article.attributes.title }}</h2>
-            <router-link :to="`/articles/${article.attributes.slug}`">
+            <router-link :to="`/article/${article.attributes.slug}`">
                 <div class="card-actions">
                     <button class="btn btn-primary">Läs mer</button>
                 </div>
