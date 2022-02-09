@@ -62,6 +62,7 @@ export default {
             return new Date(date).toLocaleDateString('sv-SE')
         },
         async updateArticle() {
+            this.loading = true
             strapi
                 .find('articles', {
                     populate: '*',
