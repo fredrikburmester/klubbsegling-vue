@@ -80,21 +80,21 @@ const routes = [
     },
     {
         path: '/articles',
-        name: 'Blog',
+        name: 'Blogg',
         component: Articles,
         meta: {
             requiresAuth: false,
-            breadcrumbs: [{ name: 'Blog', path: '/articles', icon: 'rss' }],
+            breadcrumbs: [{ name: 'Blogg', path: '/articles', icon: 'rss' }],
         },
     },
     {
         path: '/article/:id',
-        name: 'Artikel',
+        name: 'Blogginlägg',
         component: Article,
         meta: {
             requiresAuth: false,
             breadcrumbs: [
-                { name: 'Blog', path: '/articles', icon: 'rss' },
+                { name: 'Blogg', path: '/articles', icon: 'rss' },
                 { name: 'Artikel', path: '/article/:id', icon: 'calendar' },
             ],
         },

@@ -7,7 +7,7 @@
                 <br />seglingsentusiaster!
             </p>
             <router-link to="/articles">
-                <div to="/articles" class="btn btn-primary">Läs vår blog</div>
+                <div to="/articles" class="btn btn-primary">Läs vår blogg</div>
             </router-link>
         </div>
         <form class="h-96 lg:card lg:shadow-2xl lg:rounded-3xl lg:w-2/6 form-control self-center" @submit.prevent="login">

@@ -65,7 +65,7 @@ export default {
                     route: '/clubs',
                 },
                 {
-                    text: 'Blog',
+                    text: 'Blogg',
                     icon: 'rss',
                     route: '/articles',
                 },
