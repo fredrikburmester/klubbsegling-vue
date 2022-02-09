@@ -2,8 +2,17 @@
     <div id="header">
         <div class="fixed top-0 w-screen left-0 navbar shadow-lg bg-base-100 text-base-content z-50">
             <img id="navbar-logo" class="rounded-full w-10 h-10 ml-2 cursor-pointer" src="/img/klubbsegling/logo.png" alt="logo" @click="goToHome" />
-            <span class="ml-4 text-lg font-bold text-base-content">klubbsegling</span>
-            <div class="flex-none hidden px-2 mx-2 sm:flex">
+            <div class="text-sm breadcrumbs md:hidden mx-4">
+                <ul>
+                    <li>
+                        <router-link to="/"> <font-awesome-icon icon="home" class="mr-2" />Hem </router-link>
+                    </li>
+                    <li v-for="r in $route.meta.breadcrumbs" :key="r.name">
+                        <router-link :to="r.path"> <font-awesome-icon :icon="r.icon" class="mr-2" />{{ r.name }} </router-link>
+                    </li>
+                </ul>
+            </div>
+            <div class="flex-none hidden px-2 mx-2 md:flex">
                 <div class="flex items-stretch">
                     <router-link id="home" class="btn btn-sm rounded-btn mx-2" :class="activeButton('Hem')" to="/"><font-awesome-icon icon="home" class="mr-2" />Hem</router-link>
                     <router-link id="races" class="btn btn-sm rounded-btn mx-2" :class="activeButton('Seglingar')" to="/races"><font-awesome-icon icon="flag" class="mr-2" />Tävlingar</router-link>
@@ -43,6 +52,9 @@ export default {
         // ...mapGetters({
         // 	loggedIn: 'isAuthenticated',
         // }),
+    },
+    mounted() {
+        console.log(this.$route)
     },
     methods: {
         activeButton(id) {

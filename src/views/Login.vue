@@ -1,5 +1,5 @@
 <template>
-    <div class="login-container lg:flex lg:justify-around lg:flex-row container sm:mx-auto lg:px-14">
+    <div class="wrapper lg:flex lg:justify-around lg:flex-row container sm:mx-auto lg:px-14">
         <div class="lg:mx-12 self-center px-8">
             <h1 class="mb-5 text-5xl font-bold text-left">Klubbsegling</h1>
             <p class="mb-5">
@@ -69,9 +69,3 @@ export default {
     },
 }
 </script>
-
-<style>
-.login-container {
-    height: calc(100vh - 240px - 4rem);
-}
-</style>

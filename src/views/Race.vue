@@ -85,7 +85,7 @@
                     <div v-if="userOptionsLoaded">
                         <select v-model="selectedBoat" class="select select-bordered select w-full max-w-xs mb-4">
                             <option v-for="b in userBoats" :key="b.id" :value="b.id">
-                                {{ b.attributes.name }}
+                                {{ b.attributes.boatName }}
                             </option>
                         </select>
                         <p>Välj handikappsystem</p>
@@ -187,7 +187,21 @@ export default {
         this.race = race.data[0].attributes
         this.registrations = registrations.data
         this.myRegistrations = await getMyRegistrations()
-        this.userBoats = await getUserBoats(this.me.id)
+
+        await this.strapi
+            .find('boats', {
+                populate: '*',
+                filters: {
+                    owners: {
+                        id: {
+                            $eq: this.me.id,
+                        },
+                    },
+                },
+            })
+            .then(res => {
+                this.userBoats = res.data
+            })
         this.raceHasImages = !!this.race.images.data
 
         this.loading = false
