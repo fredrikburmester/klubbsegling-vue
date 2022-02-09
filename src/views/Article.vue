@@ -54,7 +54,9 @@ export default {
     },
     watch: {
         $route(to, from) {
-            this.updateArticle()
+            if (to.name === 'Blogginlägg') {
+                this.updateArticle()
+            }
         },
     },
     methods: {
