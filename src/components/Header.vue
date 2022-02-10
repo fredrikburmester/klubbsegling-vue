@@ -2,7 +2,7 @@
     <div id="header">
         <div class="fixed top-0 w-screen left-0 navbar shadow-lg bg-base-100 text-base-content z-50">
             <img id="navbar-logo" class="rounded-full w-10 h-10 ml-2 cursor-pointer" src="/img/klubbsegling/logo.png" alt="logo" @click="goToHome" />
-            <div class="text-sm breadcrumbs md:hidden mx-4">
+            <div class="breadcrumbs md:hidden mx-4 text-gray-700">
                 <ul>
                     <li>
                         <router-link to="/"> <font-awesome-icon icon="home" class="mr-2" />Hem </router-link>
