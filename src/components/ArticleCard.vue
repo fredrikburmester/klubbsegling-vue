@@ -58,7 +58,6 @@ export default {
             this.loaded = true
         },
         header() {
-            // console.log(this.article.attributes.header.data?.attributes, !!this.article.attributes.header.data?.attributes)
             if (!!this.article.attributes.header.data) {
                 const formats = this.article.attributes.header.data.attributes.formats
                 return IMG_URL + getLargestImageFromFormats(formats)

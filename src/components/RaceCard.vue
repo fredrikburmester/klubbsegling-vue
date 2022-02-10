@@ -72,13 +72,12 @@ export default {
             return formatDate(start, end)
         },
         registered() {
-            console.log('[0]', this.race.attributes.registrations.data)
-            for (let registration of this.race.attributes.registrations.data) {
-                for (let crewMember of registration.attributes.crew.data) {
-                    console.log(crewMember.id, this.me.id)
-                    if (crewMember.id == this.me.id) {
-                        console.log('TRUE')
-                        return true
+            if (!!this.race.attributes.registrations?.data) {
+                for (let registration of this.race.attributes.registrations.data) {
+                    for (let crewMember of registration.attributes.crew.data) {
+                        if (crewMember.id == this.me.id) {
+                            return true
+                        }
                     }
                 }
             }

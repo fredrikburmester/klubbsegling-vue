@@ -53,9 +53,7 @@ export default {
         // 	loggedIn: 'isAuthenticated',
         // }),
     },
-    mounted() {
-        console.log(this.$route)
-    },
+    mounted() {},
     methods: {
         activeButton(id) {
             if (this.$route.name == id) {
