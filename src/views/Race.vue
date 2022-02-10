@@ -1,6 +1,6 @@
 <template>
-    <div v-if="!loading" class="wrapper flex flex-col flex-1 max-w-sm md:max-w-2xl justify-self-center mt-6 lg:mt-12 px-6">
-        <h2 class="text-5xl font-bold">{{ race.name }}</h2>
+    <div v-if="!loading" class="wrapper flex flex-col flex-1 max-w-sm md:max-w-2xl justify-self-center pt-6 px-6">
+        <h1 class="text-5xl font-bold leading-relaxed">{{ race.name }}</h1>
         <p class="italic text-gray-500">Publicerad: {{ formatDate(race.publishedAt) || '' }}</p>
         <hr class="my-4" />
         <p class="font-bold">Beskrivning:</p>
@@ -13,7 +13,7 @@
             <div class="stat">
                 <div class="stat-figure text-secondary"></div>
                 <div class="stat-title">Registrerade Båtar</div>
-                <div class="stat-value">{{ registrations.length }}st</div>
+                <div class="stat-value">{{ registrations?.length }}st</div>
             </div>
             <div class="stat">
                 <div class="stat-figure text-secondary"></div>
@@ -37,7 +37,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="pr in race.partRaces" :key="pr.id">
-                        <th>
+                        <th class="font-normal">
                             {{ pr.name }}
                         </th>
                         <td>{{ pr.lowestSRS || '' }}</td>
@@ -77,7 +77,8 @@
             </table>
         </div>
         <div class="flex space-x-4 place-content-start my-6">
-            <label for="register-modal" class="btn btn-primary text-base-content modal-button" @click="loadRegisterOptions()"> Registrera </label>
+            <label v-if="!registered" for="register-modal" class="btn btn-primary text-base-content modal-button" @click="loadRegisterOptions()"> Registrera </label>
+            <label v-else for="register-modal" class="btn btn-primary text-base-content modal-button" @click="loadRegisterOptions()" disabled> Registrera </label>
             <input id="register-modal" type="checkbox" class="modal-toggle" />
             <div class="modal m-0">
                 <div class="modal-box m-0">
@@ -104,8 +105,8 @@
                     </div>
                 </div>
             </div>
-            <div v-if="registrations.length > 0">
-                <label for="un-register-modal" class="btn modal-button text-base-100"> Avregistrera </label>
+            <div v-if="registrations?.length > 0">
+                <label for="un-register-modal" class="btn modal-button text-base-100">Avregistrera</label>
                 <input id="un-register-modal" type="checkbox" class="modal-toggle" />
                 <div class="modal m-0">
                     <div class="modal-box m-0">
@@ -124,11 +125,10 @@
 </template>
 
 <script>
-import { IMG_URL } from '../store/actions/auth'
 import VueMultiselect from 'vue-multiselect'
 import 'mosha-vue-toastify/dist/style.css'
 import 'vue-multiselect/dist/vue-multiselect.css'
-import { getAllRegistrations, getUserBoats, getAllUsers, registerForRace, unRegisterFromRace, getMyRegistrations } from '@/api/API'
+import { registerForRace, unRegisterFromRace } from '@/api/API'
 import LoadingArticle from '@/components/LoadingArticle.vue'
 
 export default {
@@ -158,36 +158,50 @@ export default {
             selectedBoat: null,
             userOptionsLoaded: false,
             registrations: [],
-            myRegistrations: [],
+            registered: false,
+            myRegistration: null,
             raceHasImages: false,
             loading: true,
         }
     },
     async mounted() {
-        const race = await this.strapi.find('races', {
-            populate: '*',
-            filters: {
-                id: {
-                    $eq: this.$route.params.id,
-                },
-            },
-        })
-
-        const registrations = await this.strapi.find('registrations', {
-            populate: '*',
-            filters: {
-                race: {
+        // Get the Race
+        await this.strapi
+            .find('races', {
+                populate: '*',
+                filters: {
                     id: {
                         $eq: this.$route.params.id,
                     },
                 },
-            },
-        })
+            })
+            .then(res => {
+                this.race = res.data[0].attributes
+            })
 
-        this.race = race.data[0].attributes
-        this.registrations = registrations.data
-        this.myRegistrations = await getMyRegistrations()
+        // Get all registrations for this race
+        await this.strapi
+            .find('registrations', {
+                populate: '*',
+                filters: {
+                    race: {
+                        id: {
+                            $eq: this.$route.params.id,
+                        },
+                    },
+                },
+            })
+            .then(res => {
+                console.log(res.data)
+                if (res.data.length != 0) {
+                    this.registrations = res.data
+                }
 
+                // Check if the user is registered for this race
+                this.registered = this.checkIfRegistered()
+            })
+
+        // Get all boats for my user for the registration
         await this.strapi
             .find('boats', {
                 populate: '*',
@@ -202,25 +216,55 @@ export default {
             .then(res => {
                 this.userBoats = res.data
             })
-        this.raceHasImages = !!this.race.images.data
 
+        // Check if this race has images
+        this.raceHasImages = !!this.race.images.data
         this.loading = false
     },
     methods: {
-        async register() {
-            var registered = await registerForRace(this.raceId, this.selectedBoat, this.selectedUsers, this.selectedHsys, this.me.id)
-            if (registered) {
-                this.registrations = await getAllRegistrations()
-                this.myRegistrations = await getMyRegistrations()
+        checkIfRegistered() {
+            console.log('Checking reg', this.registrations)
+            for (let r of this.registrations) {
+                for (let c of r.attributes.crew.data) {
+                    if (c.id == this.me.id) {
+                        this.myRegistration = r
+                        this.registered = true
+                    }
+                }
             }
+            return false
+        },
+        async register() {
+            await registerForRace(this.raceId, this.selectedBoat, this.selectedUsers, this.selectedHsys, this.me.id)
+            await this.getRegistrations()
+        },
+        async getRegistrations() {
+            await this.strapi
+                .find('registrations', {
+                    populate: '*',
+                    filters: {
+                        race: {
+                            id: {
+                                $eq: this.$route.params.id,
+                            },
+                        },
+                    },
+                })
+                .then(res => {
+                    // Check if the user is registered for this race
+                    this.registrations = res.data
+                })
+                .then(() => {
+                    this.checkIfRegistered()
+                })
         },
         async unregister() {
-            await unRegisterFromRace(this.myRegistrations[0].id)
-            this.registrations = await getAllRegistrations()
+            await unRegisterFromRace(this.myRegistration.id)
+            await this.getRegistrations()
         },
         async loadRegisterOptions() {
-            this.users = await getAllUsers()
-
+            this.users = await this.strapi.find('users')
+            this.userOptions = []
             for (var i in this.users) {
                 this.userOptions.push({
                     value: this.users[i].id,
@@ -229,17 +273,6 @@ export default {
             }
 
             this.userOptionsLoaded = true
-        },
-        getImageURL(image) {
-            if (!!image.attributes.formats.large) {
-                return `${IMG_URL}${image.attributes.formats.large.url}`
-            } else if (!!image.attributes.formats.medium) {
-                return `${IMG_URL}${image.attributes.formats.medium.url}`
-            } else if (!!image.attributes.formats.small) {
-                return `${IMG_URL}${image.attributes.formats.small.url}`
-            } else if (!!image.attributes.formats.thumbnail) {
-                return `${IMG_URL}${image.attributes.formats.thumbnail.url}`
-            }
         },
         formatDate(date) {
             return new Date(date).toLocaleDateString('sv-SE')

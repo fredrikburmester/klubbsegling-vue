@@ -53,7 +53,8 @@ export default {
             this.$store
                 .dispatch(AUTH_REQUEST, user)
                 .then(() => {
-                    this.$emit('loggedIn')
+                    this.strapi.axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`
+
                     if (this.$route.params.nextUrl != null) {
                         this.$router.push(this.$route.params.nextUrl)
                     } else {

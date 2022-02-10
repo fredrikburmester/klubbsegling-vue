@@ -64,7 +64,6 @@ export default {
             populate: ['images', 'registrations.crew'],
         })
         this.races = this.racesThisYear = races.data
-        this.races = this.racesThisYear = await getAllRaces()
         this.registeredRaces = await getRegisteredRaces(this.me.id)
 
         this.loading = false

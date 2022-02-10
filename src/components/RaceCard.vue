@@ -10,8 +10,8 @@
             </p>
             <p class="font-bold mt-2 capitalize">{{ getDateString }}</p>
             <div class="card-actions">
-                <router-link :to="`/race/${race.id}/report`" v-if="permissionToReport">
-                    <div class="relative" v-if="isActive">
+                <router-link v-if="registered && isActive" :to="`/race/${race.id}/report`">
+                    <div class="relative">
                         <button class="btn bg-red-600 border-0 shadow-xl">Rapportera nu</button>
                     </div>
                 </router-link>
@@ -39,10 +39,6 @@ export default {
             type: Object,
             default: () => {},
         },
-        registered: {
-            type: Boolean,
-            default: false,
-        },
         disabled: {
             type: Boolean,
             default: false,
@@ -50,6 +46,7 @@ export default {
     },
     data: function () {
         return {
+            me: this.$store.getters.getProfile,
             hasImages: !!this.race.attributes.images.data,
             images: this.race.attributes.images.data,
             loaded: false,
@@ -75,16 +72,17 @@ export default {
             return formatDate(start, end)
         },
         registered() {
-            if (true) {
-                return 0
+            console.log('[0]', this.race.attributes.registrations.data)
+            for (let registration of this.race.attributes.registrations.data) {
+                for (let crewMember of registration.attributes.crew.data) {
+                    console.log(crewMember.id, this.me.id)
+                    if (crewMember.id == this.me.id) {
+                        console.log('TRUE')
+                        return true
+                    }
+                }
             }
-        },
-        permissionToReport() {
-            console.log('[permission to report]', this.race.attributes.registrations)
-            for (let r of this.race.attributes.registrations.data) {
-                // ...
-            }
-            return true
+            return false
         },
     },
     mounted() {},
