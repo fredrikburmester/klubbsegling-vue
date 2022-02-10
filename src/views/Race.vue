@@ -105,7 +105,7 @@
                     </div>
                 </div>
             </div>
-            <div v-if="registrations?.length > 0">
+            <div v-if="registered">
                 <label for="un-register-modal" class="btn modal-button text-base-100">Avregistrera</label>
                 <input id="un-register-modal" type="checkbox" class="modal-toggle" />
                 <div class="modal m-0">
@@ -192,7 +192,6 @@ export default {
                 },
             })
             .then(res => {
-                console.log(res.data)
                 if (res.data.length != 0) {
                     this.registrations = res.data
                 }
@@ -223,7 +222,6 @@ export default {
     },
     methods: {
         checkIfRegistered() {
-            console.log('Checking reg', this.registrations)
             for (let r of this.registrations) {
                 for (let c of r.attributes.crew.data) {
                     if (c.id == this.me.id) {

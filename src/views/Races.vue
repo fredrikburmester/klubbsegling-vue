@@ -9,7 +9,6 @@
 
 <script>
 import RaceList from '../components/RaceList.vue'
-import { getAllRaces } from '@/api/API'
 import LoadingCard from '@/components/LoadingCard.vue'
 
 export default {
@@ -25,7 +24,13 @@ export default {
         }
     },
     async mounted() {
-        this.races = await getAllRaces()
+        await this.strapi
+            .find('races', {
+                populate: ['images', 'registrations.crew'],
+            })
+            .then(res => {
+                this.races = res.data
+            })
         this.loading = false
     },
 }
